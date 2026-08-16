@@ -1,4 +1,4 @@
-COMPILE COMPANION — VERSION 10.0
+COMPILE COMPANION — VERSION 10.1
 
 This release combines the planned v9 and v10 upgrades into one app.
 
@@ -41,3 +41,12 @@ UPDATING GITHUB
 Replace the existing repository files with the contents of this ZIP and commit.
 The service-worker cache is now "compile-companion-v10".
 version.json is included for the app's built-in update checker.
+
+
+VERSION 10.1 FIX
+----------------
+- Fixed false "A newer app version is available" banners.
+- Version checks now compare versions numerically rather than treating any mismatch as newer.
+- A stale, malformed or failed version response will no longer display an update banner.
+- version.json is now fetched network-first by the service worker.
+- Service-worker cache bumped to compile-companion-v10-1.

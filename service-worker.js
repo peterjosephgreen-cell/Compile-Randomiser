@@ -1,4 +1,4 @@
-const CACHE = "compile-companion-v10";
+const CACHE = "compile-companion-v10-1";
 const ASSETS = [
   "./",
   "./index.html",
@@ -26,6 +26,20 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
+
+  const url = new URL(event.request.url);
+
+  // Version checks must prefer the network so a stale cache cannot
+  // incorrectly drive update notifications.
+  if (url.pathname.endsWith("/version.json")) {
+    event.respondWith(
+      fetch(event.request, { cache: "no-store" })
+        .then(response => response)
+        .catch(() => caches.match("./version.json"))
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then(cached =>
       cached || fetch(event.request).then(response => {

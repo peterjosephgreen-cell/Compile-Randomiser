@@ -1,5 +1,5 @@
 {
-  "version": "10.0",
+  "version": "10.1",
   "released": "2026-08-17",
-  "notes": "Complete companion upgrade"
+  "notes": "Fix update-banner version comparison and version caching."
 }

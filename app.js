@@ -446,7 +446,7 @@ const allProtocols = Object.entries(protocolSets).flatMap(([set, names]) =>
 );
 
 
-const APP_VERSION = "10.0";
+const APP_VERSION = "10.1";
 const VERSION_FILE = "./version.json";
 
 const protocolPlaystyles = {
@@ -1040,16 +1040,54 @@ async function shareCurrentResult() {
   }
 }
 
+function compareVersions(a, b) {
+  const normalise = value =>
+    String(value ?? "")
+      .trim()
+      .replace(/^v/i, "")
+      .split(".")
+      .map(part => {
+        const match = String(part).match(/^\d+/);
+        return match ? Number(match[0]) : 0;
+      });
+
+  const av = normalise(a);
+  const bv = normalise(b);
+  const length = Math.max(av.length, bv.length);
+
+  for (let i = 0; i < length; i++) {
+    const left = av[i] ?? 0;
+    const right = bv[i] ?? 0;
+    if (left > right) return 1;
+    if (left < right) return -1;
+  }
+  return 0;
+}
+
 async function checkForUpdate(showCurrentMessage = true) {
   try {
-    const response = await fetch(`${VERSION_FILE}?t=${Date.now()}`, { cache: "no-store" });
+    const response = await fetch(`${VERSION_FILE}?t=${Date.now()}`, {
+      cache: "no-store",
+      headers: { "Cache-Control": "no-cache" }
+    });
+
+    if (!response.ok) throw new Error(`Version check failed: ${response.status}`);
+
     const remote = await response.json();
-    if (remote.version && remote.version !== APP_VERSION) {
+    const remoteVersion = remote && remote.version;
+
+    // Only show the banner if the published version is genuinely newer.
+    if (remoteVersion && compareVersions(remoteVersion, APP_VERSION) > 0) {
       document.getElementById("updateBanner").hidden = false;
-    } else if (showCurrentMessage) {
-      alert(`You are on the latest version (${APP_VERSION}).`);
+    } else {
+      document.getElementById("updateBanner").hidden = true;
+      if (showCurrentMessage) {
+        alert(`You are on the latest version (${APP_VERSION}).`);
+      }
     }
   } catch (_) {
+    // A failed/stale version check should never claim that an update exists.
+    document.getElementById("updateBanner").hidden = true;
     if (showCurrentMessage) alert("Could not check for updates right now.");
   }
 }
