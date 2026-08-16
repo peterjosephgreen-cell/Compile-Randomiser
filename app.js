@@ -446,7 +446,7 @@ const allProtocols = Object.entries(protocolSets).flatMap(([set, names]) =>
 );
 
 
-const APP_VERSION = "10.1";
+const APP_VERSION = "10.2";
 const VERSION_FILE = "./version.json";
 
 const protocolPlaystyles = {
@@ -1502,8 +1502,7 @@ function setProtocolExcluded(id, excluded) {
   }
 
   saveSettings();
-  applyRandomProtocolBackground();
-randomiseAll();
+  randomiseAll();
 }
 
 function buildSettingsUI() {
@@ -1758,4 +1757,6 @@ if ("serviceWorker" in navigator) {
   });
 }
 
+// Pick a fresh Protocol-themed background every time the app/page starts.
+applyRandomProtocolBackground();
 randomiseAll();

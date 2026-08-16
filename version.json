@@ -1,5 +1,5 @@
 {
-  "version": "10.1",
+  "version": "10.2",
   "released": "2026-08-17",
-  "notes": "Fix update-banner version comparison and version caching."
+  "notes": "Fix random Protocol background so it changes on every fresh app/page load."
 }

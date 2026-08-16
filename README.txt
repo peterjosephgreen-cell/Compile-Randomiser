@@ -1,4 +1,4 @@
-COMPILE COMPANION — VERSION 10.1
+COMPILE COMPANION — VERSION 10.2
 
 This release combines the planned v9 and v10 upgrades into one app.
 
@@ -43,10 +43,18 @@ The service-worker cache is now "compile-companion-v10".
 version.json is included for the app's built-in update checker.
 
 
-VERSION 10.1 FIX
+VERSION 10.2 FIX
 ----------------
 - Fixed false "A newer app version is available" banners.
 - Version checks now compare versions numerically rather than treating any mismatch as newer.
 - A stale, malformed or failed version response will no longer display an update banner.
 - version.json is now fetched network-first by the service worker.
 - Service-worker cache bumped to compile-companion-v10-1.
+
+
+VERSION 10.2 FIX
+----------------
+- Fixed random Protocol backgrounds not changing on app/page refresh.
+- The background selector now runs during the actual startup sequence.
+- Removed an accidental background refresh from the Protocol-exclusion handler.
+- Service-worker cache bumped to compile-companion-v10-2.
