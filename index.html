@@ -7,44 +7,66 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Compile">
-  <title>Compile Protocol Randomiser</title>
+  <title>Compile Companion</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icon-192.png">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="protocol-background-art" aria-hidden="true">
+    <div id="backgroundProtocolMark" class="background-protocol-mark"></div>
+    <div id="backgroundProtocolName" class="background-protocol-name"></div>
+  </div>
+
+  <div id="updateBanner" class="update-banner" hidden>
+    <span>A newer app version is available.</span>
+    <button id="reloadUpdateButton">Reload</button>
+  </div>
+
   <main class="app-shell">
     <header class="app-header">
       <div class="cpu-icon">⌘</div>
       <h1>COMPILE</h1>
-      <p>PROTOCOL RANDOMISER</p>
+      <p>COMPANION</p>
       <button id="settingsButton" class="icon-button" aria-label="Settings">⚙</button>
     </header>
 
     <section class="player-section">
       <div class="section-heading">
-        <h2 class="player-one">PLAYER 1</h2>
-        <button class="small-button" data-reroll="1">↻ Reroll</button>
+        <button class="player-name-button player-one" data-player-name="1">
+          <span id="player1Label">PLAYER 1</span><small>✎</small>
+        </button>
+        <button class="small-button deal-control" data-reroll="1">↻ Reroll</button>
       </div>
       <div id="player1" class="protocol-grid"></div>
     </section>
 
     <div class="middle-actions">
-      <button id="swapButton" class="secondary-button wide">⇄ Swap Players</button>
+      <button id="swapButton" class="secondary-button wide deal-control">⇄ Swap Players</button>
     </div>
 
     <section class="player-section">
       <div class="section-heading">
-        <h2 class="player-two">PLAYER 2</h2>
-        <button class="small-button" data-reroll="2">↻ Reroll</button>
+        <button class="player-name-button player-two" data-player-name="2">
+          <span id="player2Label">PLAYER 2</span><small>✎</small>
+        </button>
+        <button class="small-button deal-control" data-reroll="2">↻ Reroll</button>
       </div>
       <div id="player2" class="protocol-grid"></div>
     </section>
 
     <div class="main-actions">
-      <button id="randomiseButton" class="primary-button">⤨ RANDOMISE</button>
-      <button id="undoButton" class="secondary-button action-button" disabled>↶ Undo</button>
+      <button id="randomiseButton" class="primary-button deal-control">⤨ RANDOMISE</button>
+      <button id="undoButton" class="secondary-button action-button deal-control" disabled>↶ Undo</button>
       <button id="historyButton" class="secondary-button action-button">☷ History</button>
+    </div>
+
+    <div class="companion-actions">
+      <button id="matchButton" class="companion-button emphasis">▶ Start Match</button>
+      <button id="rematchButton" class="companion-button deal-control">⟳ Rematch</button>
+      <button id="libraryButton" class="companion-button">◫ Library</button>
+      <button id="tableButton" class="companion-button">▱ Table</button>
+      <button id="shareButton" class="companion-button">⇧ Share</button>
     </div>
 
     <div id="statusChips" class="status-chips"></div>
@@ -52,9 +74,19 @@
     <p id="warning" class="warning" hidden>Enable at least 6 available Protocols before randomising.</p>
   </main>
 
+  <dialog id="nameDialog" class="compact-dialog">
+    <div class="settings-card">
+      <div class="settings-header">
+        <div><h2 id="nameDialogTitle">Player name</h2><p>Saved on this device.</p></div>
+        <button id="closeNameButton" class="close-button" aria-label="Close">×</button>
+      </div>
+      <input id="playerNameInput" class="text-input" maxlength="24" autocomplete="off">
+      <button id="savePlayerNameButton" class="primary-button">Save Name</button>
+    </div>
+  </dialog>
 
   <dialog id="protocolDialog">
-    <div class="settings-card">
+    <div class="settings-card protocol-detail-card">
       <div class="settings-header">
         <div>
           <h2 id="protocolDialogTitle">Protocol</h2>
@@ -62,7 +94,35 @@
         </div>
         <button id="closeProtocolButton" class="close-button" aria-label="Close">×</button>
       </div>
+      <div id="protocolHero" class="protocol-hero"></div>
+      <div id="protocolPlaystyle" class="playstyle-box"></div>
       <div id="protocolCardsView"></div>
+    </div>
+  </dialog>
+
+  <dialog id="libraryDialog">
+    <div class="settings-card">
+      <div class="settings-header">
+        <div><h2>Protocol Library</h2><p>Browse all 30 Protocols.</p></div>
+        <button id="closeLibraryButton" class="close-button" aria-label="Close">×</button>
+      </div>
+      <input id="librarySearch" class="text-input" placeholder="Search Protocols…">
+      <div id="libraryGrid" class="library-grid"></div>
+    </div>
+  </dialog>
+
+  <dialog id="matchResultDialog" class="compact-dialog">
+    <div class="settings-card">
+      <div class="settings-header">
+        <div><h2>Finish Match</h2><p>Record the result for statistics.</p></div>
+        <button id="closeResultButton" class="close-button" aria-label="Close">×</button>
+      </div>
+      <div class="result-buttons">
+        <button id="player1WinButton" class="result-button p1-result">Player 1 wins</button>
+        <button id="drawButton" class="result-button">Draw</button>
+        <button id="player2WinButton" class="result-button p2-result">Player 2 wins</button>
+      </div>
+      <button id="cancelMatchButton" class="secondary-button full-width">Cancel Match Without Result</button>
     </div>
   </dialog>
 
@@ -70,20 +130,26 @@
     <div class="settings-card">
       <div class="settings-header">
         <div>
-          <h2>Game History</h2>
-          <p>Recent deals and Protocol usage.</p>
+          <h2>History & Stats</h2>
+          <p>Deals, played matches and Protocol performance.</p>
         </div>
         <button id="closeHistoryButton" class="close-button" aria-label="Close">×</button>
       </div>
 
       <div class="history-toolbar">
         <button id="historyTabDeals" class="tab-button active">Deals</button>
+        <button id="historyTabMatches" class="tab-button">Matches</button>
         <button id="historyTabStats" class="tab-button">Stats</button>
-        <button id="clearHistoryButton" class="secondary-button">Clear history</button>
       </div>
 
       <div id="historyDealsView"></div>
+      <div id="historyMatchesView" hidden></div>
       <div id="historyStatsView" hidden></div>
+
+      <div class="danger-zone">
+        <button id="clearHistoryButton" class="secondary-button">Clear deal history</button>
+        <button id="clearMatchHistoryButton" class="secondary-button">Clear match stats</button>
+      </div>
     </div>
   </dialog>
 
@@ -91,30 +157,66 @@
     <div class="settings-card">
       <div class="settings-header">
         <div>
-          <h2>Protocol Pool</h2>
-          <p>Choose sets and individual Protocols.</p>
+          <h2>Settings</h2>
+          <p>Pool, randomisation and app preferences.</p>
         </div>
         <button id="closeSettingsButton" class="close-button" aria-label="Close">×</button>
       </div>
 
-      <label class="feature-row">
-        <span>
-          <strong>No repeats from last game</strong><br>
-          <small>When possible, avoid all six Protocols from the previous deal.</small>
-        </span>
-        <input id="avoidRepeatsToggle" class="switch" type="checkbox">
-      </label>
+      <div class="settings-section">
+        <h3>Randomisation</h3>
+        <label class="feature-row">
+          <span><strong>Balanced Random</strong><br><small>Prefer Protocols that have appeared less often in played matches.</small></span>
+          <input id="balancedRandomToggle" class="switch" type="checkbox">
+        </label>
+        <label class="feature-row">
+          <span><strong>No repeats from last deal</strong><br><small>When possible, avoid all six Protocols from the previous deal.</small></span>
+          <input id="avoidRepeatsToggle" class="switch" type="checkbox">
+        </label>
+        <label class="feature-row">
+          <span><strong>Sound effects</strong><br><small>Digital deal ticks and confirmation tones.</small></span>
+          <input id="soundToggle" class="switch" type="checkbox">
+        </label>
+        <label class="feature-row">
+          <span><strong>Haptics where supported</strong><br><small>Uses browser vibration support when available.</small></span>
+          <input id="hapticsToggle" class="switch" type="checkbox">
+        </label>
+      </div>
 
-      <div id="setToggles" class="toggle-list"></div>
+      <div class="settings-section">
+        <h3>Available Protocols</h3>
+        <div id="setToggles" class="toggle-list"></div>
+      </div>
 
       <div class="settings-actions">
         <button id="enableAllButton" type="button" class="secondary-button">Enable all</button>
         <button id="clearLocksButton" type="button" class="secondary-button">Clear locks</button>
         <button id="doneSettingsButton" class="primary-button compact">Done</button>
       </div>
+
+      <div class="version-panel">
+        <span id="versionLabel">Version 10.0</span>
+        <button id="checkUpdateButton" class="small-button">Check for update</button>
+      </div>
     </div>
   </dialog>
 
+  <dialog id="tableDialog" class="table-dialog">
+    <div class="table-mode">
+      <div class="table-player table-player-one">
+        <div id="tableP1Name" class="table-name">Player 1</div>
+        <div id="tableP1Protocols" class="table-protocols"></div>
+      </div>
+      <button id="closeTableButton" class="table-close">× EXIT TABLE MODE ×</button>
+      <div class="table-player table-player-two">
+        <div id="tableP2Name" class="table-name">Player 2</div>
+        <div id="tableP2Protocols" class="table-protocols"></div>
+      </div>
+      <div class="rotate-hint">Best viewed with the phone rotated sideways.</div>
+    </div>
+  </dialog>
+
+  <canvas id="shareCanvas" width="1200" height="1200" hidden></canvas>
   <script src="app.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-const CACHE = "compile-randomiser-v6";
+const CACHE = "compile-companion-v10";
 const ASSETS = [
   "./",
   "./index.html",
@@ -6,7 +6,8 @@ const ASSETS = [
   "./app.js",
   "./manifest.webmanifest",
   "./icon-192.png",
-  "./icon-512.png"
+  "./icon-512.png",
+  "./version.json"
 ];
 
 self.addEventListener("install", event => {

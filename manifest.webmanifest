@@ -1,7 +1,7 @@
 {
-  "name": "Compile Protocol Randomiser",
+  "name": "Compile Companion",
   "short_name": "Compile",
-  "description": "Randomly assigns three unique Compile Protocols to each of two players.",
+  "description": "Protocol randomiser, library, card reference, match tracker and statistics companion.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#04070d",

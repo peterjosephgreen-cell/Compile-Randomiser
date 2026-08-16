@@ -1,98 +1,43 @@
-COMPILE PROTOCOL RANDOMISER — VERSION 6
+COMPILE COMPANION — VERSION 10.0
 
-NEW IN V2
----------
-- Lock any dealt Protocol so RANDOMISE keeps it.
-- Reroll either player while respecting that player's locks.
-- Exclude individual Protocols from the pool.
-- Enable/disable complete sets.
-- Swap Player 1 and Player 2, including their locks.
-- Optional "No repeats from last game" mode.
-- Clear all locks from Settings.
-- Existing settings are remembered on the device.
-- Offline PWA support remains included.
+This release combines the planned v9 and v10 upgrades into one app.
 
-LOCKS
------
-Tap the open padlock next to a Protocol to lock it.
-Locked cards are kept when you press RANDOMISE or reroll that player.
-Tap the closed padlock to unlock it.
+NEW
+---
+- Animated Protocol dealing with digital tick/confirmation sounds.
+- Haptic/vibration attempt where the browser supports it.
+- Editable Player 1 / Player 2 names, remembered on the device.
+- Pure Random or Balanced Random mode.
+- Balanced Random prefers Protocols used less often in completed matches.
+- Full Protocol Library for all 30 Protocols.
+- Search the Library.
+- Favourite Protocols directly in the Library.
+- Exclude / re-enable Protocols directly in the Library.
+- Upgraded Protocol viewer with playstyle summary and swipeable card references.
+- Proper Match Mode: Start Match, Finish Match, choose winner or draw.
+- Deal changes are disabled while a match is active to prevent accidental rerolls.
+- Match history is stored separately from ordinary deal history.
+- Protocol performance statistics: games, wins, losses, draws and win %.
+- Rematch gives six different Protocols from the most recent completed match when possible.
+- Share creates a clean matchup image and uses the device Share Sheet where supported.
+- Table Mode shows both players from opposite sides of the phone.
+- Sound effects can be disabled.
+- Haptics can be disabled.
+- Built-in version display and update checker for GitHub Pages deployments.
+- Existing locks, rerolls, swap, exclusions, no-repeat mode, history, undo,
+  random Protocol backgrounds and all 30 card references remain.
 
-NO REPEATS
-----------
-Turn this on in Settings. On a fresh RANDOMISE, the app tries not to use
-any of the six Protocols from the previous deal. If the enabled pool is too
-small, it automatically falls back to using repeats rather than failing.
+IPHONE NOTES
+------------
+Some browser features are capability-dependent. The app checks for them at runtime:
+- Share image: uses Web Share with files when supported, then falls back to text sharing
+  or clipboard.
+- Haptics: uses navigator.vibrate only when the browser exposes it. Unsupported devices
+  simply do nothing.
+- Table Mode works in portrait but is designed to look best after rotating the phone.
 
-INDIVIDUAL EXCLUSIONS
----------------------
-Open Settings, expand a set, then untick individual Protocols you do not
-want included. They remain excluded until you turn them back on.
-
-TEST ON WINDOWS
+UPDATING GITHUB
 ---------------
-1. Extract the ZIP.
-2. Open Command Prompt / Windows Terminal in the folder.
-3. Run:
-       py -m http.server 8000
-4. Browse to:
-       http://localhost:8000
-
-IPHONE
-------
-Host the folder on any HTTPS web host, open it in Safari, then:
-Share -> Add to Home Screen.
-
-CACHE NOTE
-----------
-This is version 2 and uses a new service-worker cache name. If an older
-installed version ever appears stuck, close it fully and reload once while online.
-
-
-NEW IN V3
----------
-- Stores the last 20 randomised/rerolled deals on the device.
-- History screen with Player 1 and Player 2 assignments.
-- Stats screen showing how many times each Protocol has appeared.
-- Undo button for recent randomise/reroll/swap actions.
-- Keeps up to 10 undo snapshots during the current app session.
-- Clear History button.
-- History persists between app launches via localStorage.
-
-NOTES
------
-- Swap Players is undoable, but is not counted as a new historical deal because the same six Protocols are still in play.
-- Randomise and player rerolls are recorded as new deals.
-- Undo restores the previous allocation and locks, but does not erase the historical record.
-
-
-NEW IN V4
----------
-- Tap any dealt Protocol card to open its card-reference screen.
-- Main 1 and Aux 1 include verified card-value lists with concise effect summaries.
-- Main 2 and Aux 2 already have the same viewer wired in, but display a notice until
-  complete verified card data is loaded.
-- Tapping the padlock still locks/unlocks without opening the card viewer.
-- Reference text is intentionally summarised rather than presented as exact card wording.
-
-
-NEW IN V5
----------
-- Full tap-to-view card references are now loaded for all 30 Protocols.
-- Main 2: Chaos, Clarity, Corruption, Courage, Fear, Ice, Luck, Mirror, Peace, Smoke, Time and War.
-- Aux 2: Assimilation, Diversity and Unity.
-- Main 2 / Aux 2 data was verified against the open card-database update that includes the official September 2025 Compile Codex errata.
-- Card effects remain concise reference summaries rather than copied card text.
-
-
-NEW IN V6 — VISUAL REFRESH
---------------------------
-- New sci-fi circuit/grid background.
-- Individual accent colour for every Protocol.
-- Holographic-style Protocol tiles with illuminated side rails.
-- Hexagonal Protocol emblems.
-- Stronger Player / UI visual hierarchy.
-- Improved card-reference dialogue styling.
-- New original Home Screen app icon.
-- Small 'Tap for Cards' affordance on each dealt Protocol.
-- No copyrighted game artwork is included.
+Replace the existing repository files with the contents of this ZIP and commit.
+The service-worker cache is now "compile-companion-v10".
+version.json is included for the app's built-in update checker.

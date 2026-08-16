@@ -16,14 +16,167 @@ const setShortNames = {
 };
 
 const symbols = {
-  Darkness: "◐", Death: "✕", Fire: "♨", Gravity: "↓",
-  Life: "❧", Light: "☀", Metal: "⬡", Plague: "✣",
-  Psychic: "◎", Speed: "ϟ", Spirit: "✦", Water: "◒",
-  Love: "♥", Hate: "⚡", Apathy: "−",
-  Chaos: "⌁", Clarity: "◉", Corruption: "✢", Courage: "▲",
-  Fear: "!", Ice: "❄", Luck: "⚄", Mirror: "◫",
-  Peace: "◇", Smoke: "≋", Time: "◷", War: "⚔",
-  Assimilation: "⋈", Diversity: "⠿", Unity: "∞"
+  Darkness: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <circle cx="32" cy="32" r="19" fill="none" stroke="currentColor" stroke-width="5"/>
+    <path d="M35 13a19 19 0 1 0 0 38c-8-4-12-10-12-19s4-15 12-19Z" fill="currentColor"/>
+  </svg>`,
+
+  Death: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M19 17 32 9l13 8 5 14-5 16-13 8-13-8-5-16Z" fill="none" stroke="currentColor" stroke-width="4"/>
+    <path d="m22 22 20 20M42 22 22 42" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+  </svg>`,
+
+  Fire: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M34 8c3 12-7 14-3 24 2-6 7-9 11-13 8 12 9 23 1 31-7 8-20 8-27 0-8-10-4-22 7-31-1 8 1 12 5 15-2-12 5-18 6-26Z" fill="currentColor"/>
+    <path d="M32 35c7 7 5 15 0 18-6-3-8-11 0-18Z" fill="var(--protocol-deep)"/>
+  </svg>`,
+
+  Gravity: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <circle cx="32" cy="28" r="15" fill="none" stroke="currentColor" stroke-width="4"/>
+    <ellipse cx="32" cy="28" rx="25" ry="9" fill="none" stroke="currentColor" stroke-width="3"/>
+    <path d="M32 8v36m0 0-8-9m8 9 8-9" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+  </svg>`,
+
+  Life: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M15 39c3-18 18-27 35-24-1 18-11 32-29 34" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+    <path d="M20 46c8-8 14-15 26-25M28 38l-1-12M35 31l10 2" fill="none" stroke="currentColor" stroke-width="3"/>
+  </svg>`,
+
+  Light: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M8 32c7-11 15-17 24-17s17 6 24 17c-7 11-15 17-24 17S15 43 8 32Z" fill="none" stroke="currentColor" stroke-width="4"/>
+    <ellipse cx="32" cy="32" rx="8" ry="15" fill="currentColor"/>
+    <path d="M32 6v7M32 51v7M6 32h7M51 32h7" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  </svg>`,
+
+  Metal: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="m32 7 20 12v26L32 57 12 45V19Z" fill="none" stroke="currentColor" stroke-width="4"/>
+    <path d="m32 16 11 7v18l-11 7-11-7V23Z" fill="none" stroke="currentColor" stroke-width="4"/>
+    <circle cx="32" cy="32" r="4" fill="currentColor"/>
+  </svg>`,
+
+  Plague: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <circle cx="32" cy="32" r="13" fill="none" stroke="currentColor" stroke-width="4"/>
+    <circle cx="27" cy="28" r="3" fill="currentColor"/><circle cx="38" cy="34" r="3" fill="currentColor"/>
+    <path d="M32 7v9M32 48v9M7 32h9M48 32h9M14 14l7 7M43 43l7 7M50 14l-7 7M21 43l-7 7" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+  </svg>`,
+
+  Psychic: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M10 32c6-9 13-14 22-14s16 5 22 14c-6 9-13 14-22 14S16 41 10 32Z" fill="none" stroke="currentColor" stroke-width="4"/>
+    <circle cx="32" cy="32" r="7" fill="none" stroke="currentColor" stroke-width="4"/>
+    <path d="M32 6c7 5 10 9 10 14M32 58c-7-5-10-9-10-14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  </svg>`,
+
+  Speed: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M37 6 13 36h17l-4 22 25-32H34Z" fill="currentColor"/>
+    <path d="M8 20h17M5 29h14M9 44h13" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  </svg>`,
+
+  Spirit: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M32 7 38 24 55 32 38 40 32 57 26 40 9 32 26 24Z" fill="none" stroke="currentColor" stroke-width="4"/>
+    <circle cx="32" cy="32" r="6" fill="currentColor"/>
+  </svg>`,
+
+  Water: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M32 7C22 21 15 30 15 40a17 17 0 0 0 34 0c0-10-7-19-17-33Z" fill="none" stroke="currentColor" stroke-width="5"/>
+    <path d="M22 41c4 5 9 7 15 4" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  </svg>`,
+
+  Love: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M32 53C18 42 9 34 9 23c0-8 6-13 13-13 5 0 9 3 10 7 2-4 6-7 11-7 7 0 12 5 12 13 0 11-9 19-23 30Z" fill="none" stroke="currentColor" stroke-width="5"/>
+    <path d="M22 32h20" stroke="currentColor" stroke-width="3"/>
+  </svg>`,
+
+  Hate: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M32 53C18 42 9 34 9 23c0-8 6-13 13-13 5 0 9 3 10 7 2-4 6-7 11-7 7 0 12 5 12 13 0 11-9 19-23 30Z" fill="none" stroke="currentColor" stroke-width="5"/>
+    <path d="m37 17-10 15h8l-7 15 15-20h-8Z" fill="currentColor"/>
+  </svg>`,
+
+  Apathy: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <circle cx="32" cy="32" r="22" fill="none" stroke="currentColor" stroke-width="4"/>
+    <path d="M18 32h28" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+  </svg>`,
+
+  Chaos: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="m31 7 7 15 16-5-8 15 10 12-18-1-6 14-7-15-17 5 9-15L7 20l18 1Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+    <path d="m31 20-7 13 9 3-4 10 13-15-9-3 5-8Z" fill="currentColor"/>
+  </svg>`,
+
+  Clarity: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M8 32c7-11 15-17 24-17s17 6 24 17c-7 11-15 17-24 17S15 43 8 32Z" fill="none" stroke="currentColor" stroke-width="4"/>
+    <circle cx="32" cy="32" r="9" fill="none" stroke="currentColor" stroke-width="3"/>
+    <circle cx="32" cy="32" r="3" fill="currentColor"/>
+    <path d="M32 6v7M32 51v7" stroke="currentColor" stroke-width="3"/>
+  </svg>`,
+
+  Corruption: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="m15 16 15 5 4-13 6 16 14-4-11 12 11 10-15-3-5 17-5-16-16 4 12-12Z" fill="none" stroke="currentColor" stroke-width="4"/>
+    <circle cx="33" cy="32" r="6" fill="currentColor"/>
+  </svg>`,
+
+  Courage: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M12 18c7 0 12 4 15 10l5-9 5 9c3-6 8-10 15-10-1 12-7 21-20 28C19 39 13 30 12 18Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M25 46h14l-7 11Z" fill="currentColor"/>
+  </svg>`,
+
+  Fear: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M32 7 57 53H7Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M32 21v17" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="32" cy="46" r="3.5" fill="currentColor"/>
+  </svg>`,
+
+  Ice: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M32 7v50M10 20l44 24M54 20 10 44M21 13l11 7 11-7M21 51l11-7 11 7M10 29l11 3-11 3M54 29l-11 3 11 3" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`,
+
+  Luck: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M49 15c-15-9-32 1-32 16 0 12 10 20 21 18 10-2 16-11 12-20-3-7-12-10-18-6-6 4-6 13 0 16 5 3 10 0 11-4" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+    <path d="m44 13 8 1-2 8" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+  </svg>`,
+
+  Mirror: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="m32 7 19 25-19 25L13 32Z" fill="none" stroke="currentColor" stroke-width="4"/>
+    <path d="M32 10v44M18 32h28" stroke="currentColor" stroke-width="3"/>
+    <path d="m20 24 12 8-12 8M44 24l-12 8 12 8" fill="none" stroke="currentColor" stroke-width="3"/>
+  </svg>`,
+
+  Peace: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <circle cx="32" cy="32" r="22" fill="none" stroke="currentColor" stroke-width="4"/>
+    <path d="M32 10v44M32 33 16 48M32 33l16 15" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+  </svg>`,
+
+  Smoke: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M11 42c8-10 14 8 22-2 8-10 13 7 21-3M12 31c7-10 14 8 21-2 8-10 14 7 20-3M17 20c6-7 11 5 17-2 6-7 10 4 14-1" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+  </svg>`,
+
+  Time: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <circle cx="32" cy="32" r="22" fill="none" stroke="currentColor" stroke-width="4"/>
+    <path d="M32 17v16l10 7" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+    <path d="M15 15 9 9M49 15l6-6" stroke="currentColor" stroke-width="3"/>
+  </svg>`,
+
+  War: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="m18 10 28 40M46 10 18 50" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+    <path d="m14 8 8 4-5 6M50 8l-8 4 5 6M15 50l7-2-2 8M49 50l-7-2 2 8" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  </svg>`,
+
+  Assimilation: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M10 21h14l8 11 8-11h14M10 43h14l8-11 8 11h14" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="32" cy="32" r="5" fill="currentColor"/>
+  </svg>`,
+
+  Diversity: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <circle cx="32" cy="13" r="6" fill="currentColor"/>
+    <circle cx="49" cy="23" r="6" fill="currentColor"/>
+    <circle cx="49" cy="43" r="6" fill="currentColor"/>
+    <circle cx="32" cy="53" r="6" fill="currentColor"/>
+    <circle cx="15" cy="43" r="6" fill="currentColor"/>
+    <circle cx="15" cy="23" r="6" fill="currentColor"/>
+    <circle cx="32" cy="33" r="5" fill="none" stroke="currentColor" stroke-width="3"/>
+  </svg>`,
+
+  Unity: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M13 32c0-8 6-14 14-14 11 0 15 14 23 14 5 0 9-4 9-9s-4-9-9-9c-8 0-12 12-23 12-8 0-14 6-14 14s6 14 14 14c11 0 15-14 23-14 5 0 9 4 9 9s-4 9-9 9" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+  </svg>`
 };
 
 
@@ -292,6 +445,49 @@ const allProtocols = Object.entries(protocolSets).flatMap(([set, names]) =>
   names.map(name => ({ name, set, id: `${set}|${name}` }))
 );
 
+
+const APP_VERSION = "10.0";
+const VERSION_FILE = "./version.json";
+
+const protocolPlaystyles = {
+  Darkness: "Manipulates face-down cards and hidden information. Strong when you can build value while denying the opponent certainty.",
+  Death: "Deletes cards aggressively. Best when timing removal to dismantle high-value stacks before they can Compile.",
+  Fire: "Fast, volatile hand cycling built around discarding for powerful tactical effects.",
+  Gravity: "Pulls cards between lines and rewards controlling where face-down cards accumulate.",
+  Life: "Builds board presence with face-down growth, card draw and steady value generation.",
+  Light: "Reveals information, flips cards and turns knowledge into card advantage.",
+  Metal: "Defensive disruption that limits the opponent's options and makes lines awkward to contest.",
+  Plague: "Hand pressure and denial. Forces discards while making particular lines unpleasant to enter.",
+  Psychic: "Information warfare: sees hands, rearranges Protocols and restricts how the opponent can play.",
+  Speed: "Mobility and tempo. Shifts cards constantly and chains actions to stay ahead of the board.",
+  Spirit: "Flexible positioning and unusual play permissions, with strong shifting and refresh interactions.",
+  Water: "Flow and repositioning. Moves, returns and flips cards to continually reshape lines.",
+  Love: "Card exchange and shared draw effects that turn the opponent's resources into opportunities.",
+  Hate: "Direct destruction with rewards for deleting cards and punishing exposed low-value targets.",
+  Apathy: "Turns cards face-down and exploits low-information board states for efficient value.",
+  Chaos: "Unpredictable board-wide disruption, rearrangement and unusual play patterns.",
+  Clarity: "Deck knowledge and precision tutoring. Finds exact values and rewards careful hand management.",
+  Corruption: "Twists normal ownership and return rules, infecting the opponent's side with awkward cards.",
+  Courage: "Thrives while behind. Converts pressure and empty-hand states into recovery and counterplay.",
+  Fear: "Suppresses opponent card abilities, attacks the hand and forcibly moves their board.",
+  Ice: "Locks lines down. Punishes entry, resists flipping and creates persistent positional pressure.",
+  Luck: "High-variance prediction and top-deck play. Rewards calculated guesses and opportunistic reveals.",
+  Mirror: "Copies and reflects the opponent's strengths while swapping whole stacks for dramatic reversals.",
+  Peace: "Hand-size manipulation, face-down play and reactive card flow rather than direct aggression.",
+  Smoke: "Builds value through face-down networks and rewards lines already filled with hidden cards.",
+  Time: "Uses the trash pile as a resource, recycling and replaying cards for long-term sequencing.",
+  War: "Punishes common opponent actions such as drawing, refreshing, discarding and compiling.",
+  Assimilation: "Steals and exchanges cards between players, blurring ownership and exploiting both decks.",
+  Diversity: "Rewards having many different Protocols represented in play and can Compile through variety.",
+  Unity: "Scales as more Unity cards appear, eventually creating explosive synergy and alternative Compile pressure."
+};
+
+let currentMatch = null;
+let matchHistory = loadMatchHistory();
+let playerNames = loadPlayerNames();
+let nameEditingPlayer = 1;
+let isAnimating = false;
+
 let player1 = [];
 let player2 = [];
 let locked1 = new Set();
@@ -306,7 +502,11 @@ function defaultSettings() {
   return {
     enabledSets: Object.fromEntries(Object.keys(protocolSets).map(set => [set, true])),
     excluded: [],
-    avoidRepeats: false
+    favourites: [],
+    avoidRepeats: false,
+    balancedRandom: false,
+    sound: true,
+    haptics: true
   };
 }
 
@@ -319,7 +519,11 @@ function loadSettings() {
     return {
       enabledSets: { ...defaults.enabledSets, ...(parsed.enabledSets || {}) },
       excluded: Array.isArray(parsed.excluded) ? parsed.excluded : [],
-      avoidRepeats: Boolean(parsed.avoidRepeats)
+      favourites: Array.isArray(parsed.favourites) ? parsed.favourites : [],
+      avoidRepeats: Boolean(parsed.avoidRepeats),
+      balancedRandom: Boolean(parsed.balancedRandom),
+      sound: parsed.sound !== false,
+      haptics: parsed.haptics !== false
     };
   } catch (_) {
     return defaults;
@@ -365,15 +569,490 @@ function pickFill(count, excludedIds, preferAvoidIds = new Set()) {
   let preferred = pool.filter(p => !preferAvoidIds.has(p.id));
 
   if (preferred.length >= count) {
-    return secureShuffle(preferred).slice(0, count);
+    return balancedPick(preferred, count);
   }
 
-  const first = secureShuffle(preferred);
+  const first = balancedPick(preferred, preferred.length);
   const used = new Set(first.map(p => p.id));
-  const fallback = secureShuffle(pool.filter(p => !used.has(p.id)));
+  const fallback = balancedPick(pool.filter(p => !used.has(p.id)), count - first.length);
   return [...first, ...fallback].slice(0, count);
 }
 
+
+
+function loadPlayerNames() {
+  try {
+    return { p1: "Player 1", p2: "Player 2", ...JSON.parse(localStorage.getItem("compilePlayerNamesV10") || "{}") };
+  } catch (_) {
+    return { p1: "Player 1", p2: "Player 2" };
+  }
+}
+
+function savePlayerNames() {
+  localStorage.setItem("compilePlayerNamesV10", JSON.stringify(playerNames));
+}
+
+function loadMatchHistory() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem("compileMatchHistoryV10") || "[]");
+    return Array.isArray(parsed) ? parsed.slice(0, 200) : [];
+  } catch (_) {
+    return [];
+  }
+}
+
+function saveMatchHistory() {
+  localStorage.setItem("compileMatchHistoryV10", JSON.stringify(matchHistory.slice(0, 200)));
+}
+
+function getMatchUsageMap() {
+  const counts = new Map(allProtocols.map(p => [p.id, 0]));
+  matchHistory.forEach(match => {
+    [...match.player1, ...match.player2].forEach(id => counts.set(id, (counts.get(id) || 0) + 1));
+  });
+  return counts;
+}
+
+function balancedPick(pool, count) {
+  if (!settings.balancedRandom) return secureShuffle(pool).slice(0, count);
+  const usage = getMatchUsageMap();
+  return [...pool]
+    .map(p => ({ p, score: (usage.get(p.id) || 0) + Math.random() * 1.2 }))
+    .sort((a, b) => a.score - b.score)
+    .slice(0, count)
+    .map(x => x.p);
+}
+
+function playTone(freq = 440, duration = 0.05, gain = 0.035) {
+  if (!settings.sound) return;
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    const osc = ctx.createOscillator();
+    const amp = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.value = freq;
+    amp.gain.value = gain;
+    osc.connect(amp);
+    amp.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + duration);
+    osc.onended = () => ctx.close();
+  } catch (_) {}
+}
+
+function doHaptic(pattern = 35) {
+  if (!settings.haptics) return;
+  try {
+    if (navigator.vibrate) navigator.vibrate(pattern);
+  } catch (_) {}
+}
+
+function setDealControlsDisabled(disabled) {
+  document.querySelectorAll(".deal-control").forEach(el => {
+    el.disabled = disabled;
+  });
+}
+
+function updatePlayerLabels() {
+  document.getElementById("player1Label").textContent = playerNames.p1.toUpperCase();
+  document.getElementById("player2Label").textContent = playerNames.p2.toUpperCase();
+}
+
+function openNameDialog(playerNumber) {
+  nameEditingPlayer = playerNumber;
+  const current = playerNumber === 1 ? playerNames.p1 : playerNames.p2;
+  document.getElementById("nameDialogTitle").textContent = `Player ${playerNumber} name`;
+  const input = document.getElementById("playerNameInput");
+  input.value = current;
+  document.getElementById("nameDialog").showModal();
+  setTimeout(() => input.select(), 50);
+}
+
+function saveEditedPlayerName() {
+  const input = document.getElementById("playerNameInput");
+  const value = input.value.trim() || `Player ${nameEditingPlayer}`;
+  if (nameEditingPlayer === 1) playerNames.p1 = value;
+  else playerNames.p2 = value;
+  savePlayerNames();
+  updatePlayerLabels();
+  renderTableMode();
+  document.getElementById("nameDialog").close();
+}
+
+function getLastCompletedMatch() {
+  return matchHistory[0] || null;
+}
+
+function startMatch() {
+  if (currentMatch) {
+    openMatchResult();
+    return;
+  }
+  if (player1.length !== 3 || player2.length !== 3) return;
+
+  currentMatch = {
+    startedAt: Date.now(),
+    player1: player1.map(p => p.id),
+    player2: player2.map(p => p.id),
+    player1Name: playerNames.p1,
+    player2Name: playerNames.p2
+  };
+
+  setDealControlsDisabled(true);
+  document.getElementById("matchButton").textContent = "■ Finish Match";
+  document.getElementById("matchButton").classList.add("active-match");
+  render();
+  playTone(520, .08, .04);
+  doHaptic([30, 30, 30]);
+}
+
+function openMatchResult() {
+  if (!currentMatch) return;
+  document.getElementById("player1WinButton").textContent = `${currentMatch.player1Name} wins`;
+  document.getElementById("player2WinButton").textContent = `${currentMatch.player2Name} wins`;
+  document.getElementById("matchResultDialog").showModal();
+}
+
+function finishMatch(winner) {
+  if (!currentMatch) return;
+  matchHistory.unshift({
+    ...currentMatch,
+    finishedAt: Date.now(),
+    winner
+  });
+  matchHistory = matchHistory.slice(0, 200);
+  saveMatchHistory();
+  currentMatch = null;
+  setDealControlsDisabled(false);
+  document.getElementById("matchButton").textContent = "▶ Start Match";
+  document.getElementById("matchButton").classList.remove("active-match");
+  document.getElementById("matchResultDialog").close();
+  render();
+  playTone(winner === "draw" ? 480 : 660, .12, .05);
+  doHaptic([35, 35, 70]);
+}
+
+function cancelMatch() {
+  currentMatch = null;
+  setDealControlsDisabled(false);
+  document.getElementById("matchButton").textContent = "▶ Start Match";
+  document.getElementById("matchButton").classList.remove("active-match");
+  document.getElementById("matchResultDialog").close();
+  render();
+}
+
+function rematch() {
+  if (currentMatch || isAnimating) return;
+  const last = getLastCompletedMatch();
+  if (!last) {
+    animatedRandomiseAll();
+    return;
+  }
+
+  pushUndoSnapshot();
+  locked1.clear();
+  locked2.clear();
+
+  const oldIds = new Set([...last.player1, ...last.player2]);
+  let pool = getAvailableProtocols();
+  let fresh = pool.filter(p => !oldIds.has(p.id));
+
+  if (fresh.length < 6) fresh = pool;
+
+  const chosen = balancedPick(fresh, 6);
+  player1 = chosen.slice(0, 3);
+  player2 = chosen.slice(3, 6);
+  lastDeal = [...player1, ...player2].map(p => p.id);
+  recordDeal();
+  render();
+  playTone(610, .09, .045);
+  doHaptic(45);
+}
+
+function renderMatchHistory() {
+  const target = document.getElementById("historyMatchesView");
+  target.innerHTML = "";
+
+  if (!matchHistory.length) {
+    target.innerHTML = `<div class="empty-state">No completed matches yet. Press Start Match before playing to build win/loss statistics.</div>`;
+    return;
+  }
+
+  const list = document.createElement("div");
+  list.className = "history-list";
+
+  matchHistory.forEach((match, index) => {
+    const p1 = match.player1.map(getProtocolById).filter(Boolean);
+    const p2 = match.player2.map(getProtocolById).filter(Boolean);
+    const winnerText = match.winner === "draw"
+      ? "Draw"
+      : match.winner === "p1" ? `${match.player1Name} won` : `${match.player2Name} won`;
+
+    const item = document.createElement("div");
+    item.className = "history-item";
+    item.innerHTML = `
+      <div class="history-meta">${formatHistoryDate(match.finishedAt || match.startedAt)} · <strong>${winnerText}</strong></div>
+      <div class="history-players">
+        <div class="history-player"><strong class="player-one">${match.player1Name}</strong>${p1.map(p => `<span>${p.name}</span>`).join("")}</div>
+        <div class="history-player"><strong class="player-two">${match.player2Name}</strong>${p2.map(p => `<span>${p.name}</span>`).join("")}</div>
+      </div>
+    `;
+    list.appendChild(item);
+  });
+
+  target.appendChild(list);
+}
+
+function getProtocolPerformanceStats() {
+  const stats = new Map(allProtocols.map(p => [p.id, {
+    protocol: p, games: 0, wins: 0, losses: 0, draws: 0
+  }]));
+
+  matchHistory.forEach(match => {
+    match.player1.forEach(id => {
+      const s = stats.get(id); if (!s) return;
+      s.games++;
+      if (match.winner === "p1") s.wins++;
+      else if (match.winner === "p2") s.losses++;
+      else s.draws++;
+    });
+    match.player2.forEach(id => {
+      const s = stats.get(id); if (!s) return;
+      s.games++;
+      if (match.winner === "p2") s.wins++;
+      else if (match.winner === "p1") s.losses++;
+      else s.draws++;
+    });
+  });
+
+  return [...stats.values()].sort((a, b) =>
+    b.games - a.games ||
+    (b.games ? b.wins / b.games : 0) - (a.games ? a.wins / a.games : 0) ||
+    a.protocol.name.localeCompare(b.protocol.name)
+  );
+}
+
+function renderPerformanceStats() {
+  const target = document.getElementById("historyStatsView");
+  target.innerHTML = "";
+
+  if (!matchHistory.length) {
+    target.innerHTML = `<div class="empty-state">No played-match statistics yet.</div>`;
+    return;
+  }
+
+  const list = document.createElement("div");
+  list.className = "stats-list";
+
+  getProtocolPerformanceStats().forEach(s => {
+    const pct = s.games ? Math.round((s.wins / s.games) * 100) : 0;
+    const row = document.createElement("div");
+    row.className = "stat-row stat-row-rich";
+    row.innerHTML = `
+      <div>
+        <div class="stat-name">${s.protocol.name} <small>${s.protocol.set}</small></div>
+        <div class="stat-detail">${s.games} games · ${s.wins}W / ${s.losses}L / ${s.draws}D</div>
+      </div>
+      <div class="stat-count">${pct}%</div>
+    `;
+    list.appendChild(row);
+  });
+
+  target.appendChild(list);
+}
+
+function animatedRandomiseAll() {
+  if (isAnimating || currentMatch || getAvailableProtocols().length < 6) return;
+  isAnimating = true;
+  setDealControlsDisabled(true);
+  const pool = getAvailableProtocols();
+
+  let ticks = 0;
+  const totalTicks = 10;
+  const timer = setInterval(() => {
+    const temp = secureShuffle(pool).slice(0, 6);
+    player1 = temp.slice(0, 3);
+    player2 = temp.slice(3, 6);
+    render();
+    playTone(250 + ticks * 34, .025, .018);
+    ticks++;
+
+    if (ticks >= totalTicks) {
+      clearInterval(timer);
+      setTimeout(() => {
+        randomiseAll();
+        isAnimating = false;
+        setDealControlsDisabled(false);
+        render();
+        playTone(720, .09, .05);
+        doHaptic([25, 25, 55]);
+      }, 90);
+    }
+  }, 72);
+}
+
+function favouriteSet() {
+  return new Set(settings.favourites || []);
+}
+
+function toggleFavourite(id) {
+  const fav = favouriteSet();
+  if (fav.has(id)) fav.delete(id); else fav.add(id);
+  settings.favourites = [...fav];
+  saveSettings();
+  renderLibrary(document.getElementById("librarySearch").value);
+}
+
+function renderLibrary(filter = "") {
+  const target = document.getElementById("libraryGrid");
+  const term = filter.trim().toLowerCase();
+  const fav = favouriteSet();
+  const excluded = new Set(settings.excluded || []);
+
+  const sorted = [...allProtocols]
+    .filter(p => !term || p.name.toLowerCase().includes(term) || p.set.toLowerCase().includes(term))
+    .sort((a, b) => Number(fav.has(b.id)) - Number(fav.has(a.id)) || a.name.localeCompare(b.name));
+
+  target.innerHTML = "";
+  sorted.forEach(protocol => {
+    const visual = protocolVisuals[protocol.name] || ["#4ee9ff", "#123a45"];
+    const card = document.createElement("div");
+    card.className = `library-card${excluded.has(protocol.id) ? " excluded" : ""}`;
+    card.style.setProperty("--protocol-accent", visual[0]);
+    card.style.setProperty("--protocol-deep", visual[1]);
+    card.innerHTML = `
+      <button class="library-main">
+        <span class="library-symbol">${symbols[protocol.name] || ""}</span>
+        <span><strong>${protocol.name}</strong><small>${protocol.set}</small></span>
+      </button>
+      <div class="library-card-actions">
+        <button class="fav-button ${fav.has(protocol.id) ? "active" : ""}" title="Favourite">${fav.has(protocol.id) ? "★" : "☆"}</button>
+        <button class="exclude-button ${excluded.has(protocol.id) ? "active" : ""}" title="Exclude">${excluded.has(protocol.id) ? "⊘" : "○"}</button>
+      </div>
+    `;
+    card.querySelector(".library-main").addEventListener("click", () => showProtocolReference(protocol));
+    card.querySelector(".fav-button").addEventListener("click", () => toggleFavourite(protocol.id));
+    card.querySelector(".exclude-button").addEventListener("click", () => {
+      setProtocolExcluded(protocol.id, !excluded.has(protocol.id));
+      renderLibrary(document.getElementById("librarySearch").value);
+    });
+    target.appendChild(card);
+  });
+}
+
+function renderTableMode() {
+  const p1 = document.getElementById("tableP1Protocols");
+  const p2 = document.getElementById("tableP2Protocols");
+  if (!p1 || !p2) return;
+  document.getElementById("tableP1Name").textContent = playerNames.p1;
+  document.getElementById("tableP2Name").textContent = playerNames.p2;
+  p1.innerHTML = player1.map(p => `<div class="table-protocol">${symbols[p.name] || ""}<span>${p.name}</span></div>`).join("");
+  p2.innerHTML = player2.map(p => `<div class="table-protocol">${symbols[p.name] || ""}<span>${p.name}</span></div>`).join("");
+}
+
+function buildShareCanvas() {
+  const canvas = document.getElementById("shareCanvas");
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+  const grad = ctx.createLinearGradient(0, 0, W, H);
+  grad.addColorStop(0, "#071827");
+  grad.addColorStop(1, "#04070d");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#eafcff";
+  ctx.font = "900 78px Arial";
+  ctx.fillText("COMPILE", W/2, 105);
+  ctx.fillStyle = "#8ba7ba";
+  ctx.font = "32px Arial";
+  ctx.fillText("PROTOCOL MATCHUP", W/2, 150);
+
+  const drawSide = (x, y, name, protocols, accent) => {
+    ctx.fillStyle = accent;
+    ctx.font = "700 38px Arial";
+    ctx.fillText(name, x, y);
+    protocols.forEach((p, i) => {
+      const yy = y + 75 + i * 135;
+      ctx.fillStyle = "#0d1a27";
+      ctx.strokeStyle = accent;
+      ctx.lineWidth = 3;
+      roundRect(ctx, x - 225, yy - 52, 450, 100, 24);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "#f5fbff";
+      ctx.font = "700 36px Arial";
+      ctx.fillText(p.name, x, yy + 8);
+      ctx.fillStyle = "#8497a5";
+      ctx.font = "22px Arial";
+      ctx.fillText(p.set, x, yy + 38);
+    });
+  };
+
+  drawSide(320, 270, playerNames.p1, player1, "#4ee9ff");
+  drawSide(880, 270, playerNames.p2, player2, "#ffad4d");
+
+  ctx.fillStyle = "#667988";
+  ctx.font = "24px Arial";
+  ctx.fillText(`Compile Companion · v${APP_VERSION}`, W/2, 1140);
+
+  return canvas;
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.arcTo(x+w, y, x+w, y+h, r);
+  ctx.arcTo(x+w, y+h, x, y+h, r);
+  ctx.arcTo(x, y+h, x, y, r);
+  ctx.arcTo(x, y, x+w, y, r);
+  ctx.closePath();
+}
+
+async function shareCurrentResult() {
+  if (player1.length !== 3 || player2.length !== 3) return;
+
+  const text = `${playerNames.p1}: ${player1.map(p => p.name).join(" / ")}\n${playerNames.p2}: ${player2.map(p => p.name).join(" / ")}`;
+  const canvas = buildShareCanvas();
+
+  try {
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+    const file = new File([blob], "compile-matchup.png", { type: "image/png" });
+
+    if (navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
+      await navigator.share({ title: "Compile matchup", text, files: [file] });
+      return;
+    }
+    if (navigator.share) {
+      await navigator.share({ title: "Compile matchup", text });
+      return;
+    }
+    await navigator.clipboard.writeText(text);
+    alert("Matchup copied to clipboard.");
+  } catch (err) {
+    if (err && err.name === "AbortError") return;
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("Matchup copied to clipboard.");
+    } catch (_) {}
+  }
+}
+
+async function checkForUpdate(showCurrentMessage = true) {
+  try {
+    const response = await fetch(`${VERSION_FILE}?t=${Date.now()}`, { cache: "no-store" });
+    const remote = await response.json();
+    if (remote.version && remote.version !== APP_VERSION) {
+      document.getElementById("updateBanner").hidden = false;
+    } else if (showCurrentMessage) {
+      alert(`You are on the latest version (${APP_VERSION}).`);
+    }
+  } catch (_) {
+    if (showCurrentMessage) alert("Could not check for updates right now.");
+  }
+}
 
 function loadHistory() {
   const saved = localStorage.getItem("compileHistoryV3");
@@ -623,7 +1302,7 @@ function protocolCard(protocol, playerClass, playerNumber) {
   card.style.setProperty("--protocol-deep", visual[1]);
 
   card.innerHTML = `
-    <div class="protocol-symbol">${symbols[protocol.name] || "⌘"}</div>
+    <div class="protocol-symbol">${symbols[protocol.name] || `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="20" fill="none" stroke="currentColor" stroke-width="4"/></svg>`}</div>
     <div>
       <div class="protocol-name">${protocol.name.toUpperCase()}</div>
       <div class="protocol-set">${protocol.set}</div>
@@ -657,10 +1336,12 @@ function showProtocolReference(protocol) {
   const view = document.getElementById("protocolCardsView");
 
   title.textContent = protocol.name;
-  subtitle.textContent = `${protocol.set} · Card reference`;
+  subtitle.textContent = `${protocol.set} · 6-card Protocol`;
   const visual = protocolVisuals[protocol.name] || ["#4ee9ff", "#123a45"];
   dialog.style.setProperty("--protocol-accent", visual[0]);
   dialog.style.setProperty("--protocol-deep", visual[1]);
+  document.getElementById("protocolHero").innerHTML = `<div class="protocol-hero-symbol">${symbols[protocol.name] || ""}</div>`;
+  document.getElementById("protocolPlaystyle").innerHTML = `<strong>How it plays</strong><p>${protocolPlaystyles[protocol.name] || ""}</p>`;
   view.innerHTML = "";
 
   const cards = protocolCardReference[protocol.name];
@@ -676,7 +1357,7 @@ function showProtocolReference(protocol) {
   }
 
   const list = document.createElement("div");
-  list.className = "card-reference-list";
+  list.className = "card-reference-list card-carousel";
 
   cards.forEach(card => {
     const item = document.createElement("div");
@@ -697,6 +1378,29 @@ function showProtocolReference(protocol) {
   view.appendChild(note);
 
   dialog.showModal();
+}
+
+
+function applyRandomProtocolBackground() {
+  const protocol = allProtocols[Math.floor(Math.random() * allProtocols.length)];
+  const visual = protocolVisuals[protocol.name] || ["#4ee9ff", "#123a45"];
+  const symbol = symbols[protocol.name] || "";
+
+  document.documentElement.style.setProperty("--bg-accent", visual[0]);
+  document.documentElement.style.setProperty("--bg-deep", visual[1]);
+
+  const bgMark = document.getElementById("backgroundProtocolMark");
+  const bgName = document.getElementById("backgroundProtocolName");
+
+  if (bgMark) {
+    bgMark.innerHTML = symbol;
+  }
+
+  if (bgName) {
+    bgName.textContent = protocol.name.toUpperCase();
+  }
+
+  sessionStorage.setItem("compileBackgroundProtocol", protocol.name);
 }
 
 function renderPlayer(targetId, protocols, playerClass, playerNumber) {
@@ -736,6 +1440,15 @@ function render() {
     chips.appendChild(chip);
   }
 
+  if (currentMatch) {
+    const chip = document.createElement("span");
+    chip.className = "status-chip match-chip";
+    chip.textContent = "● MATCH ACTIVE";
+    chips.appendChild(chip);
+  }
+
+  updatePlayerLabels();
+  renderTableMode();
   updateUndoButton();
 }
 
@@ -751,7 +1464,8 @@ function setProtocolExcluded(id, excluded) {
   }
 
   saveSettings();
-  randomiseAll();
+  applyRandomProtocolBackground();
+randomiseAll();
 }
 
 function buildSettingsUI() {
@@ -759,6 +1473,10 @@ function buildSettingsUI() {
   target.innerHTML = "";
 
   document.getElementById("avoidRepeatsToggle").checked = settings.avoidRepeats;
+  document.getElementById("balancedRandomToggle").checked = settings.balancedRandom;
+  document.getElementById("soundToggle").checked = settings.sound;
+  document.getElementById("hapticsToggle").checked = settings.haptics;
+  document.getElementById("versionLabel").textContent = `Version ${APP_VERSION}`;
 
   Object.entries(protocolSets).forEach(([set, names]) => {
     const details = document.createElement("details");
@@ -822,7 +1540,7 @@ function buildSettingsUI() {
   });
 }
 
-document.getElementById("randomiseButton").addEventListener("click", randomiseAll);
+document.getElementById("randomiseButton").addEventListener("click", animatedRandomiseAll);
 document.getElementById("swapButton").addEventListener("click", swapPlayers);
 
 document.querySelectorAll("[data-reroll]").forEach(button => {
@@ -877,10 +1595,11 @@ const historyDialog = document.getElementById("historyDialog");
 
 document.getElementById("historyButton").addEventListener("click", () => {
   renderHistoryDeals();
-  renderHistoryStats();
+  renderPerformanceStats();
   document.getElementById("historyDealsView").hidden = false;
   document.getElementById("historyStatsView").hidden = true;
   document.getElementById("historyTabDeals").classList.add("active");
+  document.getElementById("historyTabMatches").classList.remove("active");
   document.getElementById("historyTabStats").classList.remove("active");
   historyDialog.showModal();
 });
@@ -900,6 +1619,7 @@ document.getElementById("historyTabStats").addEventListener("click", () => {
   document.getElementById("historyDealsView").hidden = true;
   document.getElementById("historyStatsView").hidden = false;
   document.getElementById("historyTabDeals").classList.remove("active");
+  document.getElementById("historyTabMatches").classList.remove("active");
   document.getElementById("historyTabStats").classList.add("active");
 });
 
@@ -909,6 +1629,90 @@ document.getElementById("clearHistoryButton").addEventListener("click", () => {
   renderHistoryDeals();
   renderHistoryStats();
 });
+
+
+document.querySelectorAll("[data-player-name]").forEach(button => {
+  button.addEventListener("click", () => openNameDialog(Number(button.dataset.playerName)));
+});
+
+document.getElementById("closeNameButton").addEventListener("click", () => document.getElementById("nameDialog").close());
+document.getElementById("savePlayerNameButton").addEventListener("click", saveEditedPlayerName);
+document.getElementById("playerNameInput").addEventListener("keydown", event => {
+  if (event.key === "Enter") saveEditedPlayerName();
+});
+
+document.getElementById("matchButton").addEventListener("click", startMatch);
+document.getElementById("closeResultButton").addEventListener("click", () => document.getElementById("matchResultDialog").close());
+document.getElementById("player1WinButton").addEventListener("click", () => finishMatch("p1"));
+document.getElementById("player2WinButton").addEventListener("click", () => finishMatch("p2"));
+document.getElementById("drawButton").addEventListener("click", () => finishMatch("draw"));
+document.getElementById("cancelMatchButton").addEventListener("click", cancelMatch);
+
+document.getElementById("rematchButton").addEventListener("click", rematch);
+document.getElementById("shareButton").addEventListener("click", shareCurrentResult);
+
+const libraryDialog = document.getElementById("libraryDialog");
+document.getElementById("libraryButton").addEventListener("click", () => {
+  document.getElementById("librarySearch").value = "";
+  renderLibrary("");
+  libraryDialog.showModal();
+});
+document.getElementById("closeLibraryButton").addEventListener("click", () => libraryDialog.close());
+document.getElementById("librarySearch").addEventListener("input", event => renderLibrary(event.target.value));
+
+const tableDialog = document.getElementById("tableDialog");
+document.getElementById("tableButton").addEventListener("click", () => {
+  renderTableMode();
+  tableDialog.showModal();
+});
+document.getElementById("closeTableButton").addEventListener("click", () => tableDialog.close());
+
+document.getElementById("balancedRandomToggle").addEventListener("change", event => {
+  settings.balancedRandom = event.target.checked;
+  saveSettings();
+  render();
+});
+document.getElementById("soundToggle").addEventListener("change", event => {
+  settings.sound = event.target.checked;
+  saveSettings();
+});
+document.getElementById("hapticsToggle").addEventListener("change", event => {
+  settings.haptics = event.target.checked;
+  saveSettings();
+});
+
+document.getElementById("historyTabMatches").addEventListener("click", () => {
+  document.getElementById("historyDealsView").hidden = true;
+  document.getElementById("historyMatchesView").hidden = false;
+  document.getElementById("historyStatsView").hidden = true;
+  document.getElementById("historyTabDeals").classList.remove("active");
+  document.getElementById("historyTabMatches").classList.add("active");
+  document.getElementById("historyTabStats").classList.remove("active");
+  renderMatchHistory();
+});
+
+document.getElementById("historyTabDeals").addEventListener("click", () => {
+  document.getElementById("historyMatchesView").hidden = true;
+});
+
+document.getElementById("historyTabStats").addEventListener("click", () => {
+  document.getElementById("historyMatchesView").hidden = true;
+  renderPerformanceStats();
+});
+
+document.getElementById("clearMatchHistoryButton").addEventListener("click", () => {
+  if (!confirm("Clear all completed-match statistics?")) return;
+  matchHistory = [];
+  saveMatchHistory();
+  renderMatchHistory();
+  renderPerformanceStats();
+});
+
+document.getElementById("checkUpdateButton").addEventListener("click", () => checkForUpdate(true));
+document.getElementById("reloadUpdateButton").addEventListener("click", () => location.reload());
+
+updatePlayerLabels();
+setTimeout(() => checkForUpdate(false), 1200);
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
