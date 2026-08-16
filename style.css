@@ -564,3 +564,301 @@ dialog::backdrop {
   padding: 30px 14px;
   line-height: 1.5;
 }
+
+
+/* =========================
+   V6 VISUAL REFRESH
+   ========================= */
+
+:root {
+  --ink: #f6fbff;
+  --glass: rgba(9, 18, 30, .72);
+  --glass-strong: rgba(10, 21, 35, .92);
+}
+
+html, body {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(47, 114, 181, .26), transparent 34%),
+    radial-gradient(circle at 85% 12%, rgba(126, 78, 190, .17), transparent 29%),
+    linear-gradient(180deg, #07111d 0%, #04070d 48%, #020408 100%);
+  color: var(--ink);
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  opacity: .22;
+  background-image:
+    linear-gradient(rgba(92, 218, 255, .08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(92, 218, 255, .08) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 72%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 72%);
+}
+
+body::after {
+  background:
+    linear-gradient(115deg, transparent 0 46%, rgba(78, 233, 255, .04) 46.2% 46.5%, transparent 46.7%),
+    linear-gradient(65deg, transparent 0 66%, rgba(157, 103, 255, .035) 66.2% 66.5%, transparent 66.7%);
+}
+
+.app-shell {
+  position: relative;
+  z-index: 1;
+}
+
+.app-header {
+  margin-bottom: 31px;
+  padding-top: 4px;
+}
+
+.cpu-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 8px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  color: #d9fbff;
+  font-size: 31px;
+  border: 1px solid rgba(99, 232, 255, .36);
+  background:
+    radial-gradient(circle at 35% 25%, rgba(139, 241, 255, .25), transparent 38%),
+    linear-gradient(145deg, rgba(78, 233, 255, .12), rgba(116, 75, 255, .13));
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.03) inset,
+    0 0 28px rgba(78,233,255,.14);
+  transform: rotate(45deg);
+}
+
+.cpu-icon::first-letter {
+  transform: rotate(-45deg);
+}
+
+.app-header h1 {
+  font-size: 35px;
+  text-shadow:
+    0 0 18px rgba(78, 233, 255, .20),
+    0 2px 14px rgba(0,0,0,.65);
+}
+
+.app-header p {
+  color: #93a8ba;
+}
+
+.player-section {
+  position: relative;
+}
+
+.section-heading {
+  padding: 0 2px;
+}
+
+.section-heading h2 {
+  font-size: 13px;
+  text-shadow: 0 0 12px currentColor;
+}
+
+.small-button,
+.secondary-button,
+.lock-button,
+.tab-button {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
+  border-color: rgba(181, 216, 235, .13);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.045);
+}
+
+.small-button:hover,
+.secondary-button:hover,
+.lock-button:hover,
+.tab-button:hover {
+  border-color: rgba(78,233,255,.30);
+}
+
+.protocol-grid {
+  gap: 12px;
+}
+
+.protocol-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 88px;
+  padding: 13px 13px 13px 14px;
+  border-radius: 19px;
+  border: 1px solid color-mix(in srgb, var(--protocol-accent) 30%, rgba(255,255,255,.10));
+  background:
+    radial-gradient(circle at 11% 42%, color-mix(in srgb, var(--protocol-accent) 16%, transparent), transparent 27%),
+    linear-gradient(110deg, color-mix(in srgb, var(--protocol-deep) 68%, #0a1019), rgba(8, 15, 25, .92) 48%, rgba(7,13,22,.88));
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.24),
+    inset 0 1px 0 rgba(255,255,255,.055);
+  transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+
+.protocol-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(115deg, transparent 0 52%, rgba(255,255,255,.045) 52.5% 53%, transparent 53.5%),
+    linear-gradient(90deg, var(--protocol-accent), transparent 42%);
+  opacity: .18;
+}
+
+.protocol-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 15px;
+  bottom: 15px;
+  width: 3px;
+  border-radius: 0 4px 4px 0;
+  background: var(--protocol-accent);
+  box-shadow: 0 0 14px var(--protocol-accent);
+}
+
+.protocol-card:active {
+  transform: scale(.988);
+}
+
+.protocol-card.locked {
+  border-color: color-mix(in srgb, var(--green) 66%, white);
+  box-shadow:
+    0 0 0 1px rgba(120,230,163,.12) inset,
+    0 10px 30px rgba(0,0,0,.22),
+    0 0 18px rgba(120,230,163,.10);
+}
+
+.protocol-symbol {
+  position: relative;
+  z-index: 1;
+  width: 48px;
+  height: 48px;
+  font-size: 23px;
+  color: var(--protocol-accent) !important;
+  background:
+    radial-gradient(circle at 38% 30%, color-mix(in srgb, var(--protocol-accent) 26%, white), transparent 34%),
+    color-mix(in srgb, var(--protocol-deep) 72%, black);
+  border: 1px solid color-mix(in srgb, var(--protocol-accent) 48%, transparent);
+  box-shadow:
+    inset 0 0 14px color-mix(in srgb, var(--protocol-accent) 12%, transparent),
+    0 0 18px color-mix(in srgb, var(--protocol-accent) 14%, transparent);
+  clip-path: polygon(25% 5%, 75% 5%, 96% 50%, 75% 95%, 25% 95%, 4% 50%);
+}
+
+.protocol-name,
+.protocol-set,
+.tap-hint,
+.set-pill,
+.lock-button {
+  position: relative;
+  z-index: 1;
+}
+
+.protocol-name {
+  font-size: clamp(17px, 4.8vw, 21px);
+  letter-spacing: .045em;
+  text-shadow: 0 2px 7px rgba(0,0,0,.45);
+}
+
+.protocol-set {
+  color: color-mix(in srgb, var(--protocol-accent) 50%, #b9c5d2);
+  margin-top: 4px;
+}
+
+.tap-hint {
+  margin-top: 4px;
+  font-size: 8px;
+  letter-spacing: .13em;
+  color: rgba(220, 235, 246, .39);
+}
+
+.set-pill {
+  color: color-mix(in srgb, var(--protocol-accent) 56%, white);
+  border: 1px solid color-mix(in srgb, var(--protocol-accent) 24%, transparent);
+  background: color-mix(in srgb, var(--protocol-deep) 72%, rgba(255,255,255,.04));
+}
+
+.lock-button {
+  border-radius: 11px;
+  backdrop-filter: blur(8px);
+}
+
+.primary-button {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(163, 249, 255, .50);
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255,255,255,.42), transparent 28%),
+    linear-gradient(135deg, #63efff, #3bcde8 56%, #5faeff);
+  box-shadow:
+    0 12px 30px rgba(53, 213, 240, .20),
+    inset 0 1px 0 rgba(255,255,255,.6);
+  text-shadow: 0 1px rgba(255,255,255,.3);
+}
+
+.primary-button::after {
+  content: "";
+  position: absolute;
+  inset: -70% auto -70% -30%;
+  width: 25%;
+  transform: rotate(18deg);
+  background: rgba(255,255,255,.20);
+}
+
+.status-chip {
+  background: rgba(9, 20, 33, .72);
+  backdrop-filter: blur(10px);
+}
+
+dialog {
+  border-color: color-mix(in srgb, var(--protocol-accent, #4ee9ff) 28%, rgba(255,255,255,.12));
+  background:
+    radial-gradient(circle at 20% 0%, color-mix(in srgb, var(--protocol-accent, #4ee9ff) 13%, transparent), transparent 33%),
+    #08111d;
+  box-shadow: 0 24px 70px rgba(0,0,0,.60);
+}
+
+dialog::backdrop {
+  background: rgba(0, 3, 8, .80);
+}
+
+.reference-card {
+  border-color: color-mix(in srgb, var(--protocol-accent, #4ee9ff) 20%, rgba(255,255,255,.09));
+  background:
+    linear-gradient(110deg,
+      color-mix(in srgb, var(--protocol-deep, #123a45) 38%, rgba(255,255,255,.025)),
+      rgba(255,255,255,.025));
+}
+
+.reference-value {
+  color: var(--protocol-accent, var(--cyan));
+  border: 1px solid color-mix(in srgb, var(--protocol-accent, #4ee9ff) 35%, transparent);
+  background: color-mix(in srgb, var(--protocol-deep, #123a45) 72%, #09111c);
+  box-shadow: 0 0 15px color-mix(in srgb, var(--protocol-accent, #4ee9ff) 10%, transparent);
+}
+
+.feature-row,
+.set-block,
+.history-item,
+.stat-row {
+  background: linear-gradient(145deg, rgba(255,255,255,.035), rgba(255,255,255,.015));
+}
+
+@supports not (color: color-mix(in srgb, red, blue)) {
+  .protocol-card {
+    border-color: rgba(255,255,255,.12);
+  }
+  .protocol-set, .set-pill {
+    color: #a8b7c5;
+  }
+}

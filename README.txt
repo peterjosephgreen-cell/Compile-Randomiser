@@ -1,4 +1,4 @@
-COMPILE PROTOCOL RANDOMISER — VERSION 4
+COMPILE PROTOCOL RANDOMISER — VERSION 6
 
 NEW IN V2
 ---------
@@ -74,3 +74,25 @@ NEW IN V4
   complete verified card data is loaded.
 - Tapping the padlock still locks/unlocks without opening the card viewer.
 - Reference text is intentionally summarised rather than presented as exact card wording.
+
+
+NEW IN V5
+---------
+- Full tap-to-view card references are now loaded for all 30 Protocols.
+- Main 2: Chaos, Clarity, Corruption, Courage, Fear, Ice, Luck, Mirror, Peace, Smoke, Time and War.
+- Aux 2: Assimilation, Diversity and Unity.
+- Main 2 / Aux 2 data was verified against the open card-database update that includes the official September 2025 Compile Codex errata.
+- Card effects remain concise reference summaries rather than copied card text.
+
+
+NEW IN V6 — VISUAL REFRESH
+--------------------------
+- New sci-fi circuit/grid background.
+- Individual accent colour for every Protocol.
+- Holographic-style Protocol tiles with illuminated side rails.
+- Hexagonal Protocol emblems.
+- Stronger Player / UI visual hierarchy.
+- Improved card-reference dialogue styling.
+- New original Home Screen app icon.
+- Small 'Tap for Cards' affordance on each dealt Protocol.
+- No copyrighted game artwork is included.

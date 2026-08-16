@@ -26,6 +26,25 @@ const symbols = {
   Assimilation: "⋈", Diversity: "⠿", Unity: "∞"
 };
 
+
+const protocolVisuals = {
+  Darkness: ["#7257ff", "#21144f"], Death: ["#e85d75", "#4b1220"],
+  Fire: ["#ff6947", "#5b180d"], Gravity: ["#7f8cff", "#202756"],
+  Life: ["#68e39a", "#113e2a"], Light: ["#ffe36e", "#51440d"],
+  Metal: ["#a8bed0", "#263744"], Plague: ["#9ee65d", "#243f12"],
+  Psychic: ["#d879ff", "#431554"], Speed: ["#55ecff", "#0d4750"],
+  Spirit: ["#b7a0ff", "#33265c"], Water: ["#55a9ff", "#10355f"],
+  Love: ["#ff75b5", "#591636"], Hate: ["#ff4964", "#5a101b"],
+  Apathy: ["#8d98a8", "#29303a"], Chaos: ["#ff8b3d", "#55260e"],
+  Clarity: ["#79f3ff", "#12464c"], Corruption: ["#a95cff", "#3d1457"],
+  Courage: ["#ffc458", "#51380d"], Fear: ["#ff5e86", "#551426"],
+  Ice: ["#a8eaff", "#1a4450"], Luck: ["#80e57f", "#1d481d"],
+  Mirror: ["#b8d8ff", "#263d5a"], Peace: ["#9fe6d4", "#1c4b40"],
+  Smoke: ["#aab0bb", "#333741"], Time: ["#6fd6ff", "#18455a"],
+  War: ["#ff775e", "#552016"], Assimilation: ["#6fe8c6", "#16493e"],
+  Diversity: ["#ffcc68", "#4f390f"], Unity: ["#d69cff", "#47225b"]
+};
+
 const protocolCardReference = {
   "Apathy": [
     { value: 0, effect: "Draw 3, then turn two other cards face-down." },
@@ -146,6 +165,126 @@ const protocolCardReference = {
     { value: 3, effect: "Return a card and interact with face-down cards." },
     { value: 4, effect: "Draw and/or flip based on cards in this line." },
     { value: 5, effect: "Discard a card." },
+  ],
+  "Chaos": [
+    { value: 0, effect: "Flip one covered card in every line. At your next start, each player draws the top card of the other player's deck." },
+    { value: 1, effect: "Rearrange both your Protocols and your opponent's Protocols." },
+    { value: 2, effect: "Shift one of your covered cards." },
+    { value: 3, effect: "May be played without matching the Protocol of the line." },
+    { value: 4, effect: "At end of turn, discard your whole hand and draw the same number of cards." },
+    { value: 5, effect: "Discard one card." },
+  ],
+  "Clarity": [
+    { value: 0, effect: "This line gains +1 total value for every card in your hand." },
+    { value: 1, effect: "At start, inspect the top of your deck and optionally discard it. Opponent reveals their hand; before this is covered, draw three." },
+    { value: 2, effect: "Search your revealed deck for a value-1 card, draw it, shuffle, then play a value-1 card." },
+    { value: 3, effect: "Search your revealed deck for a value-5 card, draw it, then shuffle." },
+    { value: 4, effect: "You may shuffle your trash pile back into your deck." },
+    { value: 5, effect: "Discard one card." },
+  ],
+  "Corruption": [
+    { value: 0, effect: "At start, flip another face-up card in this stack. This may be played on either player's side without matching Protocols." },
+    { value: 1, effect: "Return a card. Cards returned to your opponent go face-down on top of their deck instead of into hand." },
+    { value: 2, effect: "Whenever you discard, opponent also discards one. Draw one, then discard one." },
+    { value: 3, effect: "You may flip one face-up covered card." },
+    { value: 5, effect: "Discard one card." },
+    { value: 6, effect: "At end of turn, discard one card or delete this card." },
+  ],
+  "Courage": [
+    { value: 0, effect: "If your hand is empty at start, draw one; also draw one now. At end, you may discard one to make the opponent discard one." },
+    { value: 1, effect: "Delete an opponent card in a line where their total is higher than yours." },
+    { value: 2, effect: "Draw one. At end, draw another if the opponent is ahead in this line." },
+    { value: 3, effect: "At end, you may shift this card to the line where the opponent has their highest total." },
+    { value: 5, effect: "Discard one card." },
+    { value: 6, effect: "At end, flip this card if the opponent's value in this line is higher than yours." },
+  ],
+  "Fear": [
+    { value: 0, effect: "During your turn, opponent cards lose their middle commands. Also shift or flip one card." },
+    { value: 1, effect: "Draw two. Opponent replaces their hand with one fewer card than they discarded." },
+    { value: 2, effect: "Return one opponent card." },
+    { value: 3, effect: "Shift one opponent card from this line, whether covered or uncovered." },
+    { value: 4, effect: "Opponent discards one random card." },
+    { value: 5, effect: "Discard one card." },
+  ],
+  "Ice": [
+    { value: 1, effect: "You may shift this card. Whenever the opponent plays into this line, they discard one." },
+    { value: 2, effect: "Shift one other card." },
+    { value: 3, effect: "At end, if this card is covered, you may shift it." },
+    { value: 4, effect: "This card cannot be flipped." },
+    { value: 5, effect: "Discard one card." },
+    { value: 6, effect: "While you have cards in hand, you cannot draw cards." },
+  ],
+  "Luck": [
+    { value: 0, effect: "Name a value, then draw three. If one of those cards has that value, reveal one and you may play it." },
+    { value: 1, effect: "Play the top card of your deck face-down, then flip it without resolving its middle command." },
+    { value: 2, effect: "Discard the top card of your deck, then draw cards equal to its value." },
+    { value: 3, effect: "Name a Protocol, discard the top card of the opponent's deck, and delete a card if your guess matched." },
+    { value: 4, effect: "Discard the top of your deck, then delete a card whose value matches it." },
+    { value: 5, effect: "Discard one card." },
+  ],
+  "Mirror": [
+    { value: 0, effect: "This line gains +1 total value for every opponent card in the line." },
+    { value: 1, effect: "At end, you may use the middle command of one opponent card as though it were on this card." },
+    { value: 2, effect: "Swap all your cards in one stack with all your cards in another stack." },
+    { value: 3, effect: "Flip one of your cards and one opponent card in the same line." },
+    { value: 4, effect: "Whenever your opponent draws cards, draw one." },
+    { value: 5, effect: "Discard one card." },
+  ],
+  "Peace": [
+    { value: 1, effect: "Both players discard their hands. At end, if your hand is empty, draw one." },
+    { value: 2, effect: "Draw one, then play one card face-down." },
+    { value: 3, effect: "You may discard one, then flip a card whose value is higher than your current hand size." },
+    { value: 4, effect: "If you discard during the opponent's turn, draw one afterwards." },
+    { value: 5, effect: "Discard one card." },
+    { value: 6, effect: "If you have more than one card in hand, flip this card." },
+  ],
+  "Smoke": [
+    { value: 0, effect: "For every line already containing a face-down card, add the top card of your deck there face-down." },
+    { value: 1, effect: "Flip one of your cards; you may then shift that card." },
+    { value: 2, effect: "This line gains +1 total value for each face-down card in it." },
+    { value: 3, effect: "Play one card face-down into a line that already has a face-down card." },
+    { value: 4, effect: "Shift one covered face-down card." },
+    { value: 5, effect: "Discard one card." },
+  ],
+  "Time": [
+    { value: 0, effect: "Play one card from your trash, then shuffle the remaining trash into your deck." },
+    { value: 1, effect: "Flip one covered card, then discard your entire deck." },
+    { value: 2, effect: "After you shuffle, draw one and optionally shift this card. You may also shuffle your trash into your deck if trash is non-empty." },
+    { value: 3, effect: "Reveal a card from your trash and play it face-down into another line." },
+    { value: 4, effect: "Draw two, then discard two." },
+    { value: 5, effect: "Discard one card." },
+  ],
+  "War": [
+    { value: 0, effect: "After you refresh, you may flip this. Whenever the opponent draws, you may delete one card." },
+    { value: 1, effect: "After the opponent refreshes, you may discard any number of cards and then refresh." },
+    { value: 2, effect: "Flip one card. After the opponent compiles, they discard their whole hand." },
+    { value: 3, effect: "Draw one. Whenever the opponent discards, you may play one card face-down." },
+    { value: 4, effect: "Opponent discards one card." },
+    { value: 5, effect: "Discard one card." },
+  ],
+  "Assimilation": [
+    { value: 0, effect: "Take one of the opponent's face-down cards from play into your hand." },
+    { value: 1, effect: "Discard one and refresh. After either player refreshes, draw the opponent's top card and discard one card into their trash." },
+    { value: 2, effect: "At end, play the top card of the opponent's deck face-down into this stack." },
+    { value: 4, effect: "Draw the opponent's top card while they draw the top card of your deck." },
+    { value: 5, effect: "Discard one card." },
+    { value: 6, effect: "At end, play the top card of your deck face-down on the opponent's side." },
+  ],
+  "Diversity": [
+    { value: 0, effect: "If six different Protocols are represented on cards in play, compile Diversity. At end, you may play a non-Diversity card into this line." },
+    { value: 1, effect: "Shift one card, then draw according to the number of different Protocols represented in this line." },
+    { value: 3, effect: "This line gains +2 total value if this stack contains any face-up non-Diversity card." },
+    { value: 4, effect: "Flip a card whose value is below the number of different Protocols represented in play." },
+    { value: 5, effect: "Discard one card." },
+    { value: 6, effect: "At end, delete this unless at least four different Protocols are represented in play." },
+  ],
+  "Unity": [
+    { value: 0, effect: "If another Unity card is in play, flip a card or draw one. The same choice triggers before this is covered by another Unity card." },
+    { value: 1, effect: "If covered at start, you may shift this. With five or more Unity cards in play, compile Unity and clear that line. Unity cards may be played face-up here." },
+    { value: 2, effect: "Draw cards equal to the number of Unity cards currently in play." },
+    { value: 3, effect: "If another Unity card is in play, you may flip one face-up card." },
+    { value: 4, effect: "At end, if your hand is empty, search your deck for all Unity cards, draw them, then shuffle." },
+    { value: 5, effect: "Discard one card." },
   ],
 };
 
@@ -479,12 +618,16 @@ function protocolCard(protocol, playerClass, playerNumber) {
   const isLocked = (playerNumber === 1 ? locked1 : locked2).has(protocol.id);
   const card = document.createElement("div");
   card.className = `protocol-card ${playerClass}${isLocked ? " locked" : ""}`;
+  const visual = protocolVisuals[protocol.name] || ["#4ee9ff", "#123a45"];
+  card.style.setProperty("--protocol-accent", visual[0]);
+  card.style.setProperty("--protocol-deep", visual[1]);
 
   card.innerHTML = `
     <div class="protocol-symbol">${symbols[protocol.name] || "⌘"}</div>
     <div>
       <div class="protocol-name">${protocol.name.toUpperCase()}</div>
       <div class="protocol-set">${protocol.set}</div>
+      <div class="tap-hint">TAP FOR CARDS</div>
     </div>
     <div class="set-pill">${setShortNames[protocol.set]}</div>
     <button class="lock-button ${isLocked ? "active" : ""}"
@@ -515,6 +658,9 @@ function showProtocolReference(protocol) {
 
   title.textContent = protocol.name;
   subtitle.textContent = `${protocol.set} · Card reference`;
+  const visual = protocolVisuals[protocol.name] || ["#4ee9ff", "#123a45"];
+  dialog.style.setProperty("--protocol-accent", visual[0]);
+  dialog.style.setProperty("--protocol-deep", visual[1]);
   view.innerHTML = "";
 
   const cards = protocolCardReference[protocol.name];
@@ -522,10 +668,7 @@ function showProtocolReference(protocol) {
   if (!cards) {
     view.innerHTML = `
       <div class="unavailable-reference">
-        The tap-to-view screen is ready for ${protocol.name}, but its full verified
-        card list has not been loaded yet.<br><br>
-        Main 2 and Aux 2 references will appear here once their complete card data
-        has been verified.
+        A verified card reference has not yet been loaded for ${protocol.name}.
       </div>
     `;
     dialog.showModal();
@@ -550,7 +693,7 @@ function showProtocolReference(protocol) {
   const note = document.createElement("div");
   note.className = "reference-note";
   note.textContent =
-    "Effects are concise reference summaries rather than exact card wording. Use the physical card for precise rules text.";
+    "Effects are concise reference summaries based on verified card data and published errata. Use the physical card or official Codex for precise rules text.";
   view.appendChild(note);
 
   dialog.showModal();

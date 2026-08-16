@@ -1,4 +1,4 @@
-const CACHE = "compile-randomiser-v4";
+const CACHE = "compile-randomiser-v6";
 const ASSETS = [
   "./",
   "./index.html",
