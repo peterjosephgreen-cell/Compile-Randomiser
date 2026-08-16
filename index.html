@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Compile">
+  <title>Compile Protocol Randomiser</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="app-header">
+      <div class="cpu-icon">⌘</div>
+      <h1>COMPILE</h1>
+      <p>PROTOCOL RANDOMISER</p>
+      <button id="settingsButton" class="icon-button" aria-label="Settings">⚙</button>
+    </header>
+
+    <section class="player-section">
+      <div class="section-heading">
+        <h2 class="player-one">PLAYER 1</h2>
+        <button class="small-button" data-reroll="1">↻ Reroll</button>
+      </div>
+      <div id="player1" class="protocol-grid"></div>
+    </section>
+
+    <div class="middle-actions">
+      <button id="swapButton" class="secondary-button wide">⇄ Swap Players</button>
+    </div>
+
+    <section class="player-section">
+      <div class="section-heading">
+        <h2 class="player-two">PLAYER 2</h2>
+        <button class="small-button" data-reroll="2">↻ Reroll</button>
+      </div>
+      <div id="player2" class="protocol-grid"></div>
+    </section>
+
+    <div class="main-actions">
+      <button id="randomiseButton" class="primary-button">⤨ RANDOMISE</button>
+      <button id="undoButton" class="secondary-button action-button" disabled>↶ Undo</button>
+      <button id="historyButton" class="secondary-button action-button">☷ History</button>
+    </div>
+
+    <div id="statusChips" class="status-chips"></div>
+    <p id="poolCount" class="pool-count"></p>
+    <p id="warning" class="warning" hidden>Enable at least 6 available Protocols before randomising.</p>
+  </main>
+
+
+  <dialog id="protocolDialog">
+    <div class="settings-card">
+      <div class="settings-header">
+        <div>
+          <h2 id="protocolDialogTitle">Protocol</h2>
+          <p id="protocolDialogSubtitle">Card reference</p>
+        </div>
+        <button id="closeProtocolButton" class="close-button" aria-label="Close">×</button>
+      </div>
+      <div id="protocolCardsView"></div>
+    </div>
+  </dialog>
+
+  <dialog id="historyDialog">
+    <div class="settings-card">
+      <div class="settings-header">
+        <div>
+          <h2>Game History</h2>
+          <p>Recent deals and Protocol usage.</p>
+        </div>
+        <button id="closeHistoryButton" class="close-button" aria-label="Close">×</button>
+      </div>
+
+      <div class="history-toolbar">
+        <button id="historyTabDeals" class="tab-button active">Deals</button>
+        <button id="historyTabStats" class="tab-button">Stats</button>
+        <button id="clearHistoryButton" class="secondary-button">Clear history</button>
+      </div>
+
+      <div id="historyDealsView"></div>
+      <div id="historyStatsView" hidden></div>
+    </div>
+  </dialog>
+
+  <dialog id="settingsDialog">
+    <div class="settings-card">
+      <div class="settings-header">
+        <div>
+          <h2>Protocol Pool</h2>
+          <p>Choose sets and individual Protocols.</p>
+        </div>
+        <button id="closeSettingsButton" class="close-button" aria-label="Close">×</button>
+      </div>
+
+      <label class="feature-row">
+        <span>
+          <strong>No repeats from last game</strong><br>
+          <small>When possible, avoid all six Protocols from the previous deal.</small>
+        </span>
+        <input id="avoidRepeatsToggle" class="switch" type="checkbox">
+      </label>
+
+      <div id="setToggles" class="toggle-list"></div>
+
+      <div class="settings-actions">
+        <button id="enableAllButton" type="button" class="secondary-button">Enable all</button>
+        <button id="clearLocksButton" type="button" class="secondary-button">Clear locks</button>
+        <button id="doneSettingsButton" class="primary-button compact">Done</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
