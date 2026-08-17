@@ -3090,3 +3090,329 @@ body.v11-home::before, body.v11-home::after { opacity:.1; }
   background-position: center;
 }
 
+
+
+/* =========================================================
+   V18 — SCI-FI TYPE + ACTION-LAYOUT POLISH
+   ========================================================= */
+
+/*
+   Uses only system/device fonts so the PWA remains self-contained and offline.
+   The condensed/monospace fallbacks create a technical sci-fi feel on both
+   Windows and iOS without bundling third-party font files.
+*/
+:root {
+  --sci-font:
+    "Avenir Next Condensed",
+    "Arial Narrow",
+    "Roboto Condensed",
+    "DIN Condensed",
+    "Bahnschrift Condensed",
+    "Segoe UI",
+    sans-serif;
+
+  --sci-display:
+    "Bahnschrift",
+    "Avenir Next Condensed",
+    "Arial Narrow",
+    "SFMono-Regular",
+    "Roboto Mono",
+    "Segoe UI",
+    sans-serif;
+}
+
+/* Main UI typography */
+body,
+button,
+input,
+select,
+dialog {
+  font-family: var(--sci-font);
+}
+
+button,
+.hero-kicker,
+.player-seat,
+.player-name-button,
+.protocol-name,
+.protocol-set,
+.utility-button,
+.recent-heading,
+.status-chip,
+.draft-kicker,
+.draft-sequence-label,
+.table-seat-label,
+.table-player-name,
+.table-card-name,
+.settings-section h3 {
+  font-family: var(--sci-display);
+}
+
+button,
+.protocol-name,
+.utility-button span,
+.recent-heading,
+.draft-kicker,
+.table-card-name {
+  font-stretch: condensed;
+  letter-spacing: .065em;
+}
+
+.randomise-hero strong,
+.start-match-button strong,
+.share-hero-button strong,
+.balanced-copy strong,
+.player-name-button,
+.table-player-name {
+  font-family: var(--sci-display);
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.randomise-hero small,
+.start-match-button small,
+.share-hero-button small,
+.balanced-copy small {
+  letter-spacing: .045em;
+}
+
+/* Slight angular/glitch treatment without harming legibility. */
+.randomise-hero strong,
+.share-hero-button strong,
+.start-match-button strong,
+.protocol-name {
+  text-shadow:
+    1px 0 0 rgba(102,235,255,.16),
+    -1px 0 0 rgba(255,79,217,.11),
+    0 0 10px currentColor;
+}
+
+
+/* ---- Deal controls ----
+   Rematch | [Randomise / Draft] | Balanced
+*/
+.deal-row-v18 {
+  grid-template-columns: 1fr 2.2fr 1fr;
+  align-items: stretch;
+}
+
+.deal-centre-stack {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 10px;
+  min-width: 0;
+}
+
+.deal-centre-stack .randomise-hero {
+  width: 100%;
+  min-height: 86px;
+  margin: 0;
+}
+
+.side-deal-action {
+  min-height: 100%;
+}
+
+/* Draft now deliberately matches Randomise's footprint. */
+.draft-hero {
+  border-color: #cf6dff;
+  background:
+    radial-gradient(circle at 12% 5%, rgba(255,255,255,.18), transparent 24%),
+    linear-gradient(135deg, rgba(122,41,196,.95), rgba(49,29,126,.96));
+  box-shadow:
+    0 0 24px rgba(199,77,255,.20),
+    inset 0 1px 0 rgba(255,255,255,.22);
+}
+
+.draft-hero .draft-dice-mark {
+  color: #f3d7ff;
+  text-shadow:
+    0 0 7px #fff,
+    0 0 15px #cf68ff;
+}
+
+/* Retire the old small Draft treatment when it appears in cached styling. */
+.draft-action {
+  min-height: unset;
+}
+
+
+/* ---- Match row ----
+   Share now occupies the former large Start-Match visual position.
+   Start Match moves to the former Share slot and becomes a purpose-built
+   compact primary action, rather than just being squeezed into a small cell.
+*/
+.match-row-v18 {
+  grid-template-columns: 2fr .85fr .85fr;
+}
+
+.share-hero-button {
+  border: 1px solid rgba(68,226,241,.72);
+  min-height: 78px;
+  border-radius: 17px;
+  color: #e9fdff;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(115,246,255,.18), transparent 28%),
+    linear-gradient(135deg, rgba(7,91,114,.92), rgba(7,42,68,.94));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 10px 18px;
+  cursor: pointer;
+  box-shadow:
+    0 0 23px rgba(55,220,238,.17),
+    inset 0 1px 0 rgba(255,255,255,.16);
+}
+
+.share-hero-icon {
+  color: #5ceeff;
+  font-size: 29px;
+  line-height: 1;
+  text-shadow: 0 0 13px #37d9ee;
+}
+
+.share-hero-button > span:last-child {
+  display: grid;
+  text-align: left;
+}
+
+.share-hero-button strong {
+  color: #fff;
+  font-size: 20px;
+}
+
+.share-hero-button small {
+  margin-top: 3px;
+  color: #a9e9f0;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.compact-match {
+  min-width: 0;
+  min-height: 78px;
+  padding: 8px 7px;
+  gap: 6px;
+  flex-direction: column;
+  border-radius: 17px;
+}
+
+.compact-match > span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.compact-match strong {
+  font-size: 12px;
+  line-height: 1;
+}
+
+.compact-match small {
+  margin-top: 4px;
+  color: #e8d7f7;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+
+/* Tablet / phone refinements */
+@media (max-width: 700px) {
+  .deal-row-v18 {
+    grid-template-columns: .9fr 1.9fr .9fr;
+    gap: 7px;
+  }
+
+  .deal-centre-stack {
+    gap: 7px;
+  }
+
+  .deal-centre-stack .randomise-hero {
+    min-height: 76px;
+    padding: 9px 11px;
+  }
+
+  .deal-centre-stack .randomise-hero strong {
+    font-size: 18px;
+  }
+
+  .deal-centre-stack .randomise-hero small {
+    font-size: 8px;
+  }
+
+  .match-row-v18 {
+    grid-template-columns: 1.65fr .8fr .8fr;
+    gap: 7px;
+  }
+
+  .share-hero-button,
+  .compact-match {
+    min-height: 69px;
+  }
+
+  .share-hero-button {
+    gap: 8px;
+    padding: 7px 10px;
+  }
+
+  .share-hero-button strong {
+    font-size: 15px;
+  }
+
+  .share-hero-button small {
+    font-size: 8px;
+  }
+
+  .share-hero-icon {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 420px) {
+  .deal-row-v18 {
+    grid-template-columns: .72fr 2fr .72fr;
+  }
+
+  .side-deal-action {
+    padding-inline: 3px;
+  }
+
+  .side-deal-action .balanced-copy small {
+    display: none;
+  }
+
+  .deal-centre-stack .randomise-hero {
+    min-height: 70px;
+    grid-template-columns: 26px 1fr;
+    column-gap: 6px;
+  }
+
+  .deal-centre-stack .dice-mark {
+    font-size: 20px;
+  }
+
+  .deal-centre-stack .randomise-hero strong {
+    font-size: 16px;
+  }
+
+  .match-row-v18 {
+    grid-template-columns: 1.55fr .78fr .78fr;
+  }
+
+  .share-hero-button small {
+    display: none;
+  }
+
+  .share-hero-button strong {
+    font-size: 14px;
+  }
+
+  .compact-match strong {
+    font-size: 10px;
+  }
+}

@@ -53,16 +53,37 @@
       </section>
     </section>
 
-    <div class="deal-row">
-      <button id="rematchButton" class="neon-action blue deal-control">↻ <span>REMATCH</span></button>
-      <button id="randomiseButton" class="randomise-hero deal-control"><span class="dice-mark">⚄⚂</span><strong>RANDOMISE</strong><small>Roll 6 Random Protocols</small></button>
-      <button id="mainBalancedButton" class="neon-action orange balanced-action"><span class="balance-icon">⚖</span><span class="balanced-copy"><strong>BALANCED</strong><small>Prioritise less-played</small></span></button>
-      <button id="draftButton" class="neon-action draft-action"><span class="draft-icon">◆</span><span class="balanced-copy"><strong>DRAFT</strong><small>Official 1-2-2-1 draft</small></span></button>
+    <div class="deal-row deal-row-v18">
+      <button id="rematchButton" class="neon-action blue deal-control side-deal-action">↻ <span>REMATCH</span></button>
+
+      <div class="deal-centre-stack">
+        <button id="randomiseButton" class="randomise-hero deal-control">
+          <span class="dice-mark">⚄⚂</span>
+          <strong>RANDOMISE</strong>
+          <small>Roll 6 Random Protocols</small>
+        </button>
+
+        <button id="draftButton" class="randomise-hero draft-hero">
+          <span class="dice-mark draft-dice-mark">◆</span>
+          <strong>DRAFT</strong>
+          <small>Official 1–2–2–1 Protocol draft</small>
+        </button>
+      </div>
+
+      <button id="mainBalancedButton" class="neon-action orange balanced-action side-deal-action">
+        <span class="balance-icon">⚖</span>
+        <span class="balanced-copy"><strong>BALANCED</strong><small>Prioritise less-played</small></span>
+      </button>
     </div>
 
-    <div class="match-row">
-      <button id="matchButton" class="start-match-button emphasis">▶ <span><strong>START MATCH</strong><small>Lock in & begin the game</small></span></button>
-      <button id="shareButton" class="square-action cyan">⌯<span>SHARE</span></button>
+    <div class="match-row match-row-v18">
+      <button id="shareButton" class="share-hero-button">
+        <span class="share-hero-icon">⌯</span>
+        <span><strong>SHARE</strong><small>Send this Protocol matchup</small></span>
+      </button>
+      <button id="matchButton" class="start-match-button compact-match emphasis">
+        ▶ <span><strong>START</strong><small>MATCH</small></span>
+      </button>
       <button id="historyButton" class="square-action cyan">◴<span>HISTORY</span></button>
     </div>
 

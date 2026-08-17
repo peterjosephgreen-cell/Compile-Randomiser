@@ -113,3 +113,19 @@ VERSION 17.0 — MAIN 2 / AUX 2 ART + AUX 3
 - Aux 3 Protocol Library pages display publisher artwork and intentionally
   omit Command-card text until verified data is available.
 - Cache bumped to compile-companion-v17.
+
+
+VERSION 18.0 — UI POLISH
+------------------------
+- Updated the main interface typography to a more condensed, technical sci-fi style
+  using device/system fonts so the app stays fully offline and self-contained.
+- Draft now sits directly underneath Randomise.
+- Draft and Randomise now have exactly the same width, scale and primary-button treatment.
+- Rematch remains to the left and Balanced remains to the right of the stacked central actions.
+- Swapped the visual positions of Share and Start Match.
+- Share is now the large left-hand hero action.
+- Start Match now occupies the former Share position with a new compact purple treatment,
+  specifically redesigned for that smaller slot rather than simply being squeezed into it.
+- History remains at the right of the match row.
+- Responsive phone/iPhone layouts have been tuned for the new action geometry.
+- Cache bumped to compile-companion-v18.
