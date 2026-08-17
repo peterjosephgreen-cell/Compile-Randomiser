@@ -8,12 +8,54 @@ const protocolSets = {
     "Chaos", "Clarity", "Corruption", "Courage", "Fear", "Ice",
     "Luck", "Mirror", "Peace", "Smoke", "Time", "War"
   ],
-  "Aux 2": ["Assimilation", "Diversity", "Unity"]
+  "Aux 2": ["Assimilation", "Diversity", "Unity"],
+  "Main 3": [
+    "Ambush", "Envy", "Fulcrum", "Gluttony", "Greed", "Lust",
+    "Momentum", "Nova", "Overwhelm", "Pride", "Sloth", "Wrath"
+  ]
 };
 
 const setShortNames = {
-  "Main 1": "M1", "Aux 1": "A1", "Main 2": "M2", "Aux 2": "A2"
+  "Main 1": "M1", "Aux 1": "A1", "Main 2": "M2", "Aux 2": "A2", "Main 3": "M3"
 };
+
+
+const protocolIconImages = {
+  Ambush: "main3/icons/ambush.webp",
+  Envy: "main3/icons/envy.webp",
+  Fulcrum: "main3/icons/fulcrum.webp",
+  Gluttony: "main3/icons/gluttony.webp",
+  Greed: "main3/icons/greed.webp",
+  Lust: "main3/icons/lust.webp",
+  Momentum: "main3/icons/momentum.webp",
+  Nova: "main3/icons/nova.webp",
+  Overwhelm: "main3/icons/overwhelm.webp",
+  Pride: "main3/icons/pride.webp",
+  Sloth: "main3/icons/sloth.webp",
+  Wrath: "main3/icons/wrath.webp"
+};
+
+const protocolArtImages = {
+  Ambush: "main3/art/ambush.webp",
+  Envy: "main3/art/envy.webp",
+  Fulcrum: "main3/art/fulcrum.webp",
+  Gluttony: "main3/art/gluttony.webp",
+  Greed: "main3/art/greed.webp",
+  Lust: "main3/art/lust.webp",
+  Momentum: "main3/art/momentum.webp",
+  Nova: "main3/art/nova.webp",
+  Overwhelm: "main3/art/overwhelm.webp",
+  Pride: "main3/art/pride.webp",
+  Sloth: "main3/art/sloth.webp",
+  Wrath: "main3/art/wrath.webp"
+};
+
+function protocolSymbolMarkup(name) {
+  if (protocolIconImages[name]) {
+    return `<img class="publisher-protocol-icon" src="${protocolIconImages[name]}" alt="">`;
+  }
+  return symbols[name] || "";
+}
 
 const symbols = {
   Darkness: `<svg viewBox="0 0 64 64" aria-hidden="true">
@@ -197,7 +239,13 @@ const protocolVisuals = {
   Mirror: ["#b8d8ff", "#263d5a"], Peace: ["#9fe6d4", "#1c4b40"],
   Smoke: ["#aab0bb", "#333741"], Time: ["#6fd6ff", "#18455a"],
   War: ["#ff775e", "#552016"], Assimilation: ["#6fe8c6", "#16493e"],
-  Diversity: ["#ffcc68", "#4f390f"], Unity: ["#d69cff", "#47225b"]
+  Diversity: ["#ffcc68", "#4f390f"], Unity: ["#d69cff", "#47225b"],
+  Ambush: ["#7ff2ff", "#123a44"], Envy: ["#39ead2", "#0d4a46"],
+  Fulcrum: ["#d6f3ff", "#263b4b"], Gluttony: ["#ffd449", "#4f3d0e"],
+  Greed: ["#ef62d4", "#4e1747"], Lust: ["#ff6448", "#51150f"],
+  Momentum: ["#ffb05a", "#5a2f12"], Nova: ["#ff7a35", "#5a1e0c"],
+  Overwhelm: ["#e8d7ff", "#292334"], Pride: ["#ffd04c", "#563b09"],
+  Sloth: ["#f18b79", "#4b2422"], Wrath: ["#ff634a", "#56150f"]
 };
 
 const protocolCardReference = {
@@ -441,6 +489,17 @@ const protocolCardReference = {
     { value: 4, effect: "At end, if your hand is empty, search your deck for all Unity cards, draw them, then shuffle." },
     { value: 5, effect: "Discard one card." },
   ],
+
+  "Greed": [
+    { value: 1, effect: "At end of turn, Compile a line where you have at least 10 value and a higher total than your opponent.", preview: true }
+  ],
+  "Wrath": [
+    { value: 1, effect: "Draw 1. At end of turn, lose control; if you did, delete 1 face-up card.", preview: true }
+  ],
+  "Sloth": [
+    { value: 0, effect: "Gains +5 total value while covered by a Sloth card; when played, draw based on the number of lines where you are behind.", preview: true }
+  ],
+
 };
 
 const allProtocols = Object.entries(protocolSets).flatMap(([set, names]) =>
@@ -448,7 +507,7 @@ const allProtocols = Object.entries(protocolSets).flatMap(([set, names]) =>
 );
 
 
-const APP_VERSION = "12.0";
+const APP_VERSION = "14.0";
 
 const protocolPlaystyles = {
   Darkness: "Manipulates face-down cards and hidden information. Strong when you can build value while denying the opponent certainty.",
@@ -480,7 +539,19 @@ const protocolPlaystyles = {
   War: "Punishes common opponent actions such as drawing, refreshing, discarding and compiling.",
   Assimilation: "Steals and exchanges cards between players, blurring ownership and exploiting both decks.",
   Diversity: "Rewards having many different Protocols represented in play and can Compile through variety.",
-  Unity: "Scales as more Unity cards appear, eventually creating explosive synergy and alternative Compile pressure."
+  Unity: "Scales as more Unity cards appear, eventually creating explosive synergy and alternative Compile pressure.",
+  Ambush: "Main 3 Protocol. Full six-card strategy reference will be added as more publisher-verified Command cards are released.",
+  Envy: "Main 3 Protocol. Full six-card strategy reference will be added as more publisher-verified Command cards are released.",
+  Fulcrum: "Main 3 Protocol. Full six-card strategy reference will be added as more publisher-verified Command cards are released.",
+  Gluttony: "Main 3 Protocol. Full six-card strategy reference will be added as more publisher-verified Command cards are released.",
+  Greed: "Main 3 Protocol. Previewed cards suggest a strong focus on converting an established lead into immediate payoff.",
+  Lust: "Main 3 Protocol. Full six-card strategy reference will be added as more publisher-verified Command cards are released.",
+  Momentum: "Main 3 Protocol. Full six-card strategy reference will be added as more publisher-verified Command cards are released.",
+  Nova: "Main 3 Protocol. Full six-card strategy reference will be added as more publisher-verified Command cards are released.",
+  Overwhelm: "Main 3 Protocol. Full six-card strategy reference will be added as more publisher-verified Command cards are released.",
+  Pride: "Main 3 Protocol. Full six-card strategy reference will be added as more publisher-verified Command cards are released.",
+  Sloth: "Main 3 Protocol. Previewed cards reward being behind and then building delayed value under covered Sloth cards.",
+  Wrath: "Main 3 Protocol. Previewed cards exchange control for explosive removal and tempo."
 };
 
 let currentMatch = null;
@@ -503,7 +574,7 @@ const settings = loadSettings();
 
 function defaultSettings() {
   return {
-    enabledSets: Object.fromEntries(Object.keys(protocolSets).map(set => [set, true])),
+    enabledSets: Object.fromEntries(Object.keys(protocolSets).map(set => [set, set !== "Main 3"])),
     excluded: [],
     favourites: [],
     avoidRepeats: false,
@@ -520,7 +591,13 @@ function loadSettings() {
   try {
     const parsed = JSON.parse(saved);
     return {
-      enabledSets: { ...defaults.enabledSets, ...(parsed.enabledSets || {}) },
+      enabledSets: {
+        ...defaults.enabledSets,
+        ...(parsed.enabledSets || {}),
+        "Main 3": Object.prototype.hasOwnProperty.call(parsed.enabledSets || {}, "Main 3")
+          ? Boolean(parsed.enabledSets["Main 3"])
+          : false
+      },
       excluded: Array.isArray(parsed.excluded) ? parsed.excluded : [],
       favourites: Array.isArray(parsed.favourites) ? parsed.favourites : [],
       avoidRepeats: Boolean(parsed.avoidRepeats),
@@ -1124,7 +1201,7 @@ function renderLibrary(filter = "") {
     card.style.setProperty("--protocol-deep", visual[1]);
     card.innerHTML = `
       <button class="library-main">
-        <span class="library-symbol">${symbols[protocol.name] || ""}</span>
+        <span class="library-symbol">${protocolSymbolMarkup(protocol.name)}</span>
         <span><strong>${protocol.name}</strong><small>${protocol.set}</small></span>
       </button>
       <div class="library-card-actions">
@@ -1146,10 +1223,41 @@ function renderTableMode() {
   const p1 = document.getElementById("tableP1Protocols");
   const p2 = document.getElementById("tableP2Protocols");
   if (!p1 || !p2) return;
+
   document.getElementById("tableP1Name").textContent = playerNames.p1;
   document.getElementById("tableP2Name").textContent = playerNames.p2;
-  p1.innerHTML = player1.map(p => `<div class="table-protocol">${symbols[p.name] || ""}<span>${p.name}</span></div>`).join("");
-  p2.innerHTML = player2.map(p => `<div class="table-protocol">${symbols[p.name] || ""}<span>${p.name}</span></div>`).join("");
+
+  const makeTableCard = (protocol, playerClass) => {
+    const visual = protocolVisuals[protocol.name] || ["#4ee9ff", "#123a45"];
+    return `
+      <div class="table-protocol-card ${playerClass}"
+           style="--protocol-accent:${visual[0]};--protocol-deep:${visual[1]}">
+        <div class="table-card-energy"></div>
+        <div class="table-card-sigil">
+          <div class="table-sigil-spokes"></div>
+          <div class="table-sigil-ring"></div>
+          <div class="table-card-symbol">${protocolSymbolMarkup(protocol.name)}</div>
+        </div>
+        <div class="table-card-name">${protocol.name}</div>
+        <div class="table-card-set">${protocol.set}</div>
+      </div>
+    `;
+  };
+
+  p1.innerHTML = player1.map(p => makeTableCard(p, "table-p1-card")).join("");
+  p2.innerHTML = player2.map(p => makeTableCard(p, "table-p2-card")).join("");
+
+  const art = sessionStorage.getItem("compileBackgroundArtwork")
+    || publisherBackgrounds[Math.floor(Math.random() * publisherBackgrounds.length)];
+
+  const artLayer = document.getElementById("tableArtBackground");
+  if (artLayer) artLayer.style.backgroundImage = `url("backgrounds/${art}")`;
+
+  const status = document.getElementById("tableMatchStatus");
+  if (status) {
+    status.textContent = currentMatch ? "MATCH ACTIVE" : "READY";
+    status.classList.toggle("active", Boolean(currentMatch));
+  }
 }
 
 function buildShareCanvas() {
@@ -1491,7 +1599,7 @@ function protocolCard(protocol, playerClass, playerNumber) {
     <div class="protocol-sigil" aria-hidden="true">
       <div class="sigil-spokes"></div>
       <div class="sigil-ring"></div>
-      <div class="protocol-symbol">${symbols[protocol.name] || `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="20" fill="none" stroke="currentColor" stroke-width="4"/></svg>`}</div>
+      <div class="protocol-symbol">${protocolSymbolMarkup(protocol.name) || `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="20" fill="none" stroke="currentColor" stroke-width="4"/></svg>`}</div>
     </div>
     <div>
       <div class="protocol-name">${protocol.name.toUpperCase()}</div>
@@ -1526,11 +1634,23 @@ function showProtocolReference(protocol) {
   const view = document.getElementById("protocolCardsView");
 
   title.textContent = protocol.name;
-  subtitle.textContent = `${protocol.set} · 6-card Protocol`;
+  const previewCards = protocolCardReference[protocol.name];
+  subtitle.textContent = protocol.set === "Main 3"
+    ? `${protocol.set} · ${previewCards ? `${previewCards.length} verified preview card${previewCards.length === 1 ? "" : "s"}` : "Command cards not yet loaded"}`
+    : `${protocol.set} · 6-card Protocol`;
   const visual = protocolVisuals[protocol.name] || ["#4ee9ff", "#123a45"];
   dialog.style.setProperty("--protocol-accent", visual[0]);
   dialog.style.setProperty("--protocol-deep", visual[1]);
-  document.getElementById("protocolHero").innerHTML = `<div class="protocol-hero-symbol">${symbols[protocol.name] || ""}</div>`;
+  const hero = document.getElementById("protocolHero");
+  if (protocolArtImages[protocol.name]) {
+    hero.innerHTML = `
+      <div class="protocol-publisher-art" style="background-image:url('${protocolArtImages[protocol.name]}')">
+        <div class="protocol-publisher-art-icon">${protocolSymbolMarkup(protocol.name)}</div>
+      </div>`;
+  } else {
+    hero.innerHTML = `<div class="protocol-hero-symbol">${protocolSymbolMarkup(protocol.name)}</div>`;
+  }
+
   document.getElementById("protocolPlaystyle").innerHTML = `<strong>How it plays</strong><p>${protocolPlaystyles[protocol.name] || ""}</p>`;
   view.innerHTML = "";
 
@@ -1539,7 +1659,9 @@ function showProtocolReference(protocol) {
   if (!cards) {
     view.innerHTML = `
       <div class="unavailable-reference">
-        A verified card reference has not yet been loaded for ${protocol.name}.
+        ${protocol.set === "Main 3"
+          ? `The Protocol and publisher icon/art are loaded, but no Command cards for ${protocol.name} have been independently verified yet.`
+          : `A verified card reference has not yet been loaded for ${protocol.name}.`}
       </div>
     `;
     dialog.showModal();
@@ -1563,8 +1685,9 @@ function showProtocolReference(protocol) {
 
   const note = document.createElement("div");
   note.className = "reference-note";
-  note.textContent =
-    "Effects are concise reference summaries based on verified card data and published errata. Use the physical card or official Codex for precise rules text.";
+  note.textContent = protocol.set === "Main 3"
+    ? "Main 3 is preview material. Only publisher/designer-shared Command cards are shown; unrevealed cards are intentionally omitted. Effects are concise summaries."
+    : "Effects are concise reference summaries based on verified card data and published errata. Use the physical card or official Codex for precise rules text.";
   view.appendChild(note);
 
   dialog.showModal();
@@ -1581,7 +1704,7 @@ const publisherBackgrounds = [
 function applyRandomProtocolBackground() {
   const protocol = allProtocols[Math.floor(Math.random() * allProtocols.length)];
   const visual = protocolVisuals[protocol.name] || ["#4ee9ff", "#123a45"];
-  const symbol = symbols[protocol.name] || "";
+  const symbol = protocolSymbolMarkup(protocol.name);
   const art = publisherBackgrounds[Math.floor(Math.random() * publisherBackgrounds.length)];
 
   document.documentElement.style.setProperty("--bg-accent", visual[0]);

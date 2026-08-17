@@ -248,22 +248,52 @@
         <button id="doneSettingsButton" class="primary-button compact">Done</button>
       </div>
 
-      <div class="version-panel"><span id="versionLabel">Version 12.0</span></div>
+      <div class="version-panel"><span id="versionLabel">Version 13.0</span></div>
     </div>
   </dialog>
 
   <dialog id="tableDialog" class="table-dialog">
-    <div class="table-mode">
-      <div class="table-player table-player-one">
-        <div id="tableP1Name" class="table-name">Player 1</div>
-        <div id="tableP1Protocols" class="table-protocols"></div>
+    <div class="table-mode-v13">
+      <div id="tableArtBackground" class="table-art-background" aria-hidden="true"></div>
+      <div class="table-art-shade" aria-hidden="true"></div>
+
+      <section class="table-side table-side-one">
+        <div class="table-player-shell">
+          <div class="table-player-header">
+            <div class="table-avatar table-avatar-one">1</div>
+            <div>
+              <div class="table-seat-label">PLAYER 1</div>
+              <div id="tableP1Name" class="table-player-name">Player 1</div>
+            </div>
+          </div>
+          <div id="tableP1Protocols" class="table-protocols-v13"></div>
+        </div>
+      </section>
+
+      <div class="table-centre-console">
+        <button id="closeTableButton" class="table-exit-v13" aria-label="Exit table mode">×</button>
+        <img src="compile-mark.png" class="table-compile-mark" alt="">
+        <div class="table-centre-copy">
+          <strong>COMPILE</strong>
+          <span>TABLE MODE</span>
+        </div>
+        <div id="tableMatchStatus" class="table-match-status">READY</div>
       </div>
-      <button id="closeTableButton" class="table-close">× EXIT TABLE MODE ×</button>
-      <div class="table-player table-player-two">
-        <div id="tableP2Name" class="table-name">Player 2</div>
-        <div id="tableP2Protocols" class="table-protocols"></div>
-      </div>
-      <div class="rotate-hint">Best viewed with the phone rotated sideways.</div>
+
+      <section class="table-side table-side-two">
+        <div class="table-player-shell">
+          <div class="table-player-header">
+            <div class="table-avatar table-avatar-two">2</div>
+            <div>
+              <div class="table-seat-label">PLAYER 2</div>
+              <div id="tableP2Name" class="table-player-name">Player 2</div>
+            </div>
+          </div>
+          <div id="tableP2Protocols" class="table-protocols-v13"></div>
+        </div>
+      </section>
+
+      <div class="table-landscape-hint">Rotate sideways for the full tabletop layout</div>
     </div>
   </dialog>
 

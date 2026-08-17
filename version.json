@@ -1,5 +1,5 @@
 {
-  "version": "12.0",
+  "version": "14.0",
   "released": "2026-08-17",
-  "notes": "Publisher COMPILE title art, upgraded neon Protocol sigils, and update-banner removal."
+  "notes": "Adds Compile Main 3 preview Protocols, publisher-shared icons/art, and verified preview Command cards."
 }
