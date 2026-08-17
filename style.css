@@ -3416,3 +3416,88 @@ button,
     font-size: 10px;
   }
 }
+
+
+/* =========================================================
+   V19 — CARDOT FONT + LOGO SPACING
+   ========================================================= */
+
+@font-face {
+  font-family: "Cardot";
+  src: url("fonts/Cardot-Regular.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cardot";
+  src: url("fonts/Cardot-Semibold.otf") format("opentype");
+  font-style: normal;
+  font-weight: 600 900;
+  font-display: swap;
+}
+
+:root {
+  --sci-font: "Cardot", "Bahnschrift", "Avenir Next Condensed", "Arial Narrow", sans-serif;
+  --sci-display: "Cardot", "Bahnschrift", "Avenir Next Condensed", "Arial Narrow", sans-serif;
+}
+
+/* Cardot is now the primary app typeface. */
+body,
+button,
+input,
+select,
+dialog,
+.hero-kicker,
+.player-seat,
+.player-name-button,
+.protocol-name,
+.protocol-set,
+.utility-button,
+.recent-heading,
+.status-chip,
+.draft-kicker,
+.draft-sequence-label,
+.table-seat-label,
+.table-player-name,
+.table-card-name,
+.settings-section h3 {
+  font-family: "Cardot", "Bahnschrift", "Avenir Next Condensed", "Arial Narrow", sans-serif;
+}
+
+/*
+  Give the title artwork a little more breathing room above the
+  "COMPILE PROTOCOL RANDOMISER" line.
+*/
+.brand-logo {
+  margin-bottom: 10px;
+}
+
+.brand-subtitle {
+  position: relative;
+  top: 8px;
+  margin-top: 5px;
+}
+
+/* Fallback for v18 markup where the subtitle is represented by the hero kicker. */
+.hero-brand .hero-kicker,
+.brand-lockup .hero-kicker,
+.logo-lockup .hero-kicker {
+  position: relative;
+  top: 8px;
+  margin-top: 5px;
+}
+
+@media (max-width: 700px) {
+  .brand-logo {
+    margin-bottom: 8px;
+  }
+
+  .brand-subtitle,
+  .hero-brand .hero-kicker,
+  .brand-lockup .hero-kicker,
+  .logo-lockup .hero-kicker {
+    top: 6px;
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "version": "18.0",
+  "version": "19.0",
   "released": "2026-08-17",
-  "notes": "Sci-fi typography and redesigned Randomise/Draft/Match/Share action layout."
+  "notes": "Uses the supplied Cardot font and adjusts main logo/subtitle spacing."
 }

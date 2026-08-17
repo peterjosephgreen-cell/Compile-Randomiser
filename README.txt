@@ -129,3 +129,15 @@ VERSION 18.0 — UI POLISH
 - History remains at the right of the match row.
 - Responsive phone/iPhone layouts have been tuned for the new action geometry.
 - Cache bumped to compile-companion-v18.
+
+
+VERSION 19.0 — CARDOT + LOGO SPACING
+------------------------------------
+- Added the user-supplied Cardot font to the PWA.
+- Cardot is now the primary font throughout the app, including buttons,
+  headings, Protocol names, Draft and Table Mode.
+- Regular and Semibold font weights are packaged locally for offline use.
+- Shifted the "COMPILE PROTOCOL RANDOMISER" subtitle downward to prevent
+  overlap with the main logo artwork.
+- Retains the v18 action layout and all v17 Protocol/art functionality.
+- Cache bumped to compile-companion-v19.

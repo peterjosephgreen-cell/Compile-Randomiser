@@ -1,4 +1,4 @@
-const CACHE = "compile-companion-v18";
+const CACHE = "compile-companion-v19";
 const ASSETS = [
   "./",
   "./index.html",
@@ -80,6 +80,8 @@ const ASSETS = [
   "./protocol-art/clarity.webp",
   "./protocol-art/courage.webp",
   "./protocol-art/fear.webp",
+  "./fonts/Cardot-Regular.otf",
+  "./fonts/Cardot-Semibold.otf",
 ];
 
 self.addEventListener("install", event => {
