@@ -141,3 +141,12 @@ VERSION 19.0 — CARDOT + LOGO SPACING
   overlap with the main logo artwork.
 - Retains the v18 action layout and all v17 Protocol/art functionality.
 - Cache bumped to compile-companion-v19.
+
+VERSION 20.0 — TRAIT SELECTION
+------------------------------
+- Added TRAITS as a manual selection method.
+- Match ANY and Match ALL filtering.
+- Publisher trait wording transcribed from supplied screenshots.
+- Respects enabled sets and individual exclusions.
+- Manually assign exactly 3 Protocols to each player.
+- No randomisation is used in this mode.

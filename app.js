@@ -541,12 +541,32 @@ const protocolCardReference = {
 
 };
 
+
+const protocolTraits = {
+ Spirit:["Flip","Shift","Draw"], Death:["Delete","Draw"], Fire:["Discard for Effect"],
+ Metal:["Prevent","Draw","Flip"], Apathy:["Flip Face-Down"], Gravity:["Shift","Flip","Draw"],
+ Water:["Return","Draw","Flip"], Light:["Draw","Flip","Shift"], Plague:["Forced Discard","Flip"],
+ Hate:["Delete Theirs and Yours"], Darkness:["Draw","Shift","Manipulate"], Life:["Flip","Top Deck Play","Draw"],
+ Psychic:["Draw","Manipulate","Shift"], Speed:["Draw","Play","Shift"], Love:["Draw","Gift","Exchange"],
+ Chaos:["Draw","Rearrange","Covered"], Clarity:["Draw","Reveal"], Corruption:["Flip","Discard"],
+ Luck:["Random","Delete","Play"], Diversity:["Play","Compare","Compile"], Courage:["Draw","Compare"],
+ Fear:["Shift","Discard"], Ice:["Shift","Prevent"], Mirror:["Shift","Repeat"], Unity:["Cover","Flip","Compile"],
+ Time:["Discard","Trash"], War:["React","Discard"], Peace:["Mutual Discard","Draw"], Smoke:["Face-Down","Shift"],
+ Assimilation:["Exchange","Play"], Wrath:["Delete","Face-Down"], Envy:["Catch Up","Flip"],
+ Ambush:["Flip","Draw","Face-Down"], Fulcrum:["Draw","Swap","Cards in Hand"], Flexible:["Choice","Shift","Draw"],
+ Pride:["Stay Ahead","Shift","Draw"], Gluttony:["Draw","Clear Cache","Delete"], Sloth:["Discard","Flip"],
+ Overwhelm:["Play Face-Down with More"], Inert:["Negate Face-Up","Symmetrical"], Nova:["Stack Size","Shift","Rearrange"],
+ Greed:["Discard","Repeating Effects"], Lust:["Forced Play","Control"], Momentum:["After Compile","Draw"],
+ Rigid:["Play Face-Down","Prevent"]
+};
+let traitsState={selectedTraits:new Set(),mode:"any",p1:[],p2:[]};
+
 const allProtocols = Object.entries(protocolSets).flatMap(([set, names]) =>
   names.map(name => ({ name, set, id: `${set}|${name}` }))
 );
 
 
-const APP_VERSION = "19.0";
+const APP_VERSION = "20.0";
 
 const protocolPlaystyles = {
   Darkness: "Manipulates face-down cards and hidden information. Strong when you can build value while denying the opponent certainty.",
@@ -1192,6 +1212,51 @@ function renderPerformanceStats() {
   target.appendChild(list);
 }
 
+
+
+function allTraitLabels(){return [...new Set(Object.values(protocolTraits).flat())].sort((a,b)=>a.localeCompare(b));}
+function openTraitsSelector(){
+ if(currentMatch||isAnimating)return;
+ traitsState={selectedTraits:new Set(),mode:"any",p1:[],p2:[]};
+ document.getElementById("traitsP1Name").textContent=playerNames.p1;
+ document.getElementById("traitsP2Name").textContent=playerNames.p2;
+ renderTraitsSelector();document.getElementById("traitsDialog").showModal();
+}
+function closeTraitsSelector(){const d=document.getElementById("traitsDialog");if(d.open)d.close();}
+function protocolMatchesTraits(p){
+ const s=[...traitsState.selectedTraits]; if(!s.length)return true;
+ const t=protocolTraits[p.name]||[]; return traitsState.mode==="all"?s.every(x=>t.includes(x)):s.some(x=>t.includes(x));
+}
+function filteredTraitProtocols(){return getAvailableProtocols().filter(protocolMatchesTraits).sort((a,b)=>a.name.localeCompare(b.name));}
+function toggleTrait(t){traitsState.selectedTraits.has(t)?traitsState.selectedTraits.delete(t):traitsState.selectedTraits.add(t);renderTraitsSelector();}
+function assignTraitProtocol(id,pn){
+ traitsState.p1=traitsState.p1.filter(x=>x!==id); traitsState.p2=traitsState.p2.filter(x=>x!==id);
+ const arr=pn===1?traitsState.p1:traitsState.p2; if(arr.length<3)arr.push(id); renderTraitsSelector();
+}
+function removeTraitProtocol(id){traitsState.p1=traitsState.p1.filter(x=>x!==id);traitsState.p2=traitsState.p2.filter(x=>x!==id);renderTraitsSelector();}
+function renderAssigned(targetId,ids,cls){
+ const t=document.getElementById(targetId);t.innerHTML="";
+ ids.forEach(id=>{const p=getProtocolById(id);if(!p)return;const b=document.createElement("button");b.className=`traits-selected-chip ${cls}`;b.innerHTML=`<span class="traits-selected-symbol">${protocolSymbolMarkup(p.name)}</span><span>${p.name}</span><b>×</b>`;b.onclick=()=>removeTraitProtocol(id);t.appendChild(b);});
+}
+function renderTraitsSelector(){
+ document.getElementById("traitsP1Count").textContent=`${traitsState.p1.length} / 3`;
+ document.getElementById("traitsP2Count").textContent=`${traitsState.p2.length} / 3`;
+ document.getElementById("traitsAnyButton").classList.toggle("active",traitsState.mode==="any");
+ document.getElementById("traitsAllButton").classList.toggle("active",traitsState.mode==="all");
+ renderAssigned("traitsP1Selected",traitsState.p1,"p1");renderAssigned("traitsP2Selected",traitsState.p2,"p2");
+ const chips=document.getElementById("traitsChipGrid");chips.innerHTML="";
+ allTraitLabels().forEach(tr=>{const c=getAvailableProtocols().filter(p=>(protocolTraits[p.name]||[]).includes(tr)).length;const b=document.createElement("button");b.className=`trait-chip${traitsState.selectedTraits.has(tr)?" active":""}`;b.innerHTML=`<span>${tr}</span><small>${c}</small>`;b.onclick=()=>toggleTrait(tr);chips.appendChild(b);});
+ const matches=filteredTraitProtocols();document.getElementById("traitsResultCount").textContent=`${matches.length} Protocol${matches.length===1?"":"s"}`;
+ const grid=document.getElementById("traitsProtocolGrid");grid.innerHTML="";
+ matches.forEach(p=>{const art=protocolArtImages[p.name];const owner=traitsState.p1.includes(p.id)?"p1":traitsState.p2.includes(p.id)?"p2":"";const card=document.createElement("div");card.className=`traits-protocol-card ${owner}`;card.innerHTML=`<div class="traits-card-art" ${art?`style="background-image:url('${art}')"`:""}>${art?"":`<div class="traits-card-symbol">${protocolSymbolMarkup(p.name)}</div>`}${owner?`<div class="traits-owner-badge ${owner}">${owner==="p1"?playerNames.p1:playerNames.p2}</div>`:""}</div><div class="traits-card-info"><strong>${p.name}</strong><small>${p.set}</small><div class="traits-card-traits">${(protocolTraits[p.name]||[]).map(x=>`<span>${x}</span>`).join("")}</div></div><div class="traits-card-actions"><button class="traits-assign-p1">${playerNames.p1}</button><button class="traits-assign-p2">${playerNames.p2}</button></div>`;
+ card.querySelector(".traits-assign-p1").onclick=()=>assignTraitProtocol(p.id,1);card.querySelector(".traits-assign-p2").onclick=()=>assignTraitProtocol(p.id,2);grid.appendChild(card);});
+ document.getElementById("traitsApplyButton").disabled=traitsState.p1.length!==3||traitsState.p2.length!==3;
+}
+function applyTraitSelection(){
+ if(traitsState.p1.length!==3||traitsState.p2.length!==3)return;
+ pushUndoSnapshot();player1=traitsState.p1.map(getProtocolById).filter(Boolean);player2=traitsState.p2.map(getProtocolById).filter(Boolean);
+ locked1.clear();locked2.clear();lastDeal=[...player1,...player2].map(p=>p.id);recordDeal();render();closeTraitsSelector();playTone(700,.09,.045);doHaptic([25,25,55]);
+}
 
 function startDraft() {
   if (currentMatch || isAnimating) return;
@@ -2311,6 +2376,16 @@ document.getElementById("cancelMatchButton").addEventListener("click", cancelMat
 
 document.getElementById("rematchButton").addEventListener("click", rematch);
 document.getElementById("draftButton").addEventListener("click", startDraft);
+
+document.getElementById("traitsButton").addEventListener("click",openTraitsSelector);
+document.getElementById("closeTraitsButton").addEventListener("click",closeTraitsSelector);
+document.getElementById("traitsCancelButton").addEventListener("click",closeTraitsSelector);
+document.getElementById("traitsAnyButton").addEventListener("click",()=>{traitsState.mode="any";renderTraitsSelector();});
+document.getElementById("traitsAllButton").addEventListener("click",()=>{traitsState.mode="all";renderTraitsSelector();});
+document.getElementById("traitsClearButton").addEventListener("click",()=>{traitsState.selectedTraits.clear();renderTraitsSelector();});
+document.getElementById("traitsResetAssignmentsButton").addEventListener("click",()=>{traitsState.p1=[];traitsState.p2=[];renderTraitsSelector();});
+document.getElementById("traitsApplyButton").addEventListener("click",applyTraitSelection);
+
 document.getElementById("closeDraftButton").addEventListener("click", cancelDraft);
 document.getElementById("cancelDraftButton").addEventListener("click", cancelDraft);
 document.getElementById("restartDraftButton").addEventListener("click", restartDraft);

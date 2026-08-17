@@ -1,5 +1,5 @@
 {
-  "version": "19.0",
+  "version": "20.0",
   "released": "2026-08-17",
-  "notes": "Uses the supplied Cardot font and adjusts main logo/subtitle spacing."
+  "notes": "Adds manual trait-based selection with Match Any/All."
 }
