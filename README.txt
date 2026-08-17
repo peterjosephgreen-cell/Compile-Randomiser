@@ -65,3 +65,51 @@ VERSION 14.0 — MAIN 3 PREVIEW
 - Main 3 Library entries explicitly identify partial preview data and do not
   invent unrevealed Command cards.
 - Cache bumped to compile-companion-v14.
+
+
+VERSION 15.0 — OFFICIAL DRAFT MODE
+----------------------------------
+- Added DRAFT as a third selection method alongside Randomise and Balanced.
+- Draft begins by selecting six unique Protocols from the currently enabled pool.
+- Official pick order implemented:
+    1. Player 1 chooses 1
+    2. Player 2 chooses 2
+    3. Player 1 chooses 2
+    4. Player 2 automatically receives the final Protocol
+- The draft screen shows all six Protocol cards simultaneously.
+- Selected/claimed cards are visually marked and removed from later picks.
+- Player names from saved player profiles are used throughout the draft.
+- Draft respects enabled sets, Main 3 on/off status and individual exclusions.
+- Completing a draft applies the final three Protocols to each player and records
+  the result in deal history.
+- Added "New 6" to restart a draft with a fresh set of six Protocols.
+- Cache bumped to compile-companion-v15.
+
+
+VERSION 16.0 — MAIN 1 / AUX 1 ART
+---------------------------------
+- Added the publisher artwork supplied by the user for:
+  Apathy, Chaos, Darkness, Death, Fire, Gravity, Hate, Life, Light,
+  Love, Metal, Plague, Psychic, Spirit and Water.
+- These images now appear as the large hero artwork on their Protocol
+  pages in the Library, matching the Main 3 presentation.
+- All 15 supplied images were added to the random app-background pool.
+- Artwork is packaged locally and precached for offline/PWA use.
+- Existing Main 3 artwork and Draft mode are retained.
+- Cache bumped to compile-companion-v16.
+
+
+VERSION 17.0 — MAIN 2 / AUX 2 ART + AUX 3
+-----------------------------------------
+- Added supplied publisher artwork for:
+  Flexible, Ice, Inert, Luck, Mirror, Peace, Rigid, Smoke,
+  Time, War, Clarity, Courage and Fear.
+- All supplied artwork is available in the Protocol Library.
+- All supplied artwork is included in the random background rotation.
+- Added AUX 3 as a selectable set containing:
+  Flexible, Inert and Rigid.
+- AUX 3 is OFF by default for both new and existing users.
+- Draft mode and all randomisation modes respect the AUX 3 enable/disable setting.
+- Aux 3 Protocol Library pages display publisher artwork and intentionally
+  omit Command-card text until verified data is available.
+- Cache bumped to compile-companion-v17.

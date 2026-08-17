@@ -1,4 +1,4 @@
-const CACHE = "compile-companion-v14";
+const CACHE = "compile-companion-v17";
 const ASSETS = [
   "./",
   "./index.html",
@@ -10,6 +10,21 @@ const ASSETS = [
   "./compile-logo.png",
   "./compile-mark.png",
   "./version.json",
+  "./protocol-art/apathy.webp",
+  "./protocol-art/chaos.webp",
+  "./protocol-art/darkness.webp",
+  "./protocol-art/death.webp",
+  "./protocol-art/fire.webp",
+  "./protocol-art/gravity.webp",
+  "./protocol-art/hate.webp",
+  "./protocol-art/life.webp",
+  "./protocol-art/light.webp",
+  "./protocol-art/love.webp",
+  "./protocol-art/metal.webp",
+  "./protocol-art/plague.webp",
+  "./protocol-art/psychic.webp",
+  "./protocol-art/spirit.webp",
+  "./protocol-art/water.webp",
   "./main3/art/ambush.webp",
   "./main3/art/envy.webp",
   "./main3/art/fulcrum.webp",
@@ -52,6 +67,19 @@ const ASSETS = [
   "./backgrounds/speed.webp",
   "./backgrounds/unity.webp",
   "./backgrounds/wrath.webp"
+  "./protocol-art/flexible.webp",
+  "./protocol-art/ice.webp",
+  "./protocol-art/inert.webp",
+  "./protocol-art/luck.webp",
+  "./protocol-art/mirror.webp",
+  "./protocol-art/peace.webp",
+  "./protocol-art/rigid.webp",
+  "./protocol-art/smoke.webp",
+  "./protocol-art/time.webp",
+  "./protocol-art/war.webp",
+  "./protocol-art/clarity.webp",
+  "./protocol-art/courage.webp",
+  "./protocol-art/fear.webp",
 ];
 
 self.addEventListener("install", event => {

@@ -1,5 +1,5 @@
 {
-  "version": "14.0",
+  "version": "17.0",
   "released": "2026-08-17",
-  "notes": "Adds Compile Main 3 preview Protocols, publisher-shared icons/art, and verified preview Command cards."
+  "notes": "Adds supplied Main 2 artwork and Aux 3 (Flexible, Inert, Rigid), default off."
 }

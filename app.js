@@ -12,7 +12,8 @@ const protocolSets = {
   "Main 3": [
     "Ambush", "Envy", "Fulcrum", "Gluttony", "Greed", "Lust",
     "Momentum", "Nova", "Overwhelm", "Pride", "Sloth", "Wrath"
-  ]
+  ],
+  "Aux 3": ["Flexible", "Inert", "Rigid"]
 };
 
 const setShortNames = {
@@ -47,8 +48,43 @@ const protocolArtImages = {
   Overwhelm: "main3/art/overwhelm.webp",
   Pride: "main3/art/pride.webp",
   Sloth: "main3/art/sloth.webp",
-  Wrath: "main3/art/wrath.webp"
+  Wrath: "main3/art/wrath.webp",
+  "Apathy": "protocol-art/apathy.webp",
+  "Chaos": "protocol-art/chaos.webp",
+  "Darkness": "protocol-art/darkness.webp",
+  "Death": "protocol-art/death.webp",
+  "Fire": "protocol-art/fire.webp",
+  "Gravity": "protocol-art/gravity.webp",
+  "Hate": "protocol-art/hate.webp",
+  "Life": "protocol-art/life.webp",
+  "Light": "protocol-art/light.webp",
+  "Love": "protocol-art/love.webp",
+  "Metal": "protocol-art/metal.webp",
+  "Plague": "protocol-art/plague.webp",
+  "Psychic": "protocol-art/psychic.webp",
+  "Spirit": "protocol-art/spirit.webp",
+  "Water": "protocol-art/water.webp",
+  "Flexible": "protocol-art/flexible.webp",
+  "Ice": "protocol-art/ice.webp",
+  "Inert": "protocol-art/inert.webp",
+  "Luck": "protocol-art/luck.webp",
+  "Mirror": "protocol-art/mirror.webp",
+  "Peace": "protocol-art/peace.webp",
+  "Rigid": "protocol-art/rigid.webp",
+  "Smoke": "protocol-art/smoke.webp",
+  "Time": "protocol-art/time.webp",
+  "War": "protocol-art/war.webp",
+  "Clarity": "protocol-art/clarity.webp",
+  "Courage": "protocol-art/courage.webp",
+  "Fear": "protocol-art/fear.webp"
 };
+
+
+function resolvePublisherBackground(art) {
+  return art.startsWith("../protocol-art/")
+    ? art.slice(3)
+    : `backgrounds/${art}`;
+}
 
 function protocolSymbolMarkup(name) {
   if (protocolIconImages[name]) {
@@ -245,7 +281,10 @@ const protocolVisuals = {
   Greed: ["#ef62d4", "#4e1747"], Lust: ["#ff6448", "#51150f"],
   Momentum: ["#ffb05a", "#5a2f12"], Nova: ["#ff7a35", "#5a1e0c"],
   Overwhelm: ["#e8d7ff", "#292334"], Pride: ["#ffd04c", "#563b09"],
-  Sloth: ["#f18b79", "#4b2422"], Wrath: ["#ff634a", "#56150f"]
+  Sloth: ["#f18b79", "#4b2422"], Wrath: ["#ff634a", "#56150f"],
+  Flexible: ["#d38cff", "#3e1f57"],
+  Inert: ["#b7c3c7", "#2d3438"],
+  Rigid: ["#d6e2ff", "#30364b"]
 };
 
 const protocolCardReference = {
@@ -507,7 +546,7 @@ const allProtocols = Object.entries(protocolSets).flatMap(([set, names]) =>
 );
 
 
-const APP_VERSION = "14.0";
+const APP_VERSION = "17.0";
 
 const protocolPlaystyles = {
   Darkness: "Manipulates face-down cards and hidden information. Strong when you can build value while denying the opponent certainty.",
@@ -551,7 +590,10 @@ const protocolPlaystyles = {
   Overwhelm: "Main 3 Protocol. Full six-card strategy reference will be added as more publisher-verified Command cards are released.",
   Pride: "Main 3 Protocol. Full six-card strategy reference will be added as more publisher-verified Command cards are released.",
   Sloth: "Main 3 Protocol. Previewed cards reward being behind and then building delayed value under covered Sloth cards.",
-  Wrath: "Main 3 Protocol. Previewed cards exchange control for explosive removal and tempo."
+  Wrath: "Main 3 Protocol. Previewed cards exchange control for explosive removal and tempo.",
+  Flexible: "Aux 3 Protocol. Publisher artwork is loaded; full Command-card strategy reference will be added when verified card data is available.",
+  Inert: "Aux 3 Protocol. Publisher artwork is loaded; full Command-card strategy reference will be added when verified card data is available.",
+  Rigid: "Aux 3 Protocol. Publisher artwork is loaded; full Command-card strategy reference will be added when verified card data is available."
 };
 
 let currentMatch = null;
@@ -561,6 +603,13 @@ let playerProfiles = loadPlayerProfiles();
 let seatAssignments = loadSeatAssignments();
 let nameEditingPlayer = 1;
 let isAnimating = false;
+let draftState = null;
+const DRAFT_STAGES = [
+  { player: 1, picks: 1, label: "Player 1 chooses 1 Protocol" },
+  { player: 2, picks: 2, label: "Player 2 chooses 2 Protocols" },
+  { player: 1, picks: 2, label: "Player 1 chooses 2 Protocols" },
+  { player: 2, picks: 1, label: "Player 2 receives the last Protocol" }
+];
 
 let player1 = [];
 let player2 = [];
@@ -574,7 +623,7 @@ const settings = loadSettings();
 
 function defaultSettings() {
   return {
-    enabledSets: Object.fromEntries(Object.keys(protocolSets).map(set => [set, set !== "Main 3"])),
+    enabledSets: Object.fromEntries(Object.keys(protocolSets).map(set => [set, set !== "Main 3" && set !== "Aux 3"])),
     excluded: [],
     favourites: [],
     avoidRepeats: false,
@@ -596,6 +645,9 @@ function loadSettings() {
         ...(parsed.enabledSets || {}),
         "Main 3": Object.prototype.hasOwnProperty.call(parsed.enabledSets || {}, "Main 3")
           ? Boolean(parsed.enabledSets["Main 3"])
+          : false,
+        "Aux 3": Object.prototype.hasOwnProperty.call(parsed.enabledSets || {}, "Aux 3")
+          ? Boolean(parsed.enabledSets["Aux 3"])
           : false
       },
       excluded: Array.isArray(parsed.excluded) ? parsed.excluded : [],
@@ -1140,6 +1192,224 @@ function renderPerformanceStats() {
   target.appendChild(list);
 }
 
+
+function startDraft() {
+  if (currentMatch || isAnimating) return;
+
+  const pool = getAvailableProtocols();
+  if (pool.length < 6) {
+    alert("Enable at least 6 Protocols before starting a draft.");
+    return;
+  }
+
+  pushUndoSnapshot();
+
+  const chosen = secureShuffle(pool).slice(0, 6);
+  draftState = {
+    pool: chosen.map(p => p.id),
+    remaining: chosen.map(p => p.id),
+    p1: [],
+    p2: [],
+    stageIndex: 0,
+    stageSelected: []
+  };
+
+  renderDraft();
+  document.getElementById("draftDialog").showModal();
+  playTone(430, .06, .03);
+  doHaptic(25);
+}
+
+function restartDraft() {
+  const pool = getAvailableProtocols();
+  if (pool.length < 6) return;
+
+  const chosen = secureShuffle(pool).slice(0, 6);
+  draftState = {
+    pool: chosen.map(p => p.id),
+    remaining: chosen.map(p => p.id),
+    p1: [],
+    p2: [],
+    stageIndex: 0,
+    stageSelected: []
+  };
+  renderDraft();
+}
+
+function cancelDraft() {
+  draftState = null;
+  const dialog = document.getElementById("draftDialog");
+  if (dialog && dialog.open) dialog.close();
+}
+
+function currentDraftStage() {
+  if (!draftState) return null;
+  return DRAFT_STAGES[draftState.stageIndex] || null;
+}
+
+function draftSelectProtocol(id) {
+  if (!draftState || !draftState.remaining.includes(id)) return;
+
+  const stage = currentDraftStage();
+  if (!stage) return;
+
+  // Final stage is automatic: Player 2 receives the last Protocol.
+  if (draftState.stageIndex === 3) return;
+
+  const selected = draftState.stageSelected;
+  const existingIndex = selected.indexOf(id);
+
+  if (existingIndex >= 0) {
+    selected.splice(existingIndex, 1);
+  } else {
+    if (selected.length >= stage.picks) return;
+    selected.push(id);
+  }
+
+  renderDraft();
+
+  if (selected.length === stage.picks) {
+    // Small delay so the chosen cards visibly light up before committing.
+    setTimeout(commitDraftStage, 180);
+  }
+}
+
+function commitDraftStage() {
+  if (!draftState) return;
+  const stage = currentDraftStage();
+  if (!stage) return;
+
+  const chosen = [...draftState.stageSelected];
+  const target = stage.player === 1 ? draftState.p1 : draftState.p2;
+
+  chosen.forEach(id => {
+    if (draftState.remaining.includes(id)) {
+      target.push(id);
+      draftState.remaining = draftState.remaining.filter(x => x !== id);
+    }
+  });
+
+  draftState.stageSelected = [];
+  draftState.stageIndex++;
+
+  // Official final pick: Player 2 gets the last remaining Protocol automatically.
+  if (draftState.stageIndex === 3) {
+    if (draftState.remaining.length === 1) {
+      draftState.p2.push(draftState.remaining[0]);
+      draftState.remaining = [];
+      draftState.stageIndex = 4;
+      renderDraft();
+      setTimeout(finaliseDraft, 450);
+      return;
+    }
+  }
+
+  renderDraft();
+  playTone(520 + draftState.stageIndex * 55, .05, .03);
+  doHaptic(20);
+}
+
+function finaliseDraft() {
+  if (!draftState) return;
+  if (draftState.p1.length !== 3 || draftState.p2.length !== 3) return;
+
+  player1 = draftState.p1.map(getProtocolById).filter(Boolean);
+  player2 = draftState.p2.map(getProtocolById).filter(Boolean);
+
+  locked1.clear();
+  locked2.clear();
+
+  lastDeal = [...player1, ...player2].map(p => p.id);
+  recordDeal();
+  render();
+
+  const dialog = document.getElementById("draftDialog");
+  if (dialog && dialog.open) dialog.close();
+
+  draftState = null;
+  playTone(720, .10, .05);
+  doHaptic([25, 25, 55]);
+}
+
+function renderDraftPickChips(targetId, ids) {
+  const target = document.getElementById(targetId);
+  if (!target) return;
+  target.innerHTML = ids.map(id => {
+    const p = getProtocolById(id);
+    return p ? `<span>${p.name}</span>` : "";
+  }).join("");
+}
+
+function renderDraft() {
+  if (!draftState) return;
+
+  const stage = currentDraftStage();
+  const title = document.getElementById("draftTitle");
+  const instruction = document.getElementById("draftInstruction");
+
+  document.getElementById("draftP1Name").textContent = playerNames.p1;
+  document.getElementById("draftP2Name").textContent = playerNames.p2;
+
+  if (draftState.stageIndex >= 4) {
+    title.textContent = "Draft Complete";
+    instruction.textContent = "Applying the drafted Protocols…";
+  } else {
+    title.textContent = stage.player === 1
+      ? `${playerNames.p1}: choose ${stage.picks}`
+      : `${playerNames.p2}: choose ${stage.picks}`;
+    instruction.textContent = stage.label
+      .replace("Player 1", playerNames.p1)
+      .replace("Player 2", playerNames.p2);
+  }
+
+  // Highlight current/completed sequence steps.
+  for (let i = 0; i < 4; i++) {
+    const el = document.getElementById(`draftStep${i+1}`);
+    if (!el) continue;
+    el.classList.toggle("active", i === draftState.stageIndex);
+    el.classList.toggle("done", i < draftState.stageIndex);
+  }
+
+  renderDraftPickChips("draftP1Picks", draftState.p1);
+  renderDraftPickChips("draftP2Picks", draftState.p2);
+
+  const pool = document.getElementById("draftPool");
+  pool.innerHTML = "";
+
+  draftState.pool.forEach(id => {
+    const protocol = getProtocolById(id);
+    if (!protocol) return;
+
+    const isRemaining = draftState.remaining.includes(id);
+    const isSelected = draftState.stageSelected.includes(id);
+    const owner = draftState.p1.includes(id) ? "p1" : draftState.p2.includes(id) ? "p2" : null;
+    const visual = protocolVisuals[protocol.name] || ["#4ee9ff", "#123a45"];
+
+    const card = document.createElement("button");
+    card.className = `draft-protocol-card${isSelected ? " selected" : ""}${owner ? ` owned ${owner}` : ""}`;
+    card.style.setProperty("--protocol-accent", visual[0]);
+    card.style.setProperty("--protocol-deep", visual[1]);
+    card.disabled = !isRemaining || draftState.stageIndex >= 3;
+
+    card.innerHTML = `
+      <div class="draft-card-owner">${owner === "p1" ? playerNames.p1 : owner === "p2" ? playerNames.p2 : ""}</div>
+      <div class="draft-card-sigil">
+        <div class="draft-sigil-ring"></div>
+        <div class="draft-symbol">${protocolSymbolMarkup(protocol.name)}</div>
+      </div>
+      <strong>${protocol.name}</strong>
+      <small>${protocol.set}</small>
+      ${isSelected ? `<div class="draft-picked-mark">SELECTED</div>` : ""}
+    `;
+
+    if (isRemaining && draftState.stageIndex < 3) {
+      card.addEventListener("click", () => draftSelectProtocol(id));
+    }
+
+    pool.appendChild(card);
+  });
+}
+
 function animatedRandomiseAll() {
   if (isAnimating || currentMatch || getAvailableProtocols().length < 6) return;
   isAnimating = true;
@@ -1251,7 +1521,7 @@ function renderTableMode() {
     || publisherBackgrounds[Math.floor(Math.random() * publisherBackgrounds.length)];
 
   const artLayer = document.getElementById("tableArtBackground");
-  if (artLayer) artLayer.style.backgroundImage = `url("backgrounds/${art}")`;
+  if (artLayer) artLayer.style.backgroundImage = `url("${resolvePublisherBackground(art)}")`;
 
   const status = document.getElementById("tableMatchStatus");
   if (status) {
@@ -1637,7 +1907,9 @@ function showProtocolReference(protocol) {
   const previewCards = protocolCardReference[protocol.name];
   subtitle.textContent = protocol.set === "Main 3"
     ? `${protocol.set} · ${previewCards ? `${previewCards.length} verified preview card${previewCards.length === 1 ? "" : "s"}` : "Command cards not yet loaded"}`
-    : `${protocol.set} · 6-card Protocol`;
+    : protocol.set === "Aux 3"
+      ? `${protocol.set} · Command cards not yet loaded`
+      : `${protocol.set} · 6-card Protocol`;
   const visual = protocolVisuals[protocol.name] || ["#4ee9ff", "#123a45"];
   dialog.style.setProperty("--protocol-accent", visual[0]);
   dialog.style.setProperty("--protocol-deep", visual[1]);
@@ -1659,8 +1931,8 @@ function showProtocolReference(protocol) {
   if (!cards) {
     view.innerHTML = `
       <div class="unavailable-reference">
-        ${protocol.set === "Main 3"
-          ? `The Protocol and publisher icon/art are loaded, but no Command cards for ${protocol.name} have been independently verified yet.`
+        ${(protocol.set === "Main 3" || protocol.set === "Aux 3")
+          ? `The Protocol and publisher artwork are loaded, but no Command cards for ${protocol.name} have been independently verified yet.`
           : `A verified card reference has not yet been loaded for ${protocol.name}.`}
       </div>
     `;
@@ -1687,7 +1959,9 @@ function showProtocolReference(protocol) {
   note.className = "reference-note";
   note.textContent = protocol.set === "Main 3"
     ? "Main 3 is preview material. Only publisher/designer-shared Command cards are shown; unrevealed cards are intentionally omitted. Effects are concise summaries."
-    : "Effects are concise reference summaries based on verified card data and published errata. Use the physical card or official Codex for precise rules text.";
+    : protocol.set === "Aux 3"
+      ? "Aux 3 artwork is publisher-shared. Command-card references will be added only when verified."
+      : "Effects are concise reference summaries based on verified card data and published errata. Use the physical card or official Codex for precise rules text.";
   view.appendChild(note);
 
   dialog.showModal();
@@ -1698,7 +1972,35 @@ const publisherBackgrounds = [
   "ambush.webp", "apathy.webp", "assimilation.webp", "diversity.webp", "envy.webp",
   "fire.webp", "fulcrum.webp", "gluttony.webp", "greed.webp", "kvDDXIIw.webp",
   "lust.webp", "momentum.webp", "nova.webp", "overwhelm.webp", "sloth.webp",
-  "speed.webp", "unity.webp", "wrath.webp"
+  "speed.webp", "unity.webp", "wrath.webp",
+  "../protocol-art/apathy.webp",
+  "../protocol-art/chaos.webp",
+  "../protocol-art/darkness.webp",
+  "../protocol-art/death.webp",
+  "../protocol-art/fire.webp",
+  "../protocol-art/gravity.webp",
+  "../protocol-art/hate.webp",
+  "../protocol-art/life.webp",
+  "../protocol-art/light.webp",
+  "../protocol-art/love.webp",
+  "../protocol-art/metal.webp",
+  "../protocol-art/plague.webp",
+  "../protocol-art/psychic.webp",
+  "../protocol-art/spirit.webp",
+  "../protocol-art/water.webp",
+  "../protocol-art/flexible.webp",
+  "../protocol-art/ice.webp",
+  "../protocol-art/inert.webp",
+  "../protocol-art/luck.webp",
+  "../protocol-art/mirror.webp",
+  "../protocol-art/peace.webp",
+  "../protocol-art/rigid.webp",
+  "../protocol-art/smoke.webp",
+  "../protocol-art/time.webp",
+  "../protocol-art/war.webp",
+  "../protocol-art/clarity.webp",
+  "../protocol-art/courage.webp",
+  "../protocol-art/fear.webp"
 ];
 
 function applyRandomProtocolBackground() {
@@ -1712,7 +2014,7 @@ function applyRandomProtocolBackground() {
 
   const artLayer = document.getElementById("publisherArtBackground");
   if (artLayer) {
-    artLayer.style.backgroundImage = `url("backgrounds/${art}")`;
+    artLayer.style.backgroundImage = `url("${resolvePublisherBackground(art)}")`;
   }
 
   const bgMark = document.getElementById("backgroundProtocolMark");
@@ -2008,6 +2310,10 @@ document.getElementById("drawButton").addEventListener("click", () => finishMatc
 document.getElementById("cancelMatchButton").addEventListener("click", cancelMatch);
 
 document.getElementById("rematchButton").addEventListener("click", rematch);
+document.getElementById("draftButton").addEventListener("click", startDraft);
+document.getElementById("closeDraftButton").addEventListener("click", cancelDraft);
+document.getElementById("cancelDraftButton").addEventListener("click", cancelDraft);
+document.getElementById("restartDraftButton").addEventListener("click", restartDraft);
 document.getElementById("shareButton").addEventListener("click", shareCurrentResult);
 
 

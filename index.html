@@ -57,6 +57,7 @@
       <button id="rematchButton" class="neon-action blue deal-control">↻ <span>REMATCH</span></button>
       <button id="randomiseButton" class="randomise-hero deal-control"><span class="dice-mark">⚄⚂</span><strong>RANDOMISE</strong><small>Roll 6 Random Protocols</small></button>
       <button id="mainBalancedButton" class="neon-action orange balanced-action"><span class="balance-icon">⚖</span><span class="balanced-copy"><strong>BALANCED</strong><small>Prioritise less-played</small></span></button>
+      <button id="draftButton" class="neon-action draft-action"><span class="draft-icon">◆</span><span class="balanced-copy"><strong>DRAFT</strong><small>Official 1-2-2-1 draft</small></span></button>
     </div>
 
     <div class="match-row">
@@ -203,6 +204,49 @@
       <div class="danger-zone">
         <button id="clearHistoryButton" class="secondary-button">Clear deal history</button>
         <button id="clearMatchHistoryButton" class="secondary-button">Clear match stats</button>
+      </div>
+    </div>
+  </dialog>
+
+
+  <dialog id="draftDialog" class="draft-dialog">
+    <div class="draft-shell">
+      <div class="draft-topbar">
+        <div>
+          <div class="draft-kicker">OFFICIAL PROTOCOL DRAFT</div>
+          <h2 id="draftTitle">Choose 1 Protocol</h2>
+          <p id="draftInstruction">Player 1 chooses one Protocol.</p>
+        </div>
+        <button id="closeDraftButton" class="close-button" aria-label="Close">×</button>
+      </div>
+
+      <div class="draft-scoreboard">
+        <div class="draft-player-box draft-p1-box">
+          <span>PLAYER 1</span>
+          <strong id="draftP1Name">Player 1</strong>
+          <div id="draftP1Picks" class="draft-pick-chips"></div>
+        </div>
+        <div class="draft-sequence">
+          <div class="draft-sequence-label">PICK ORDER</div>
+          <div class="draft-sequence-steps">
+            <span id="draftStep1">P1 ×1</span>
+            <span id="draftStep2">P2 ×2</span>
+            <span id="draftStep3">P1 ×2</span>
+            <span id="draftStep4">P2 ×1</span>
+          </div>
+        </div>
+        <div class="draft-player-box draft-p2-box">
+          <span>PLAYER 2</span>
+          <strong id="draftP2Name">Player 2</strong>
+          <div id="draftP2Picks" class="draft-pick-chips"></div>
+        </div>
+      </div>
+
+      <div id="draftPool" class="draft-pool"></div>
+
+      <div class="draft-footer">
+        <button id="restartDraftButton" class="secondary-button">↻ New 6</button>
+        <button id="cancelDraftButton" class="secondary-button">Cancel</button>
       </div>
     </div>
   </dialog>
