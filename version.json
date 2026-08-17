@@ -1,5 +1,5 @@
 {
-  "version": "10.2",
+  "version": "11.0",
   "released": "2026-08-17",
-  "notes": "Fix random Protocol background so it changes on every fresh app/page load."
+  "notes": "Mockup-inspired home redesign with publisher-shared rotating artwork backgrounds."
 }

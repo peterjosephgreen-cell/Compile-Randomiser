@@ -446,7 +446,7 @@ const allProtocols = Object.entries(protocolSets).flatMap(([set, names]) =>
 );
 
 
-const APP_VERSION = "10.2";
+const APP_VERSION = "11.0";
 const VERSION_FILE = "./version.json";
 
 const protocolPlaystyles = {
@@ -485,6 +485,8 @@ const protocolPlaystyles = {
 let currentMatch = null;
 let matchHistory = loadMatchHistory();
 let playerNames = loadPlayerNames();
+let playerProfiles = loadPlayerProfiles();
+let seatAssignments = loadSeatAssignments();
 let nameEditingPlayer = 1;
 let isAnimating = false;
 
@@ -580,6 +582,190 @@ function pickFill(count, excludedIds, preferAvoidIds = new Set()) {
 
 
 
+
+function makePlayerId() {
+  return `p_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function loadPlayerProfiles() {
+  try {
+    const saved = JSON.parse(localStorage.getItem("compilePlayerProfilesV10") || "[]");
+    if (Array.isArray(saved) && saved.length) return saved;
+  } catch (_) {}
+
+  const legacy = loadPlayerNames();
+  const initial = [];
+  const names = [legacy.p1, legacy.p2].filter(name => name && !/^Player [12]$/i.test(name));
+
+  [...new Set(names)].forEach(name => initial.push({ id: makePlayerId(), name }));
+  localStorage.setItem("compilePlayerProfilesV10", JSON.stringify(initial));
+  return initial;
+}
+
+function savePlayerProfiles() {
+  localStorage.setItem("compilePlayerProfilesV10", JSON.stringify(playerProfiles));
+}
+
+function loadSeatAssignments() {
+  try {
+    const saved = JSON.parse(localStorage.getItem("compileSeatAssignmentsV10") || "{}");
+    return { p1: saved.p1 || null, p2: saved.p2 || null };
+  } catch (_) {
+    return { p1: null, p2: null };
+  }
+}
+
+function saveSeatAssignments() {
+  localStorage.setItem("compileSeatAssignmentsV10", JSON.stringify(seatAssignments));
+}
+
+function profileById(id) {
+  return playerProfiles.find(p => p.id === id) || null;
+}
+
+function syncNamesFromSeatAssignments() {
+  const p1 = profileById(seatAssignments.p1);
+  const p2 = profileById(seatAssignments.p2);
+  playerNames.p1 = p1 ? p1.name : (playerNames.p1 || "Player 1");
+  playerNames.p2 = p2 ? p2.name : (playerNames.p2 || "Player 2");
+  savePlayerNames();
+}
+
+function ensureDistinctSeatAssignments(changedSeat) {
+  if (seatAssignments.p1 && seatAssignments.p1 === seatAssignments.p2) {
+    if (changedSeat === 1) seatAssignments.p2 = null;
+    else seatAssignments.p1 = null;
+  }
+}
+
+function renderPlayersDialog() {
+  const p1Select = document.getElementById("player1Select");
+  const p2Select = document.getElementById("player2Select");
+  const list = document.getElementById("savedPlayersList");
+  if (!p1Select || !p2Select || !list) return;
+
+  const options = [
+    `<option value="">Guest / unsaved</option>`,
+    ...playerProfiles
+      .slice()
+      .sort((a,b) => a.name.localeCompare(b.name))
+      .map(p => `<option value="${p.id}">${p.name}</option>`)
+  ].join("");
+
+  p1Select.innerHTML = options;
+  p2Select.innerHTML = options;
+  p1Select.value = seatAssignments.p1 || "";
+  p2Select.value = seatAssignments.p2 || "";
+
+  list.innerHTML = "";
+  if (!playerProfiles.length) {
+    list.innerHTML = `<div class="empty-state">No saved players yet.</div>`;
+    return;
+  }
+
+  playerProfiles
+    .slice()
+    .sort((a,b) => a.name.localeCompare(b.name))
+    .forEach(profile => {
+      const row = document.createElement("div");
+      row.className = "saved-player-row";
+      const assigned = seatAssignments.p1 === profile.id || seatAssignments.p2 === profile.id;
+      row.innerHTML = `
+        <div>
+          <strong>${profile.name}</strong>
+          <small>${assigned ? "Currently seated" : "Saved player"}</small>
+        </div>
+        <button class="secondary-button remove-player-button" ${assigned ? "disabled" : ""}>Remove</button>
+      `;
+      row.querySelector("button").addEventListener("click", () => {
+        if (assigned) return;
+        playerProfiles = playerProfiles.filter(p => p.id !== profile.id);
+        savePlayerProfiles();
+        renderPlayersDialog();
+        renderPlayerStats();
+      });
+      list.appendChild(row);
+    });
+}
+
+function addPlayerProfile() {
+  const input = document.getElementById("newPlayerInput");
+  const name = input.value.trim();
+  if (!name) return;
+
+  const existing = playerProfiles.find(p => p.name.toLowerCase() === name.toLowerCase());
+  if (existing) {
+    input.value = "";
+    return;
+  }
+
+  playerProfiles.push({ id: makePlayerId(), name });
+  savePlayerProfiles();
+  input.value = "";
+  renderPlayersDialog();
+}
+
+function getPlayerPerformanceStats() {
+  const byKey = new Map();
+
+  const ensure = (key, name) => {
+    if (!byKey.has(key)) {
+      byKey.set(key, { key, name, games: 0, wins: 0, losses: 0, draws: 0 });
+    }
+    return byKey.get(key);
+  };
+
+  playerProfiles.forEach(p => ensure(`id:${p.id}`, p.name));
+
+  matchHistory.forEach(match => {
+    const p1Key = match.player1Id ? `id:${match.player1Id}` : `name:${(match.player1Name || "Player 1").toLowerCase()}`;
+    const p2Key = match.player2Id ? `id:${match.player2Id}` : `name:${(match.player2Name || "Player 2").toLowerCase()}`;
+
+    const s1 = ensure(p1Key, match.player1Name || profileById(match.player1Id)?.name || "Player 1");
+    const s2 = ensure(p2Key, match.player2Name || profileById(match.player2Id)?.name || "Player 2");
+
+    s1.games++; s2.games++;
+    if (match.winner === "p1") { s1.wins++; s2.losses++; }
+    else if (match.winner === "p2") { s2.wins++; s1.losses++; }
+    else { s1.draws++; s2.draws++; }
+  });
+
+  return [...byKey.values()]
+    .filter(s => s.games > 0 || playerProfiles.some(p => `id:${p.id}` === s.key))
+    .sort((a,b) => b.games - a.games || b.wins - a.wins || a.name.localeCompare(b.name));
+}
+
+function renderPlayerStats() {
+  const target = document.getElementById("historyPlayersView");
+  if (!target) return;
+  target.innerHTML = "";
+
+  const stats = getPlayerPerformanceStats();
+  if (!stats.length) {
+    target.innerHTML = `<div class="empty-state">No saved players or completed matches yet.</div>`;
+    return;
+  }
+
+  const list = document.createElement("div");
+  list.className = "stats-list";
+
+  stats.forEach(s => {
+    const pct = s.games ? Math.round((s.wins / s.games) * 100) : 0;
+    const row = document.createElement("div");
+    row.className = "stat-row stat-row-rich";
+    row.innerHTML = `
+      <div>
+        <div class="stat-name">${s.name}</div>
+        <div class="stat-detail">${s.games} games · ${s.wins}W / ${s.losses}L / ${s.draws}D</div>
+      </div>
+      <div class="stat-count">${pct}%</div>
+    `;
+    list.appendChild(row);
+  });
+
+  target.appendChild(list);
+}
+
 function loadPlayerNames() {
   try {
     return { p1: "Player 1", p2: "Player 2", ...JSON.parse(localStorage.getItem("compilePlayerNamesV10") || "{}") };
@@ -673,11 +859,22 @@ function openNameDialog(playerNumber) {
 function saveEditedPlayerName() {
   const input = document.getElementById("playerNameInput");
   const value = input.value.trim() || `Player ${nameEditingPlayer}`;
+
+  const seatId = nameEditingPlayer === 1 ? seatAssignments.p1 : seatAssignments.p2;
+  const profile = profileById(seatId);
+
+  if (profile) {
+    profile.name = value;
+    savePlayerProfiles();
+  }
+
   if (nameEditingPlayer === 1) playerNames.p1 = value;
   else playerNames.p2 = value;
+
   savePlayerNames();
   updatePlayerLabels();
   renderTableMode();
+  renderPlayersDialog();
   document.getElementById("nameDialog").close();
 }
 
@@ -697,11 +894,13 @@ function startMatch() {
     player1: player1.map(p => p.id),
     player2: player2.map(p => p.id),
     player1Name: playerNames.p1,
-    player2Name: playerNames.p2
+    player2Name: playerNames.p2,
+    player1Id: seatAssignments.p1 || null,
+    player2Id: seatAssignments.p2 || null
   };
 
   setDealControlsDisabled(true);
-  document.getElementById("matchButton").textContent = "■ Finish Match";
+  document.getElementById("matchButton").innerHTML = `■ <span><strong>FINISH MATCH</strong><small>Record the result</small></span>`;
   document.getElementById("matchButton").classList.add("active-match");
   render();
   playTone(520, .08, .04);
@@ -726,7 +925,7 @@ function finishMatch(winner) {
   saveMatchHistory();
   currentMatch = null;
   setDealControlsDisabled(false);
-  document.getElementById("matchButton").textContent = "▶ Start Match";
+  document.getElementById("matchButton").innerHTML = `▶ <span><strong>START MATCH</strong><small>Lock in & begin the game</small></span>`;
   document.getElementById("matchButton").classList.remove("active-match");
   document.getElementById("matchResultDialog").close();
   render();
@@ -737,7 +936,7 @@ function finishMatch(winner) {
 function cancelMatch() {
   currentMatch = null;
   setDealControlsDisabled(false);
-  document.getElementById("matchButton").textContent = "▶ Start Match";
+  document.getElementById("matchButton").innerHTML = `▶ <span><strong>START MATCH</strong><small>Lock in & begin the game</small></span>`;
   document.getElementById("matchButton").classList.remove("active-match");
   document.getElementById("matchResultDialog").close();
   render();
@@ -1019,7 +1218,7 @@ async function shareCurrentResult() {
 
   try {
     const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
-    const file = new File([blob], "compile-matchup.png", { type: "image/png" });
+    const file = new File([blob], "compile-matchup.webp", { type: "image/png" });
 
     if (navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
       await navigator.share({ title: "Compile matchup", text, files: [file] });
@@ -1079,6 +1278,9 @@ async function checkForUpdate(showCurrentMessage = true) {
     // Only show the banner if the published version is genuinely newer.
     if (remoteVersion && compareVersions(remoteVersion, APP_VERSION) > 0) {
       document.getElementById("updateBanner").hidden = false;
+      if (showCurrentMessage) {
+        alert(`Version ${remoteVersion} is available. Tap Reload at the top of the screen to update.`);
+      }
     } else {
       document.getElementById("updateBanner").hidden = true;
       if (showCurrentMessage) {
@@ -1419,26 +1621,67 @@ function showProtocolReference(protocol) {
 }
 
 
+const publisherBackgrounds = [
+  "ambush.webp", "apathy.webp", "assimilation.webp", "diversity.webp", "envy.webp",
+  "fire.webp", "fulcrum.webp", "gluttony.webp", "greed.webp", "kvDDXIIw.webp",
+  "lust.webp", "momentum.webp", "nova.webp", "overwhelm.webp", "sloth.webp",
+  "speed.webp", "unity.webp", "wrath.webp"
+];
+
 function applyRandomProtocolBackground() {
   const protocol = allProtocols[Math.floor(Math.random() * allProtocols.length)];
   const visual = protocolVisuals[protocol.name] || ["#4ee9ff", "#123a45"];
   const symbol = symbols[protocol.name] || "";
+  const art = publisherBackgrounds[Math.floor(Math.random() * publisherBackgrounds.length)];
 
   document.documentElement.style.setProperty("--bg-accent", visual[0]);
   document.documentElement.style.setProperty("--bg-deep", visual[1]);
 
+  const artLayer = document.getElementById("publisherArtBackground");
+  if (artLayer) {
+    artLayer.style.backgroundImage = `url("backgrounds/${art}")`;
+  }
+
   const bgMark = document.getElementById("backgroundProtocolMark");
-  const bgName = document.getElementById("backgroundProtocolName");
-
-  if (bgMark) {
-    bgMark.innerHTML = symbol;
-  }
-
-  if (bgName) {
-    bgName.textContent = protocol.name.toUpperCase();
-  }
+  if (bgMark) bgMark.innerHTML = symbol;
 
   sessionStorage.setItem("compileBackgroundProtocol", protocol.name);
+  sessionStorage.setItem("compileBackgroundArtwork", art);
+}
+
+
+function renderRecentHomeMatches() {
+  const target = document.getElementById("recentMatchesHome");
+  if (!target) return;
+  target.innerHTML = "";
+
+  const recent = matchHistory.slice(0, 5);
+  if (!recent.length) {
+    target.innerHTML = `<div class="home-match-empty">Completed matches will appear here.</div>`;
+    return;
+  }
+
+  recent.forEach(match => {
+    const p1 = (match.player1Name || "Player 1");
+    const p2 = (match.player2Name || "Player 2");
+    const p1Initial = p1.trim().charAt(0).toUpperCase() || "1";
+    const p2Initial = p2.trim().charAt(0).toUpperCase() || "2";
+    let score = "—";
+    let resultClass = "draw";
+    if (match.winner === "p1") { score = "1 - 0"; resultClass = ""; }
+    else if (match.winner === "p2") { score = "0 - 1"; resultClass = "loss"; }
+    else if (match.winner === "draw") { score = "½ - ½"; resultClass = "draw"; }
+
+    const item = document.createElement("div");
+    item.className = "home-match-card";
+    item.innerHTML = `
+      <div class="home-match-versus"><span class="home-match-avatar">${p1Initial}</span><small>vs</small><span class="home-match-avatar alt">${p2Initial}</span></div>
+      <div class="home-match-names">${p1} · ${p2}</div>
+      <div class="home-match-result ${resultClass}">${score}</div>
+      <div class="home-match-date">${formatHistoryDate(match.finishedAt || match.startedAt)}</div>
+    `;
+    target.appendChild(item);
+  });
 }
 
 function renderPlayer(targetId, protocols, playerClass, playerNumber) {
@@ -1487,6 +1730,9 @@ function render() {
 
   updatePlayerLabels();
   renderTableMode();
+  renderRecentHomeMatches();
+  const balancedButton = document.getElementById("mainBalancedButton");
+  if (balancedButton) balancedButton.classList.toggle("active", Boolean(settings.balancedRandom));
   updateUndoButton();
 }
 
@@ -1638,6 +1884,7 @@ document.getElementById("historyButton").addEventListener("click", () => {
   document.getElementById("historyTabDeals").classList.add("active");
   document.getElementById("historyTabMatches").classList.remove("active");
   document.getElementById("historyTabStats").classList.remove("active");
+  document.getElementById("historyTabPlayers").classList.remove("active");
   historyDialog.showModal();
 });
 
@@ -1655,9 +1902,11 @@ document.getElementById("historyTabDeals").addEventListener("click", () => {
 document.getElementById("historyTabStats").addEventListener("click", () => {
   document.getElementById("historyDealsView").hidden = true;
   document.getElementById("historyStatsView").hidden = false;
+  document.getElementById("historyPlayersView").hidden = true;
   document.getElementById("historyTabDeals").classList.remove("active");
   document.getElementById("historyTabMatches").classList.remove("active");
   document.getElementById("historyTabStats").classList.add("active");
+  document.getElementById("historyTabPlayers").classList.remove("active");
 });
 
 document.getElementById("clearHistoryButton").addEventListener("click", () => {
@@ -1687,6 +1936,41 @@ document.getElementById("cancelMatchButton").addEventListener("click", cancelMat
 
 document.getElementById("rematchButton").addEventListener("click", rematch);
 document.getElementById("shareButton").addEventListener("click", shareCurrentResult);
+
+
+const playersDialog = document.getElementById("playersDialog");
+
+document.getElementById("playersButton").addEventListener("click", () => {
+  renderPlayersDialog();
+  playersDialog.showModal();
+});
+
+document.getElementById("closePlayersButton").addEventListener("click", () => playersDialog.close());
+
+document.getElementById("addPlayerButton").addEventListener("click", addPlayerProfile);
+document.getElementById("newPlayerInput").addEventListener("keydown", event => {
+  if (event.key === "Enter") addPlayerProfile();
+});
+
+document.getElementById("player1Select").addEventListener("change", event => {
+  seatAssignments.p1 = event.target.value || null;
+  ensureDistinctSeatAssignments(1);
+  saveSeatAssignments();
+  syncNamesFromSeatAssignments();
+  updatePlayerLabels();
+  renderPlayersDialog();
+  renderTableMode();
+});
+
+document.getElementById("player2Select").addEventListener("change", event => {
+  seatAssignments.p2 = event.target.value || null;
+  ensureDistinctSeatAssignments(2);
+  saveSeatAssignments();
+  syncNamesFromSeatAssignments();
+  updatePlayerLabels();
+  renderPlayersDialog();
+  renderTableMode();
+});
 
 const libraryDialog = document.getElementById("libraryDialog");
 document.getElementById("libraryButton").addEventListener("click", () => {
@@ -1722,9 +2006,11 @@ document.getElementById("historyTabMatches").addEventListener("click", () => {
   document.getElementById("historyDealsView").hidden = true;
   document.getElementById("historyMatchesView").hidden = false;
   document.getElementById("historyStatsView").hidden = true;
+  document.getElementById("historyPlayersView").hidden = true;
   document.getElementById("historyTabDeals").classList.remove("active");
   document.getElementById("historyTabMatches").classList.add("active");
   document.getElementById("historyTabStats").classList.remove("active");
+  document.getElementById("historyTabPlayers").classList.remove("active");
   renderMatchHistory();
 });
 
@@ -1735,6 +2021,19 @@ document.getElementById("historyTabDeals").addEventListener("click", () => {
 document.getElementById("historyTabStats").addEventListener("click", () => {
   document.getElementById("historyMatchesView").hidden = true;
   renderPerformanceStats();
+});
+
+
+document.getElementById("historyTabPlayers").addEventListener("click", () => {
+  document.getElementById("historyDealsView").hidden = true;
+  document.getElementById("historyMatchesView").hidden = true;
+  document.getElementById("historyStatsView").hidden = true;
+  document.getElementById("historyPlayersView").hidden = false;
+  document.getElementById("historyTabDeals").classList.remove("active");
+  document.getElementById("historyTabMatches").classList.remove("active");
+  document.getElementById("historyTabStats").classList.remove("active");
+  document.getElementById("historyTabPlayers").classList.add("active");
+  renderPlayerStats();
 });
 
 document.getElementById("clearMatchHistoryButton").addEventListener("click", () => {
@@ -1749,7 +2048,50 @@ document.getElementById("checkUpdateButton").addEventListener("click", () => che
 document.getElementById("reloadUpdateButton").addEventListener("click", () => location.reload());
 
 updatePlayerLabels();
-setTimeout(() => checkForUpdate(false), 1200);
+
+
+// V11 mockup-inspired home controls
+const menuSettingsButton = document.getElementById("menuSettingsButton");
+if (menuSettingsButton) menuSettingsButton.addEventListener("click", () => document.getElementById("settingsButton").click());
+
+const heroTableButton = document.getElementById("heroTableButton");
+if (heroTableButton) heroTableButton.addEventListener("click", () => document.getElementById("tableButton").click());
+
+const mainBalancedButton = document.getElementById("mainBalancedButton");
+if (mainBalancedButton) mainBalancedButton.addEventListener("click", () => {
+  settings.balancedRandom = !settings.balancedRandom;
+  saveSettings();
+  render();
+});
+
+const homeStatsButton = document.getElementById("homeStatsButton");
+if (homeStatsButton) homeStatsButton.addEventListener("click", () => {
+  document.getElementById("historyButton").click();
+  setTimeout(() => document.getElementById("historyTabStats").click(), 0);
+});
+
+const recentViewAllButton = document.getElementById("recentViewAllButton");
+if (recentViewAllButton) recentViewAllButton.addEventListener("click", () => {
+  document.getElementById("historyButton").click();
+  setTimeout(() => document.getElementById("historyTabMatches").click(), 0);
+});
+
+const navHome = document.getElementById("navHome");
+if (navHome) navHome.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+const navLibrary = document.getElementById("navLibrary");
+if (navLibrary) navLibrary.addEventListener("click", () => document.getElementById("libraryButton").click());
+const navRandom = document.getElementById("navRandom");
+if (navRandom) navRandom.addEventListener("click", animatedRandomiseAll);
+const navMatches = document.getElementById("navMatches");
+if (navMatches) navMatches.addEventListener("click", () => {
+  document.getElementById("historyButton").click();
+  setTimeout(() => document.getElementById("historyTabMatches").click(), 0);
+});
+const navStats = document.getElementById("navStats");
+if (navStats) navStats.addEventListener("click", () => {
+  document.getElementById("historyButton").click();
+  setTimeout(() => document.getElementById("historyTabStats").click(), 0);
+});
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {

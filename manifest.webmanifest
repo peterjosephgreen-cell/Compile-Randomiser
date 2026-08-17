@@ -1,7 +1,7 @@
 {
   "name": "Compile Companion",
   "short_name": "Compile",
-  "description": "Protocol randomiser, library, card reference, match tracker and statistics companion.",
+  "description": "Compile protocol randomiser, library, player profiles, match tracking and stats companion.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#04070d",
