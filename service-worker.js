@@ -1,4 +1,4 @@
-const CACHE = "compile-companion-v11";
+const CACHE = "compile-companion-v12";
 const ASSETS = [
   "./",
   "./index.html",
@@ -7,6 +7,8 @@ const ASSETS = [
   "./manifest.webmanifest",
   "./icon-192.png",
   "./icon-512.png",
+  "./compile-logo.png",
+  "./compile-mark.png",
   "./version.json",
   "./backgrounds/ambush.webp",
   "./backgrounds/apathy.webp",

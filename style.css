@@ -1811,3 +1811,258 @@ body.v11-home::before, body.v11-home::after { opacity:.1; }
   .match-row { grid-template-columns:1.6fr .75fr .75fr; }
   .square-action span { font-size:9px; }
 }
+
+
+/* =========================================================
+   V12 — publisher title art + stylised Protocol sigils
+   ========================================================= */
+
+.v12-title-wrap {
+  width: min(620px, 69vw);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.compile-title-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter:
+    invert(1)
+    drop-shadow(0 0 8px rgba(255,255,255,.45))
+    drop-shadow(0 0 25px rgba(185,80,255,.42));
+  opacity: .98;
+}
+
+.v12-title-wrap .hero-kicker {
+  margin-top: -2.6%;
+  position: relative;
+  z-index: 2;
+  color: rgba(255,255,255,.92);
+  letter-spacing: .28em;
+  text-shadow: 0 0 12px rgba(137,69,255,.72);
+}
+
+/* Stronger top framing like the v12 reference mockup. */
+.hero-header {
+  background:
+    radial-gradient(circle at 50% 54%, rgba(220,41,255,.24), transparent 31%),
+    radial-gradient(circle at 50% 45%, rgba(77,24,226,.19), transparent 52%);
+}
+
+.hero-title-wrap h1,
+.hero-mark {
+  display: none !important;
+}
+
+/* Protocol card artwork frame */
+.v11-home .protocol-card {
+  justify-content: flex-end;
+  padding-top: 9px;
+  background:
+    radial-gradient(circle at 50% 35%,
+      color-mix(in srgb,var(--protocol-accent) 23%,transparent) 0 10%,
+      transparent 38%),
+    repeating-conic-gradient(
+      from 0deg at 50% 36%,
+      color-mix(in srgb,var(--protocol-accent) 9%,transparent) 0 2deg,
+      transparent 2deg 16deg
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb,var(--protocol-deep) 78%,#02040b),
+      #070912 73%
+    );
+}
+
+.protocol-sigil {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  margin: auto 0 6px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  filter:
+    drop-shadow(0 0 7px var(--protocol-accent))
+    drop-shadow(0 0 16px color-mix(in srgb,var(--protocol-accent) 55%,transparent));
+}
+
+.sigil-ring {
+  position: absolute;
+  inset: 12px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.80);
+  box-shadow:
+    0 0 5px #fff,
+    0 0 12px var(--protocol-accent),
+    inset 0 0 11px color-mix(in srgb,var(--protocol-accent) 42%,transparent);
+}
+
+.sigil-ring::before,
+.sigil-ring::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb,var(--protocol-accent) 75%,#fff);
+  opacity: .72;
+  clip-path: polygon(
+    0 42%, 18% 45%, 7% 34%, 25% 40%,
+    32% 0, 38% 34%, 50% 12%, 54% 37%,
+    76% 4%, 68% 40%, 100% 34%, 77% 49%,
+    100% 58%, 75% 56%, 88% 72%, 65% 61%,
+    64% 100%, 55% 67%, 44% 91%, 45% 64%,
+    18% 98%, 32% 61%, 0 70%, 24% 54%
+  );
+}
+
+.sigil-ring::after {
+  inset: -12px;
+  opacity: .36;
+  transform: rotate(17deg);
+}
+
+.sigil-spokes {
+  position: absolute;
+  inset: 1px;
+  border-radius: 50%;
+  opacity: .42;
+  background:
+    repeating-conic-gradient(
+      from 4deg,
+      transparent 0 10deg,
+      color-mix(in srgb,var(--protocol-accent) 70%,#fff) 10.5deg 11.5deg,
+      transparent 12deg 25deg
+    );
+  -webkit-mask: radial-gradient(circle, transparent 0 42%, #000 44% 58%, transparent 60%);
+  mask: radial-gradient(circle, transparent 0 42%, #000 44% 58%, transparent 60%);
+}
+
+.v11-home .protocol-symbol {
+  position: relative;
+  z-index: 4;
+  width: 59px;
+  height: 59px;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  color: #fff !important;
+  filter:
+    drop-shadow(0 0 4px #fff)
+    drop-shadow(0 0 8px var(--protocol-accent));
+}
+
+.v11-home .protocol-symbol svg {
+  width: 49px;
+  height: 49px;
+}
+
+/* Thin cracked-energy texture across the card, without obscuring the sigil. */
+.v11-home .protocol-card::before {
+  opacity: .58;
+  background:
+    linear-gradient(131deg, transparent 0 31%, color-mix(in srgb,var(--protocol-accent) 35%,transparent) 31.3% 31.8%, transparent 32.1%),
+    linear-gradient(57deg, transparent 0 47%, rgba(255,255,255,.12) 47.2% 47.6%, transparent 47.9%),
+    linear-gradient(112deg, transparent 0 70%, color-mix(in srgb,var(--protocol-accent) 28%,transparent) 70.2% 70.7%, transparent 71%);
+}
+
+.v11-home .protocol-name {
+  padding-bottom: 3px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+  text-shadow:
+    0 0 5px rgba(255,255,255,.28),
+    0 0 10px var(--protocol-accent);
+}
+
+/* Balanced control: explanatory subtitle directly on the button. */
+.balanced-action {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 7px 9px !important;
+}
+.balance-icon {
+  font-size: 22px;
+}
+.balanced-copy {
+  display: grid !important;
+  text-align: left;
+  line-height: 1.03;
+}
+.balanced-copy strong {
+  font-size: 12px;
+  letter-spacing: .04em;
+}
+.balanced-copy small {
+  margin-top: 5px;
+  color: rgba(255,220,191,.82);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+/* Use the supplied COMPILE emblem in the centre navigation action. */
+.nav-random img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  filter:
+    invert(1)
+    drop-shadow(0 0 5px rgba(255,255,255,.7))
+    drop-shadow(0 0 9px rgba(219,100,255,.75));
+}
+
+/* The publisher logo is wide, so let it breathe on narrow phones. */
+@media (max-width: 700px) {
+  .v12-title-wrap {
+    width: min(86vw, 520px);
+    margin-top: 12px;
+  }
+  .compile-title-art {
+    max-height: 155px;
+  }
+  .v12-title-wrap .hero-kicker {
+    margin-top: -5px;
+    font-size: 8px;
+    letter-spacing: .22em;
+  }
+  .protocol-sigil {
+    width: 78px;
+    height: 78px;
+  }
+  .v11-home .protocol-symbol {
+    width: 50px;
+    height: 50px;
+  }
+  .v11-home .protocol-symbol svg {
+    width: 42px;
+    height: 42px;
+  }
+}
+
+@media (max-width: 420px) {
+  .v12-title-wrap {
+    width: 91vw;
+  }
+  .compile-title-art {
+    max-height: 135px;
+  }
+  .protocol-sigil {
+    width: 68px;
+    height: 68px;
+  }
+  .v11-home .protocol-symbol svg {
+    width: 36px;
+    height: 36px;
+  }
+  .balanced-copy small {
+    display: none;
+  }
+}

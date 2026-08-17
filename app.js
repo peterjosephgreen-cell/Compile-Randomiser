@@ -149,14 +149,16 @@ const symbols = {
   </svg>`,
 
   Time: `<svg viewBox="0 0 64 64" aria-hidden="true">
-    <circle cx="32" cy="32" r="22" fill="none" stroke="currentColor" stroke-width="4"/>
-    <path d="M32 17v16l10 7" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
-    <path d="M15 15 9 9M49 15l6-6" stroke="currentColor" stroke-width="3"/>
+    <path d="M18 9h28M18 55h28M21 10c0 10 4 16 11 22-7 6-11 12-11 22M43 10c0 10-4 16-11 22 7 6 11 12 11 22"
+      fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M24 16h16c-2 7-5 11-8 14-3-3-6-7-8-14ZM24 48h16c-2-7-5-11-8-14-3 3-6 7-8 14Z"
+      fill="currentColor"/>
   </svg>`,
 
   War: `<svg viewBox="0 0 64 64" aria-hidden="true">
-    <path d="m18 10 28 40M46 10 18 50" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
-    <path d="m14 8 8 4-5 6M50 8l-8 4 5 6M15 50l7-2-2 8M49 50l-7-2 2 8" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M32 5 37 22 51 12 43 27 60 29 44 35 56 48 39 41 38 59 31 43 20 56 24 39 7 46 20 34 4 27 22 27 13 11 27 22Z"
+      fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="32" cy="32" r="7" fill="var(--protocol-deep)" stroke="currentColor" stroke-width="2"/>
   </svg>`,
 
   Assimilation: `<svg viewBox="0 0 64 64" aria-hidden="true">
@@ -446,8 +448,7 @@ const allProtocols = Object.entries(protocolSets).flatMap(([set, names]) =>
 );
 
 
-const APP_VERSION = "11.0";
-const VERSION_FILE = "./version.json";
+const APP_VERSION = "12.0";
 
 const protocolPlaystyles = {
   Darkness: "Manipulates face-down cards and hidden information. Strong when you can build value while denying the opponent certainty.",
@@ -1239,61 +1240,6 @@ async function shareCurrentResult() {
   }
 }
 
-function compareVersions(a, b) {
-  const normalise = value =>
-    String(value ?? "")
-      .trim()
-      .replace(/^v/i, "")
-      .split(".")
-      .map(part => {
-        const match = String(part).match(/^\d+/);
-        return match ? Number(match[0]) : 0;
-      });
-
-  const av = normalise(a);
-  const bv = normalise(b);
-  const length = Math.max(av.length, bv.length);
-
-  for (let i = 0; i < length; i++) {
-    const left = av[i] ?? 0;
-    const right = bv[i] ?? 0;
-    if (left > right) return 1;
-    if (left < right) return -1;
-  }
-  return 0;
-}
-
-async function checkForUpdate(showCurrentMessage = true) {
-  try {
-    const response = await fetch(`${VERSION_FILE}?t=${Date.now()}`, {
-      cache: "no-store",
-      headers: { "Cache-Control": "no-cache" }
-    });
-
-    if (!response.ok) throw new Error(`Version check failed: ${response.status}`);
-
-    const remote = await response.json();
-    const remoteVersion = remote && remote.version;
-
-    // Only show the banner if the published version is genuinely newer.
-    if (remoteVersion && compareVersions(remoteVersion, APP_VERSION) > 0) {
-      document.getElementById("updateBanner").hidden = false;
-      if (showCurrentMessage) {
-        alert(`Version ${remoteVersion} is available. Tap Reload at the top of the screen to update.`);
-      }
-    } else {
-      document.getElementById("updateBanner").hidden = true;
-      if (showCurrentMessage) {
-        alert(`You are on the latest version (${APP_VERSION}).`);
-      }
-    }
-  } catch (_) {
-    // A failed/stale version check should never claim that an update exists.
-    document.getElementById("updateBanner").hidden = true;
-    if (showCurrentMessage) alert("Could not check for updates right now.");
-  }
-}
-
 function loadHistory() {
   const saved = localStorage.getItem("compileHistoryV3");
   if (!saved) return [];
@@ -1542,7 +1488,11 @@ function protocolCard(protocol, playerClass, playerNumber) {
   card.style.setProperty("--protocol-deep", visual[1]);
 
   card.innerHTML = `
-    <div class="protocol-symbol">${symbols[protocol.name] || `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="20" fill="none" stroke="currentColor" stroke-width="4"/></svg>`}</div>
+    <div class="protocol-sigil" aria-hidden="true">
+      <div class="sigil-spokes"></div>
+      <div class="sigil-ring"></div>
+      <div class="protocol-symbol">${symbols[protocol.name] || `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="20" fill="none" stroke="currentColor" stroke-width="4"/></svg>`}</div>
+    </div>
     <div>
       <div class="protocol-name">${protocol.name.toUpperCase()}</div>
       <div class="protocol-set">${protocol.set}</div>
@@ -2044,8 +1994,6 @@ document.getElementById("clearMatchHistoryButton").addEventListener("click", () 
   renderPerformanceStats();
 });
 
-document.getElementById("checkUpdateButton").addEventListener("click", () => checkForUpdate(true));
-document.getElementById("reloadUpdateButton").addEventListener("click", () => location.reload());
 
 updatePlayerLabels();
 
