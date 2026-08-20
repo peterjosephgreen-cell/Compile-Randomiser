@@ -1,4 +1,4 @@
-const CACHE = "compile-companion-v21-2";
+const CACHE = "compile-companion-v21-2-1";
 const ASSETS = [
   "./",
   "./index.html",
@@ -113,14 +113,26 @@ const ASSETS = [
   "./protocol-art/uncompiled/greed.webp",
   "./protocol-art/uncompiled/lust.webp",
   "./protocol-art/uncompiled/momentum.webp",
-  "./protocol-art/uncompiled/rigid.webp"
+  "./protocol-art/uncompiled/rigid.webp",
   "./game-engine.js",
   "./game-ui.js",
   "./game-data/cards-main1-aux1-main2-aux2.json",
 ];
 
 self.addEventListener("install", event => {
-  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)));
+  event.waitUntil(
+    caches.open(CACHE).then(cache =>
+      Promise.allSettled(
+        ASSETS.map(asset =>
+          fetch(asset, { cache: "reload" })
+            .then(response => {
+              if (!response.ok) throw new Error(`Failed to fetch ${asset}`);
+              return cache.put(asset, response);
+            })
+        )
+      )
+    )
+  );
   self.skipWaiting();
 });
 

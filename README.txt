@@ -248,3 +248,14 @@ VERSION 21.2 — DRAG-TO-PLAY
 - Existing tap-card then tap-line interaction remains fully available.
 - Board cards themselves are not draggable yet; that will be tied to actual Shift
   and card-effect resolution rather than allowing illegal free movement.
+
+VERSION 21.2.1 — ARTWORK / SERVICE-WORKER REPAIR
+------------------------------------------------
+- Fixed a missing comma in the v21.2 service-worker asset list.
+- The invalid service worker could prevent the new cache from installing correctly.
+- Service-worker installation is now resilient: individual missing assets no longer
+  cause the entire cache installation to fail.
+- Repair update includes all 45 compiled + all 45 uncompiled Protocol images.
+- Also includes Main 3 icons, app logos/icons and local Cardot fonts so GitHub is
+  restored to a known-good visual asset state.
+- No gameplay changes from v21.2.

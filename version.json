@@ -1,5 +1,5 @@
 {
-  "version": "21.2",
+  "version": "21.2.1",
   "released": "2026-08-21",
-  "notes": "Adds mouse/touch drag-to-play for hand cards while retaining tap-card then tap-line play."
+  "notes": "Repair release: fixes service-worker syntax and restores canonical artwork assets."
 }
