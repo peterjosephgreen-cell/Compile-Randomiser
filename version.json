@@ -1,5 +1,5 @@
 {
-  "version": "20.0",
-  "released": "2026-08-17",
-  "notes": "Adds manual trait-based selection with Match Any/All."
+  "version": "21.0",
+  "released": "2026-08-18",
+  "notes": "Playable Play vs AI prototype with local Standard AI, Control state, save/resume and 180-card data model."
 }

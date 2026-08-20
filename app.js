@@ -37,47 +37,101 @@ const protocolIconImages = {
 };
 
 const protocolArtImages = {
-  Ambush: "main3/art/ambush.webp",
-  Envy: "main3/art/envy.webp",
-  Fulcrum: "main3/art/fulcrum.webp",
-  Gluttony: "main3/art/gluttony.webp",
-  Greed: "main3/art/greed.webp",
-  Lust: "main3/art/lust.webp",
-  Momentum: "main3/art/momentum.webp",
-  Nova: "main3/art/nova.webp",
-  Overwhelm: "main3/art/overwhelm.webp",
-  Pride: "main3/art/pride.webp",
-  Sloth: "main3/art/sloth.webp",
-  Wrath: "main3/art/wrath.webp",
-  "Apathy": "protocol-art/apathy.webp",
-  "Chaos": "protocol-art/chaos.webp",
-  "Darkness": "protocol-art/darkness.webp",
-  "Death": "protocol-art/death.webp",
-  "Fire": "protocol-art/fire.webp",
-  "Gravity": "protocol-art/gravity.webp",
-  "Hate": "protocol-art/hate.webp",
-  "Life": "protocol-art/life.webp",
-  "Light": "protocol-art/light.webp",
-  "Love": "protocol-art/love.webp",
-  "Metal": "protocol-art/metal.webp",
-  "Plague": "protocol-art/plague.webp",
-  "Psychic": "protocol-art/psychic.webp",
-  "Spirit": "protocol-art/spirit.webp",
-  "Water": "protocol-art/water.webp",
-  "Flexible": "protocol-art/flexible.webp",
-  "Ice": "protocol-art/ice.webp",
-  "Inert": "protocol-art/inert.webp",
-  "Luck": "protocol-art/luck.webp",
-  "Mirror": "protocol-art/mirror.webp",
-  "Peace": "protocol-art/peace.webp",
-  "Rigid": "protocol-art/rigid.webp",
-  "Smoke": "protocol-art/smoke.webp",
-  "Time": "protocol-art/time.webp",
-  "War": "protocol-art/war.webp",
-  "Clarity": "protocol-art/clarity.webp",
-  "Courage": "protocol-art/courage.webp",
-  "Fear": "protocol-art/fear.webp"
+  "Spirit": "protocol-art/compiled/spirit.webp",
+  "Death": "protocol-art/compiled/death.webp",
+  "Fire": "protocol-art/compiled/fire.webp",
+  "Metal": "protocol-art/compiled/metal.webp",
+  "Apathy": "protocol-art/compiled/apathy.webp",
+  "Gravity": "protocol-art/compiled/gravity.webp",
+  "Water": "protocol-art/compiled/water.webp",
+  "Light": "protocol-art/compiled/light.webp",
+  "Plague": "protocol-art/compiled/plague.webp",
+  "Hate": "protocol-art/compiled/hate.webp",
+  "Darkness": "protocol-art/compiled/darkness.webp",
+  "Life": "protocol-art/compiled/life.webp",
+  "Psychic": "protocol-art/compiled/psychic.webp",
+  "Speed": "protocol-art/compiled/speed.webp",
+  "Love": "protocol-art/compiled/love.webp",
+  "Chaos": "protocol-art/compiled/chaos.webp",
+  "Clarity": "protocol-art/compiled/clarity.webp",
+  "Corruption": "protocol-art/compiled/corruption.webp",
+  "Luck": "protocol-art/compiled/luck.webp",
+  "Diversity": "protocol-art/compiled/diversity.webp",
+  "Courage": "protocol-art/compiled/courage.webp",
+  "Fear": "protocol-art/compiled/fear.webp",
+  "Ice": "protocol-art/compiled/ice.webp",
+  "Mirror": "protocol-art/compiled/mirror.webp",
+  "Unity": "protocol-art/compiled/unity.webp",
+  "Time": "protocol-art/compiled/time.webp",
+  "War": "protocol-art/compiled/war.webp",
+  "Peace": "protocol-art/compiled/peace.webp",
+  "Smoke": "protocol-art/compiled/smoke.webp",
+  "Assimilation": "protocol-art/compiled/assimilation.webp",
+  "Wrath": "protocol-art/compiled/wrath.webp",
+  "Envy": "protocol-art/compiled/envy.webp",
+  "Ambush": "protocol-art/compiled/ambush.webp",
+  "Fulcrum": "protocol-art/compiled/fulcrum.webp",
+  "Flexible": "protocol-art/compiled/flexible.webp",
+  "Pride": "protocol-art/compiled/pride.webp",
+  "Gluttony": "protocol-art/compiled/gluttony.webp",
+  "Sloth": "protocol-art/compiled/sloth.webp",
+  "Overwhelm": "protocol-art/compiled/overwhelm.webp",
+  "Inert": "protocol-art/compiled/inert.webp",
+  "Nova": "protocol-art/compiled/nova.webp",
+  "Greed": "protocol-art/compiled/greed.webp",
+  "Lust": "protocol-art/compiled/lust.webp",
+  "Momentum": "protocol-art/compiled/momentum.webp",
+  "Rigid": "protocol-art/compiled/rigid.webp"
 };
+
+const protocolTraitArtImages = {
+  "Spirit": "protocol-art/uncompiled/spirit.webp",
+  "Death": "protocol-art/uncompiled/death.webp",
+  "Fire": "protocol-art/uncompiled/fire.webp",
+  "Metal": "protocol-art/uncompiled/metal.webp",
+  "Apathy": "protocol-art/uncompiled/apathy.webp",
+  "Gravity": "protocol-art/uncompiled/gravity.webp",
+  "Water": "protocol-art/uncompiled/water.webp",
+  "Light": "protocol-art/uncompiled/light.webp",
+  "Plague": "protocol-art/uncompiled/plague.webp",
+  "Hate": "protocol-art/uncompiled/hate.webp",
+  "Darkness": "protocol-art/uncompiled/darkness.webp",
+  "Life": "protocol-art/uncompiled/life.webp",
+  "Psychic": "protocol-art/uncompiled/psychic.webp",
+  "Speed": "protocol-art/uncompiled/speed.webp",
+  "Love": "protocol-art/uncompiled/love.webp",
+  "Chaos": "protocol-art/uncompiled/chaos.webp",
+  "Clarity": "protocol-art/uncompiled/clarity.webp",
+  "Corruption": "protocol-art/uncompiled/corruption.webp",
+  "Luck": "protocol-art/uncompiled/luck.webp",
+  "Diversity": "protocol-art/uncompiled/diversity.webp",
+  "Courage": "protocol-art/uncompiled/courage.webp",
+  "Fear": "protocol-art/uncompiled/fear.webp",
+  "Ice": "protocol-art/uncompiled/ice.webp",
+  "Mirror": "protocol-art/uncompiled/mirror.webp",
+  "Unity": "protocol-art/uncompiled/unity.webp",
+  "Time": "protocol-art/uncompiled/time.webp",
+  "War": "protocol-art/uncompiled/war.webp",
+  "Peace": "protocol-art/uncompiled/peace.webp",
+  "Smoke": "protocol-art/uncompiled/smoke.webp",
+  "Assimilation": "protocol-art/uncompiled/assimilation.webp",
+  "Wrath": "protocol-art/uncompiled/wrath.webp",
+  "Envy": "protocol-art/uncompiled/envy.webp",
+  "Ambush": "protocol-art/uncompiled/ambush.webp",
+  "Fulcrum": "protocol-art/uncompiled/fulcrum.webp",
+  "Flexible": "protocol-art/uncompiled/flexible.webp",
+  "Pride": "protocol-art/uncompiled/pride.webp",
+  "Gluttony": "protocol-art/uncompiled/gluttony.webp",
+  "Sloth": "protocol-art/uncompiled/sloth.webp",
+  "Overwhelm": "protocol-art/uncompiled/overwhelm.webp",
+  "Inert": "protocol-art/uncompiled/inert.webp",
+  "Nova": "protocol-art/uncompiled/nova.webp",
+  "Greed": "protocol-art/uncompiled/greed.webp",
+  "Lust": "protocol-art/uncompiled/lust.webp",
+  "Momentum": "protocol-art/uncompiled/momentum.webp",
+  "Rigid": "protocol-art/uncompiled/rigid.webp"
+};
+
 
 
 function resolvePublisherBackground(art) {
@@ -566,7 +620,7 @@ const allProtocols = Object.entries(protocolSets).flatMap(([set, names]) =>
 );
 
 
-const APP_VERSION = "20.0";
+const APP_VERSION = "21.0";
 
 const protocolPlaystyles = {
   Darkness: "Manipulates face-down cards and hidden information. Strong when you can build value while denying the opponent certainty.",
@@ -1248,7 +1302,7 @@ function renderTraitsSelector(){
  allTraitLabels().forEach(tr=>{const c=getAvailableProtocols().filter(p=>(protocolTraits[p.name]||[]).includes(tr)).length;const b=document.createElement("button");b.className=`trait-chip${traitsState.selectedTraits.has(tr)?" active":""}`;b.innerHTML=`<span>${tr}</span><small>${c}</small>`;b.onclick=()=>toggleTrait(tr);chips.appendChild(b);});
  const matches=filteredTraitProtocols();document.getElementById("traitsResultCount").textContent=`${matches.length} Protocol${matches.length===1?"":"s"}`;
  const grid=document.getElementById("traitsProtocolGrid");grid.innerHTML="";
- matches.forEach(p=>{const art=protocolArtImages[p.name];const owner=traitsState.p1.includes(p.id)?"p1":traitsState.p2.includes(p.id)?"p2":"";const card=document.createElement("div");card.className=`traits-protocol-card ${owner}`;card.innerHTML=`<div class="traits-card-art" ${art?`style="background-image:url('${art}')"`:""}>${art?"":`<div class="traits-card-symbol">${protocolSymbolMarkup(p.name)}</div>`}${owner?`<div class="traits-owner-badge ${owner}">${owner==="p1"?playerNames.p1:playerNames.p2}</div>`:""}</div><div class="traits-card-info"><strong>${p.name}</strong><small>${p.set}</small><div class="traits-card-traits">${(protocolTraits[p.name]||[]).map(x=>`<span>${x}</span>`).join("")}</div></div><div class="traits-card-actions"><button class="traits-assign-p1">${playerNames.p1}</button><button class="traits-assign-p2">${playerNames.p2}</button></div>`;
+ matches.forEach(p=>{const art=protocolTraitArtImages[p.name]||protocolArtImages[p.name];const owner=traitsState.p1.includes(p.id)?"p1":traitsState.p2.includes(p.id)?"p2":"";const card=document.createElement("div");card.className=`traits-protocol-card ${owner}`;card.innerHTML=`<div class="traits-card-art" ${art?`style="background-image:url('${art}')"`:""}>${art?"":`<div class="traits-card-symbol">${protocolSymbolMarkup(p.name)}</div>`}${owner?`<div class="traits-owner-badge ${owner}">${owner==="p1"?playerNames.p1:playerNames.p2}</div>`:""}</div><div class="traits-card-info"><strong>${p.name}</strong><small>${p.set}</small><div class="traits-card-traits">${(protocolTraits[p.name]||[]).map(x=>`<span>${x}</span>`).join("")}</div></div><div class="traits-card-actions"><button class="traits-assign-p1">${playerNames.p1}</button><button class="traits-assign-p2">${playerNames.p2}</button></div>`;
  card.querySelector(".traits-assign-p1").onclick=()=>assignTraitProtocol(p.id,1);card.querySelector(".traits-assign-p2").onclick=()=>assignTraitProtocol(p.id,2);grid.appendChild(card);});
  document.getElementById("traitsApplyButton").disabled=traitsState.p1.length!==3||traitsState.p2.length!==3;
 }
@@ -2034,38 +2088,51 @@ function showProtocolReference(protocol) {
 
 
 const publisherBackgrounds = [
-  "ambush.webp", "apathy.webp", "assimilation.webp", "diversity.webp", "envy.webp",
-  "fire.webp", "fulcrum.webp", "gluttony.webp", "greed.webp", "kvDDXIIw.webp",
-  "lust.webp", "momentum.webp", "nova.webp", "overwhelm.webp", "sloth.webp",
-  "speed.webp", "unity.webp", "wrath.webp",
-  "../protocol-art/apathy.webp",
-  "../protocol-art/chaos.webp",
-  "../protocol-art/darkness.webp",
-  "../protocol-art/death.webp",
-  "../protocol-art/fire.webp",
-  "../protocol-art/gravity.webp",
-  "../protocol-art/hate.webp",
-  "../protocol-art/life.webp",
-  "../protocol-art/light.webp",
-  "../protocol-art/love.webp",
-  "../protocol-art/metal.webp",
-  "../protocol-art/plague.webp",
-  "../protocol-art/psychic.webp",
-  "../protocol-art/spirit.webp",
-  "../protocol-art/water.webp",
-  "../protocol-art/flexible.webp",
-  "../protocol-art/ice.webp",
-  "../protocol-art/inert.webp",
-  "../protocol-art/luck.webp",
-  "../protocol-art/mirror.webp",
-  "../protocol-art/peace.webp",
-  "../protocol-art/rigid.webp",
-  "../protocol-art/smoke.webp",
-  "../protocol-art/time.webp",
-  "../protocol-art/war.webp",
-  "../protocol-art/clarity.webp",
-  "../protocol-art/courage.webp",
-  "../protocol-art/fear.webp"
+  "../protocol-art/compiled/spirit.webp",
+  "../protocol-art/compiled/death.webp",
+  "../protocol-art/compiled/fire.webp",
+  "../protocol-art/compiled/metal.webp",
+  "../protocol-art/compiled/apathy.webp",
+  "../protocol-art/compiled/gravity.webp",
+  "../protocol-art/compiled/water.webp",
+  "../protocol-art/compiled/light.webp",
+  "../protocol-art/compiled/plague.webp",
+  "../protocol-art/compiled/hate.webp",
+  "../protocol-art/compiled/darkness.webp",
+  "../protocol-art/compiled/life.webp",
+  "../protocol-art/compiled/psychic.webp",
+  "../protocol-art/compiled/speed.webp",
+  "../protocol-art/compiled/love.webp",
+  "../protocol-art/compiled/chaos.webp",
+  "../protocol-art/compiled/clarity.webp",
+  "../protocol-art/compiled/corruption.webp",
+  "../protocol-art/compiled/luck.webp",
+  "../protocol-art/compiled/diversity.webp",
+  "../protocol-art/compiled/courage.webp",
+  "../protocol-art/compiled/fear.webp",
+  "../protocol-art/compiled/ice.webp",
+  "../protocol-art/compiled/mirror.webp",
+  "../protocol-art/compiled/unity.webp",
+  "../protocol-art/compiled/time.webp",
+  "../protocol-art/compiled/war.webp",
+  "../protocol-art/compiled/peace.webp",
+  "../protocol-art/compiled/smoke.webp",
+  "../protocol-art/compiled/assimilation.webp",
+  "../protocol-art/compiled/wrath.webp",
+  "../protocol-art/compiled/envy.webp",
+  "../protocol-art/compiled/ambush.webp",
+  "../protocol-art/compiled/fulcrum.webp",
+  "../protocol-art/compiled/flexible.webp",
+  "../protocol-art/compiled/pride.webp",
+  "../protocol-art/compiled/gluttony.webp",
+  "../protocol-art/compiled/sloth.webp",
+  "../protocol-art/compiled/overwhelm.webp",
+  "../protocol-art/compiled/inert.webp",
+  "../protocol-art/compiled/nova.webp",
+  "../protocol-art/compiled/greed.webp",
+  "../protocol-art/compiled/lust.webp",
+  "../protocol-art/compiled/momentum.webp",
+  "../protocol-art/compiled/rigid.webp"
 ];
 
 function applyRandomProtocolBackground() {
@@ -2544,6 +2611,13 @@ if (navStats) navStats.addEventListener("click", () => {
   document.getElementById("historyButton").click();
   setTimeout(() => document.getElementById("historyTabStats").click(), 0);
 });
+
+
+// V21 playable-mode bridge: expose read-only companion data needed by game-ui.js.
+window.protocolArtImages = protocolArtImages;
+window.protocolVisuals = protocolVisuals;
+window.getCompilePlayerNames = () => ({...playerNames});
+Object.defineProperty(window,"playerNames",{get:()=>playerNames, configurable:true});
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {

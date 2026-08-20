@@ -1,0 +1,2472 @@
+{
+  "source": "https://phaufe.github.io/compile/",
+  "source_file": "https://raw.githubusercontent.com/phaufe/compile/main/script.js",
+  "extracted_on": "2026-08-18",
+  "protocol_count": 30,
+  "card_count": 180,
+  "sets": {
+    "Main 1": [
+      "Darkness",
+      "Death",
+      "Fire",
+      "Gravity",
+      "Life",
+      "Light",
+      "Metal",
+      "Plague",
+      "Psychic",
+      "Speed",
+      "Spirit",
+      "Water"
+    ],
+    "Aux 1": [
+      "Apathy",
+      "Hate",
+      "Love"
+    ],
+    "Main 2": [
+      "Chaos",
+      "Clarity",
+      "Corruption",
+      "Courage",
+      "Fear",
+      "Ice",
+      "Luck",
+      "Mirror",
+      "Peace",
+      "Smoke",
+      "Time",
+      "War"
+    ],
+    "Aux 2": [
+      "Assimilation",
+      "Diversity",
+      "Unity"
+    ]
+  },
+  "cards": [
+    {
+      "id": "apathy-0",
+      "protocol": "Apathy",
+      "set": "Aux 1",
+      "value": 0,
+      "top": "Your total value in this line is increased by 1 for each face-down card in this line.",
+      "middle": "",
+      "bottom": "",
+      "keywords": [
+        "face-down"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "apathy-1",
+      "protocol": "Apathy",
+      "set": "Aux 1",
+      "value": 1,
+      "top": "",
+      "middle": "Flip all other face-up cards in this line.",
+      "bottom": "",
+      "keywords": [
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "apathy-2",
+      "protocol": "Apathy",
+      "set": "Aux 1",
+      "value": 2,
+      "top": "Ignore all middle commands of cards in this line.",
+      "middle": "",
+      "bottom": "<div><span class='emphasis'>When this card would be covered:</span> First, flip this card.</div>",
+      "keywords": [
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "apathy-3",
+      "protocol": "Apathy",
+      "set": "Aux 1",
+      "value": 3,
+      "top": "",
+      "middle": "Flip 1 of your opponent´s face-up cards.",
+      "bottom": "",
+      "keywords": [
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "apathy-4",
+      "protocol": "Apathy",
+      "set": "Aux 1",
+      "value": 4,
+      "top": "",
+      "middle": "You may flip 1 of your face-up covered cards.",
+      "bottom": "",
+      "keywords": [
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "apathy-5",
+      "protocol": "Apathy",
+      "set": "Aux 1",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "assimilation-0",
+      "protocol": "Assimilation",
+      "set": "Aux 2",
+      "value": 0,
+      "top": "",
+      "middle": "Put 1 of your opponent´s covered or uncovered face-down cards into your hand.",
+      "bottom": "",
+      "keywords": [
+        "face-down"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "assimilation-1",
+      "protocol": "Assimilation",
+      "set": "Aux 2",
+      "value": 1,
+      "top": "",
+      "middle": "Discard 1 card. Refresh.",
+      "bottom": "<div><span class='emphasis'>After a player refreshes:</span> Draw the top card of your opponent´s deck. Discard 1 card into their trash.</div>",
+      "keywords": [
+        "discard",
+        "draw",
+        "refresh"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "assimilation-2",
+      "protocol": "Assimilation",
+      "set": "Aux 2",
+      "value": 2,
+      "top": "",
+      "middle": "",
+      "bottom": "<div><span class='emphasis'>End:</span> Play the top card of your opponent´s deck face down in this stack.  </div>",
+      "keywords": [
+        "face-down"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "assimilation-4",
+      "protocol": "Assimilation",
+      "set": "Aux 2",
+      "value": 4,
+      "top": "",
+      "middle": "Draw the top card of your opponent´s deck. Your opponent draws the top card of your deck.",
+      "bottom": "",
+      "keywords": [
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "assimilation-5",
+      "protocol": "Assimilation",
+      "set": "Aux 2",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "assimilation-6",
+      "protocol": "Assimilation",
+      "set": "Aux 2",
+      "value": 6,
+      "top": "",
+      "middle": "",
+      "bottom": "<div><span class='emphasis'>End:</span> Play the top card of your deck face-down on your opponent´s side.</div>",
+      "keywords": [],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "chaos-0",
+      "protocol": "Chaos",
+      "set": "Main 2",
+      "value": 0,
+      "top": "",
+      "middle": "In each line, flip 1 covered card.",
+      "bottom": "<div><span class='emphasis'>Start:</span> Draw the top card of your opponent´s deck. Your opponent draws the top card of your deck.</div>",
+      "keywords": [
+        "draw",
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "chaos-1",
+      "protocol": "Chaos",
+      "set": "Main 2",
+      "value": 1,
+      "top": "",
+      "middle": "Rearrange your protocols. Rearrange your opponent´s protocols.",
+      "bottom": "",
+      "keywords": [
+        "rearrange"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "chaos-2",
+      "protocol": "Chaos",
+      "set": "Main 2",
+      "value": 2,
+      "top": "",
+      "middle": "Shift 1 of your covered cards.",
+      "bottom": "",
+      "keywords": [
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "chaos-3",
+      "protocol": "Chaos",
+      "set": "Main 2",
+      "value": 3,
+      "top": "",
+      "middle": "",
+      "bottom": "This card may be played without matching protocols.",
+      "keywords": [
+        "play"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "chaos-4",
+      "protocol": "Chaos",
+      "set": "Main 2",
+      "value": 4,
+      "top": "",
+      "middle": "",
+      "bottom": "<div><span class='emphasis'>End:</span> Discard your hand. Draw that many cards.</div>",
+      "keywords": [
+        "discard",
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "chaos-5",
+      "protocol": "Chaos",
+      "set": "Main 2",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "clarity-0",
+      "protocol": "Clarity",
+      "set": "Main 2",
+      "value": 0,
+      "top": "Your total value in this line is increased by 1 for each card in your hand.",
+      "middle": "",
+      "bottom": "",
+      "keywords": [],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "clarity-1",
+      "protocol": "Clarity",
+      "set": "Main 2",
+      "value": 1,
+      "top": "<div><span class='emphasis'>Start:</span> Reveal the top card of your deck. You may discard the top card of your deck.</div>",
+      "middle": "Your opponent reveals their hand.",
+      "bottom": "<div><span class='emphasis'>When this card would be covered:</span> First, draw 3 cards.</div>",
+      "keywords": [
+        "discard",
+        "draw",
+        "reveal"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "clarity-2",
+      "protocol": "Clarity",
+      "set": "Main 2",
+      "value": 2,
+      "top": "",
+      "middle": "Reveal your deck. Draw 1 card with a value of 1 revealed this way. Shuffle your deck. Play 1 card with a value of 1.",
+      "bottom": "",
+      "keywords": [
+        "draw",
+        "play",
+        "reveal"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "clarity-3",
+      "protocol": "Clarity",
+      "set": "Main 2",
+      "value": 3,
+      "top": "",
+      "middle": "Reveal your deck. Draw 1 card with a value of 5 revealed this way. Shuffle your deck.",
+      "bottom": "",
+      "keywords": [
+        "draw",
+        "reveal"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "clarity-4",
+      "protocol": "Clarity",
+      "set": "Main 2",
+      "value": 4,
+      "top": "",
+      "middle": "You may shuffle your trash into your deck.",
+      "bottom": "",
+      "keywords": [],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "clarity-5",
+      "protocol": "Clarity",
+      "set": "Main 2",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "corruption-0",
+      "protocol": "Corruption",
+      "set": "Main 2",
+      "value": 0,
+      "top": "<div><span class='emphasis'>Start:</span> Flip 1 face-up covered or uncovered card in this stack other than this card.</div>",
+      "middle": "",
+      "bottom": "You may play this card in any line on either player´s side.",
+      "keywords": [
+        "flip",
+        "play"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "corruption-1",
+      "protocol": "Corruption",
+      "set": "Main 2",
+      "value": 1,
+      "top": "",
+      "middle": "Return 1 card.",
+      "bottom": "<div><span class='emphasis'>When a card would be returned to your opponent´s hand:</span> Put that card on top of their deck face-down instead.</div>",
+      "keywords": [
+        "return"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "corruption-2",
+      "protocol": "Corruption",
+      "set": "Main 2",
+      "value": 2,
+      "top": "<div><span class='emphasis'>After you discard cards:</span> Your opponent discards 1 card.</div>",
+      "middle": "Draw 1 card. Discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard",
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "corruption-3",
+      "protocol": "Corruption",
+      "set": "Main 2",
+      "value": 3,
+      "top": "",
+      "middle": "You may flip 1 face-up covered card.",
+      "bottom": "",
+      "keywords": [
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "corruption-5",
+      "protocol": "Corruption",
+      "set": "Main 2",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "corruption-6",
+      "protocol": "Corruption",
+      "set": "Main 2",
+      "value": 6,
+      "top": "<div><span class='emphasis'>End:</span> Either discard 1 card or delete this card.</div>",
+      "middle": "",
+      "bottom": "",
+      "keywords": [
+        "delete",
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "courage-0",
+      "protocol": "Courage",
+      "set": "Main 2",
+      "value": 0,
+      "top": "<div><span class='emphasis'>Start:</span> If you have no cards in hand, draw 1 card.</div>",
+      "middle": "Draw 1 card.",
+      "bottom": "<div><span class='emphasis'>End:</span> You may discard 1 card. If you do, your opponent discards 1 card.</div>",
+      "keywords": [
+        "discard",
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "courage-1",
+      "protocol": "Courage",
+      "set": "Main 2",
+      "value": 1,
+      "top": "",
+      "middle": "Delete 1 of your opponent´s cards in a line where they have a highter total value than you do",
+      "bottom": "",
+      "keywords": [
+        "delete"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "courage-2",
+      "protocol": "Courage",
+      "set": "Main 2",
+      "value": 2,
+      "top": "",
+      "middle": "Draw 1 card.",
+      "bottom": "<div><span class='emphasis'>End:</span> If your opponent has a highter total value than you do in this line, draw 1 card.</div>",
+      "keywords": [
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "courage-3",
+      "protocol": "Courage",
+      "set": "Main 2",
+      "value": 3,
+      "top": "",
+      "middle": "",
+      "bottom": "<div><span class='emphasis'>End:</span> You may shift this card to the line where your opponent has their highest total value.</div>",
+      "keywords": [
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "courage-5",
+      "protocol": "Courage",
+      "set": "Main 2",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "courage-6",
+      "protocol": "Courage",
+      "set": "Main 2",
+      "value": 6,
+      "top": "<div><span class='emphasis'>End:</span> If your opponent has a higher value in this line than you do, flip this card.</div>",
+      "middle": "",
+      "bottom": "",
+      "keywords": [],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "darkness-0",
+      "protocol": "Darkness",
+      "set": "Main 1",
+      "value": 0,
+      "top": "",
+      "middle": "Draw 3 cards. Shift 1 of your opponent´s covered cards.",
+      "bottom": "",
+      "keywords": [
+        "draw",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "darkness-1",
+      "protocol": "Darkness",
+      "set": "Main 1",
+      "value": 1,
+      "top": "",
+      "middle": "Flip 1 of your opponent´s cards. You may shift that card.",
+      "bottom": "",
+      "keywords": [
+        "flip",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "darkness-2",
+      "protocol": "Darkness",
+      "set": "Main 1",
+      "value": 2,
+      "top": "All face-down cards in this stack have a value of 4.",
+      "middle": "You may flip 1 covered card in this line.",
+      "bottom": "",
+      "keywords": [
+        "face-down",
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "darkness-3",
+      "protocol": "Darkness",
+      "set": "Main 1",
+      "value": 3,
+      "top": "",
+      "middle": "Play 1 card face-down in another line.",
+      "bottom": "",
+      "keywords": [
+        "face-down",
+        "play"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "darkness-4",
+      "protocol": "Darkness",
+      "set": "Main 1",
+      "value": 4,
+      "top": "",
+      "middle": "Shift 1 face-down card.",
+      "bottom": "",
+      "keywords": [
+        "face-down",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "darkness-5",
+      "protocol": "Darkness",
+      "set": "Main 1",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "death-0",
+      "protocol": "Death",
+      "set": "Main 1",
+      "value": 0,
+      "top": "",
+      "middle": "Delete 1 card from each other line.",
+      "bottom": "",
+      "keywords": [
+        "delete"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "death-1",
+      "protocol": "Death",
+      "set": "Main 1",
+      "value": 1,
+      "top": "<div><span class='emphasis'>Start:</span> You may draw 1 card. If you do, delete 1 other card. Then delete this card.</div>",
+      "middle": "",
+      "bottom": "",
+      "keywords": [
+        "delete",
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "death-2",
+      "protocol": "Death",
+      "set": "Main 1",
+      "value": 2,
+      "top": "",
+      "middle": "Delete all cards in 1 line with values of 1 or 2.",
+      "bottom": "",
+      "keywords": [
+        "delete"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "death-3",
+      "protocol": "Death",
+      "set": "Main 1",
+      "value": 3,
+      "top": "",
+      "middle": "Delete 1 face-down card.",
+      "bottom": "",
+      "keywords": [
+        "delete",
+        "face-down"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "death-4",
+      "protocol": "Death",
+      "set": "Main 1",
+      "value": 4,
+      "top": "",
+      "middle": "Delete a card with a value of 0 or 1.",
+      "bottom": "",
+      "keywords": [
+        "delete"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "death-5",
+      "protocol": "Death",
+      "set": "Main 1",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "diversity-0",
+      "protocol": "Diversity",
+      "set": "Aux 2",
+      "value": 0,
+      "top": "",
+      "middle": "If there are 6 different protocols on cards in the field, flip the Diversity protocol to the compiled side.",
+      "bottom": "<div><span class='emphasis'>End:</span> You may play 1 non-Diversity card in this line.</div>",
+      "keywords": [
+        "compile"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "diversity-1",
+      "protocol": "Diversity",
+      "set": "Aux 2",
+      "value": 1,
+      "top": "",
+      "middle": "Shift 1 card. Draw cards equal to the number of different protocols in this line.",
+      "bottom": "",
+      "keywords": [
+        "draw",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "diversity-3",
+      "protocol": "Diversity",
+      "set": "Aux 2",
+      "value": 3,
+      "top": "Your total value in this line is increased by 2 if there are any non-Diversity face-up cards in this stack.",
+      "middle": "",
+      "bottom": "",
+      "keywords": [],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "diversity-4",
+      "protocol": "Diversity",
+      "set": "Aux 2",
+      "value": 4,
+      "top": "",
+      "middle": "Flip 1 card with a value less than the number of different protocols on cards in the field.",
+      "bottom": "",
+      "keywords": [
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "diversity-5",
+      "protocol": "Diversity",
+      "set": "Aux 2",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "diversity-6",
+      "protocol": "Diversity",
+      "set": "Aux 2",
+      "value": 6,
+      "top": "<div><span class='emphasis'>End:</span> If there are not at least 3 different protocols on cards in the field, delete this card.</div>",
+      "middle": "",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "fear-0",
+      "protocol": "Fear",
+      "set": "Main 2",
+      "value": 0,
+      "top": "During your turn, your opponent´s cards do not have middle commands.",
+      "middle": "Shift or flip 1 card.",
+      "bottom": "",
+      "keywords": [
+        "flip",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "fear-1",
+      "protocol": "Fear",
+      "set": "Main 2",
+      "value": 1,
+      "top": "",
+      "middle": "Draw 2 cards. Your opponent discards their hand and draws the amount of cards discarded minus 1.",
+      "bottom": "",
+      "keywords": [
+        "discard",
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "fear-2",
+      "protocol": "Fear",
+      "set": "Main 2",
+      "value": 2,
+      "top": "",
+      "middle": "Return 1 of your opponent´s cards.",
+      "bottom": "",
+      "keywords": [
+        "return"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "fear-3",
+      "protocol": "Fear",
+      "set": "Main 2",
+      "value": 3,
+      "top": "",
+      "middle": "Shift 1 of your opponent´s covered or uncovered cards in this line.",
+      "bottom": "",
+      "keywords": [],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "fear-4",
+      "protocol": "Fear",
+      "set": "Main 2",
+      "value": 4,
+      "top": "",
+      "middle": "Your opponent discards 1 random card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "fear-5",
+      "protocol": "Fear",
+      "set": "Main 2",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "fire-0",
+      "protocol": "Fire",
+      "set": "Main 1",
+      "value": 0,
+      "top": "",
+      "middle": "Flip 1 other card. Draw 2 cards.",
+      "bottom": "<div><span class='emphasis'>When this card would be covered:</span> First, draw 1 card.Then, flip 1 other card.</div>",
+      "keywords": [
+        "draw",
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "fire-1",
+      "protocol": "Fire",
+      "set": "Main 1",
+      "value": 1,
+      "top": "",
+      "middle": "Discard 1 card. If you do, delete 1 card.",
+      "bottom": "",
+      "keywords": [
+        "delete",
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "fire-2",
+      "protocol": "Fire",
+      "set": "Main 1",
+      "value": 2,
+      "top": "",
+      "middle": "Discard 1 card. If you do, return 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard",
+        "return"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "fire-3",
+      "protocol": "Fire",
+      "set": "Main 1",
+      "value": 3,
+      "top": "",
+      "middle": "",
+      "bottom": "<div><span class='emphasis'>End:</span> You may discard 1 card. If you do, flip 1 card.</div>",
+      "keywords": [
+        "discard",
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "fire-4",
+      "protocol": "Fire",
+      "set": "Main 1",
+      "value": 4,
+      "top": "",
+      "middle": "Discard 1 or more cards. Draw the amount discarded plus 1.",
+      "bottom": "",
+      "keywords": [
+        "discard",
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "fire-5",
+      "protocol": "Fire",
+      "set": "Main 1",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "gravity-0",
+      "protocol": "Gravity",
+      "set": "Main 1",
+      "value": 0,
+      "top": "",
+      "middle": "For every 2 cards in this line, play the top card of your deck face-down under this card.",
+      "bottom": "",
+      "keywords": [
+        "face-down",
+        "play"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "gravity-1",
+      "protocol": "Gravity",
+      "set": "Main 1",
+      "value": 1,
+      "top": "",
+      "middle": "Draw 2 cards. Shift 1 card either to or from this line.",
+      "bottom": "",
+      "keywords": [
+        "draw",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "gravity-2",
+      "protocol": "Gravity",
+      "set": "Main 1",
+      "value": 2,
+      "top": "",
+      "middle": "Flip 1 card. Shift that card to this line.",
+      "bottom": "",
+      "keywords": [
+        "flip",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "gravity-4",
+      "protocol": "Gravity",
+      "set": "Main 1",
+      "value": 4,
+      "top": "",
+      "middle": "Shift 1 face-down card to this line.",
+      "bottom": "",
+      "keywords": [
+        "face-down",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "gravity-5",
+      "protocol": "Gravity",
+      "set": "Main 1",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "gravity-6",
+      "protocol": "Gravity",
+      "set": "Main 1",
+      "value": 6,
+      "top": "",
+      "middle": "Your opponent plays the top card of their deck face-down in this line.",
+      "bottom": "",
+      "keywords": [
+        "face-down",
+        "play"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "hate-0",
+      "protocol": "Hate",
+      "set": "Aux 1",
+      "value": 0,
+      "top": "",
+      "middle": "Delete 1 card.",
+      "bottom": "",
+      "keywords": [
+        "delete"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "hate-1",
+      "protocol": "Hate",
+      "set": "Aux 1",
+      "value": 1,
+      "top": "",
+      "middle": "Discard 3 cards. Delete 1 card. Delete 1 card.",
+      "bottom": "",
+      "keywords": [
+        "delete",
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "hate-2",
+      "protocol": "Hate",
+      "set": "Aux 1",
+      "value": 2,
+      "top": "",
+      "middle": "Delete your highest value uncovered card. Delete your opponent´s highest value uncovered card.",
+      "bottom": "",
+      "keywords": [
+        "delete"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "hate-3",
+      "protocol": "Hate",
+      "set": "Aux 1",
+      "value": 3,
+      "top": "<div><span class='emphasis'>After you delete cards:</span> Draw 1 card.</div>",
+      "middle": "",
+      "bottom": "",
+      "keywords": [
+        "delete",
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "hate-4",
+      "protocol": "Hate",
+      "set": "Aux 1",
+      "value": 4,
+      "top": "",
+      "middle": "",
+      "bottom": "<div><span class='emphasis'>When this card would be covered:</span> First, delete the lowest value covered card in this line.</div>",
+      "keywords": [
+        "delete"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "hate-5",
+      "protocol": "Hate",
+      "set": "Aux 1",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "ice-1",
+      "protocol": "Ice",
+      "set": "Main 2",
+      "value": 1,
+      "top": "",
+      "middle": "You may shift this card.",
+      "bottom": "<div><span class='emphasis'>After your opponent plays a card in this line:</span> Your opponent discards 1 card.</div>",
+      "keywords": [
+        "discard",
+        "play",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "ice-2",
+      "protocol": "Ice",
+      "set": "Main 2",
+      "value": 2,
+      "top": "",
+      "middle": "Shift 1 other card.",
+      "bottom": "",
+      "keywords": [
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "ice-3",
+      "protocol": "Ice",
+      "set": "Main 2",
+      "value": 3,
+      "top": "<div><span class='emphasis'>End:</span> If this card is covered, you may shift it.</div>",
+      "middle": "",
+      "bottom": "",
+      "keywords": [
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "ice-4",
+      "protocol": "Ice",
+      "set": "Main 2",
+      "value": 4,
+      "top": "",
+      "middle": "",
+      "bottom": "This card cannot be flipped.",
+      "keywords": [
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "ice-5",
+      "protocol": "Ice",
+      "set": "Main 2",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "ice-6",
+      "protocol": "Ice",
+      "set": "Main 2",
+      "value": 6,
+      "top": "If you have any cards in your hand, you cannot draw cards.",
+      "middle": "",
+      "bottom": "",
+      "keywords": [],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "life-0",
+      "protocol": "Life",
+      "set": "Main 1",
+      "value": 0,
+      "top": "<div><span class='emphasis'>End:</span> If this card is covered, delete this card.</div>",
+      "middle": "Play the top card of your deck face-down in each line where you have a card.",
+      "bottom": "",
+      "keywords": [
+        "delete",
+        "face-down",
+        "play"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "life-1",
+      "protocol": "Life",
+      "set": "Main 1",
+      "value": 1,
+      "top": "",
+      "middle": "Flip 1 card. Flip 1 card.",
+      "bottom": "",
+      "keywords": [
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "life-2",
+      "protocol": "Life",
+      "set": "Main 1",
+      "value": 2,
+      "top": "",
+      "middle": "Draw 1 card. You may flip 1 face-down card.",
+      "bottom": "",
+      "keywords": [
+        "draw",
+        "face-down",
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "life-3",
+      "protocol": "Life",
+      "set": "Main 1",
+      "value": 3,
+      "top": "",
+      "middle": "",
+      "bottom": "<div><span class='emphasis'>When this card would be covered:</span> First, play the top card of your deck face-down in another line.</div>",
+      "keywords": [
+        "face-down",
+        "play"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "life-4",
+      "protocol": "Life",
+      "set": "Main 1",
+      "value": 4,
+      "top": "",
+      "middle": "If this card is covering a card, draw 1 card.",
+      "bottom": "",
+      "keywords": [
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "life-5",
+      "protocol": "Life",
+      "set": "Main 1",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "light-0",
+      "protocol": "Light",
+      "set": "Main 1",
+      "value": 0,
+      "top": "",
+      "middle": "Flip 1 card. Draw cards equal to that card´s value.",
+      "bottom": "",
+      "keywords": [
+        "draw",
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "light-1",
+      "protocol": "Light",
+      "set": "Main 1",
+      "value": 1,
+      "top": "",
+      "middle": "",
+      "bottom": "<div><span class='emphasis'>End:</span> Draw 1 card.</div>",
+      "keywords": [
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "light-2",
+      "protocol": "Light",
+      "set": "Main 1",
+      "value": 2,
+      "top": "",
+      "middle": "Draw 2 cards. Reveal 1 face-down card. You may shift or flip that card.",
+      "bottom": "",
+      "keywords": [
+        "draw",
+        "face-down",
+        "flip",
+        "reveal",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "light-3",
+      "protocol": "Light",
+      "set": "Main 1",
+      "value": 3,
+      "top": "",
+      "middle": "Shift all face-down cards in this line to another line.",
+      "bottom": "",
+      "keywords": [
+        "face-down",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "light-4",
+      "protocol": "Light",
+      "set": "Main 1",
+      "value": 4,
+      "top": "",
+      "middle": "Your opponent reveals their hand.",
+      "bottom": "",
+      "keywords": [
+        "reveal"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "light-5",
+      "protocol": "Light",
+      "set": "Main 1",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "love-1",
+      "protocol": "Love",
+      "set": "Aux 1",
+      "value": 1,
+      "top": "",
+      "middle": "Draw the top card of your opponent´s deck.",
+      "bottom": "<div><span class='emphasis'>End:</span> You may give 1 card from your hand to your opponent. If you do, draw 2 cards.</div>",
+      "keywords": [
+        "draw",
+        "give"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "love-2",
+      "protocol": "Love",
+      "set": "Aux 1",
+      "value": 2,
+      "top": "",
+      "middle": "Your opponent draws 1 card. Refresh.",
+      "bottom": "",
+      "keywords": [
+        "draw",
+        "refresh"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "love-3",
+      "protocol": "Love",
+      "set": "Aux 1",
+      "value": 3,
+      "top": "",
+      "middle": "Take 1 random card from your opponent´s hand. Give 1 card from your hand to your opponent.",
+      "bottom": "",
+      "keywords": [
+        "give",
+        "take"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "love-4",
+      "protocol": "Love",
+      "set": "Aux 1",
+      "value": 4,
+      "top": "",
+      "middle": "Reveal 1 card from your hand. Flip 1 card.",
+      "bottom": "",
+      "keywords": [
+        "flip",
+        "reveal"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "love-5",
+      "protocol": "Love",
+      "set": "Aux 1",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "love-6",
+      "protocol": "Love",
+      "set": "Aux 1",
+      "value": 6,
+      "top": "",
+      "middle": "Your opponent draws 2 cards.",
+      "bottom": "",
+      "keywords": [
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "luck-0",
+      "protocol": "Luck",
+      "set": "Main 2",
+      "value": 0,
+      "top": "",
+      "middle": "State a number. Draw 3 cards. Reveal 1 card drawn with the face-up value of your stated number. You may play it.",
+      "bottom": "",
+      "keywords": [
+        "draw",
+        "play",
+        "reveal"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "luck-1",
+      "protocol": "Luck",
+      "set": "Main 2",
+      "value": 1,
+      "top": "",
+      "middle": "Play the top card of your deck face-down. Flip that card, ignoring its middle commands.",
+      "bottom": "",
+      "keywords": [
+        "flip",
+        "play"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "luck-2",
+      "protocol": "Luck",
+      "set": "Main 2",
+      "value": 2,
+      "top": "",
+      "middle": "Discard the top card of your deck. Draw cards equal to the value of the discarded card.",
+      "bottom": "",
+      "keywords": [
+        "discard",
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "luck-3",
+      "protocol": "Luck",
+      "set": "Main 2",
+      "value": 3,
+      "top": "",
+      "middle": "State a protocol. Discard the top card of your opponent´s deck. If the discarded card matches the stated protocol, delete 1 card.",
+      "bottom": "",
+      "keywords": [
+        "delete",
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "luck-4",
+      "protocol": "Luck",
+      "set": "Main 2",
+      "value": 4,
+      "top": "",
+      "middle": "Discard the top card of your deck. Delete 1 covered or uncovered card that shares a value with the discarded card.",
+      "bottom": "",
+      "keywords": [
+        "delete",
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "luck-5",
+      "protocol": "Luck",
+      "set": "Main 2",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "metal-0",
+      "protocol": "Metal",
+      "set": "Main 1",
+      "value": 0,
+      "top": "Your opponent´s total value in this line is reduced by 2.",
+      "middle": "Flip 1 card.",
+      "bottom": "",
+      "keywords": [
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "metal-1",
+      "protocol": "Metal",
+      "set": "Main 1",
+      "value": 1,
+      "top": "",
+      "middle": "Draw 2 cards. Your opponent cannot compile on their next turn.",
+      "bottom": "",
+      "keywords": [
+        "compile",
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "metal-2",
+      "protocol": "Metal",
+      "set": "Main 1",
+      "value": 2,
+      "top": "Your opponent cannot play cards face-down in this line.",
+      "middle": "",
+      "bottom": "",
+      "keywords": [
+        "face-down"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "metal-3",
+      "protocol": "Metal",
+      "set": "Main 1",
+      "value": 3,
+      "top": "",
+      "middle": "Draw 1 card. Delete all cards in 1 other line with 8 or more cards.",
+      "bottom": "",
+      "keywords": [
+        "delete",
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "metal-5",
+      "protocol": "Metal",
+      "set": "Main 1",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "metal-6",
+      "protocol": "Metal",
+      "set": "Main 1",
+      "value": 6,
+      "top": "<div><span class='emphasis'>When this card would be covered or flipped:</span> First, delete this card.</div>",
+      "middle": "",
+      "bottom": "",
+      "keywords": [
+        "delete"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "mirror-0",
+      "protocol": "Mirror",
+      "set": "Main 2",
+      "value": 0,
+      "top": "Your total value in this line is increased by 1 for each of your opponent´s cards in this line.",
+      "middle": "",
+      "bottom": "",
+      "keywords": [],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "mirror-1",
+      "protocol": "Mirror",
+      "set": "Main 2",
+      "value": 1,
+      "top": "",
+      "middle": "",
+      "bottom": "<div><span class='emphasis'>End:</span> You may resolve the middle command of 1 of your opponent´s cards as if it were on this card.</div>",
+      "keywords": [],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "mirror-2",
+      "protocol": "Mirror",
+      "set": "Main 2",
+      "value": 2,
+      "top": "",
+      "middle": "Swap all of your cards in one of your stacks with another one of your stacks.",
+      "bottom": "",
+      "keywords": [
+        "swap"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "mirror-3",
+      "protocol": "Mirror",
+      "set": "Main 2",
+      "value": 3,
+      "top": "",
+      "middle": "Flip 1 of your cards. Flip 1 of your opponent´s cards in the same line.",
+      "bottom": "",
+      "keywords": [
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "mirror-4",
+      "protocol": "Mirror",
+      "set": "Main 2",
+      "value": 4,
+      "top": "",
+      "middle": "",
+      "bottom": "<div><span class='emphasis'>After your opponent draws cards:</span> Draw 1 card.</div>",
+      "keywords": [
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "mirror-5",
+      "protocol": "Mirror",
+      "set": "Main 2",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "peace-1",
+      "protocol": "Peace",
+      "set": "Main 2",
+      "value": 1,
+      "top": "",
+      "middle": "Both players discard their hand.",
+      "bottom": "<div><span class='emphasis'>End:</span> If your hand is empty, draw 1 card.</div>",
+      "keywords": [
+        "discard",
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "peace-2",
+      "protocol": "Peace",
+      "set": "Main 2",
+      "value": 2,
+      "top": "",
+      "middle": "Draw 1 card. Play 1 card face-down.",
+      "bottom": "",
+      "keywords": [
+        "face-down",
+        "play"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "peace-3",
+      "protocol": "Peace",
+      "set": "Main 2",
+      "value": 3,
+      "top": "",
+      "middle": "You may discard 1 card. Flip 1 card thas has a value greater than the number of cards in your hand.",
+      "bottom": "",
+      "keywords": [
+        "discard",
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "peace-4",
+      "protocol": "Peace",
+      "set": "Main 2",
+      "value": 4,
+      "top": "",
+      "middle": "",
+      "bottom": "<div><span class='emphasis'>After you discard cards during your opponent´s turn:</span> Draw 1 card.</div>",
+      "keywords": [
+        "discard",
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "peace-5",
+      "protocol": "Peace",
+      "set": "Main 2",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "peace-6",
+      "protocol": "Peace",
+      "set": "Main 2",
+      "value": 6,
+      "top": "",
+      "middle": "If you have more then 1 card in your hand, flip this card",
+      "bottom": "",
+      "keywords": [
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "plague-0",
+      "protocol": "Plague",
+      "set": "Main 1",
+      "value": 0,
+      "top": "",
+      "middle": "Your opponent discards 1 card.",
+      "bottom": "Your opponent cannot play cards in this line.",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "plague-1",
+      "protocol": "Plague",
+      "set": "Main 1",
+      "value": 1,
+      "top": "<div><span class='emphasis'>After your opponent discards cards:</span> Draw 1 card.</div>",
+      "middle": "Your opponent discards 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard",
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "plague-2",
+      "protocol": "Plague",
+      "set": "Main 1",
+      "value": 2,
+      "top": "",
+      "middle": "Dicard 1 or more cards. Your opponent discards the amount of cards discarded plus 1.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "plague-3",
+      "protocol": "Plague",
+      "set": "Main 1",
+      "value": 3,
+      "top": "",
+      "middle": "Flip each other face-up card.",
+      "bottom": "",
+      "keywords": [
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "plague-4",
+      "protocol": "Plague",
+      "set": "Main 1",
+      "value": 4,
+      "top": "",
+      "middle": "",
+      "bottom": "<div><span class='emphasis'>End:</span> Your opponent deletes 1 of their face-down cards. You may flip this card.</div>",
+      "keywords": [
+        "delete",
+        "face-down",
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "plague-5",
+      "protocol": "Plague",
+      "set": "Main 1",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "psychic-0",
+      "protocol": "Psychic",
+      "set": "Main 1",
+      "value": 0,
+      "top": "",
+      "middle": "Draw 2 cards. Your opponent discards 2 cards, then reveals their hand.",
+      "bottom": "",
+      "keywords": [
+        "discard",
+        "draw",
+        "reveal"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "psychic-1",
+      "protocol": "Psychic",
+      "set": "Main 1",
+      "value": 1,
+      "top": "Your opponent can only play cards face-down.",
+      "middle": "",
+      "bottom": "<div><span class='emphasis'>Start:</span> Flip this card.</div>",
+      "keywords": [
+        "face-down",
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "psychic-2",
+      "protocol": "Psychic",
+      "set": "Main 1",
+      "value": 2,
+      "top": "",
+      "middle": "Your opponent discards 2 cards. Rearrange their protocols.",
+      "bottom": "",
+      "keywords": [
+        "discard",
+        "rearrange"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "psychic-3",
+      "protocol": "Psychic",
+      "set": "Main 1",
+      "value": 3,
+      "top": "",
+      "middle": "Your opponent discards 1 card. Shift 1 of their cards.",
+      "bottom": "",
+      "keywords": [
+        "discard",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "psychic-4",
+      "protocol": "Psychic",
+      "set": "Main 1",
+      "value": 4,
+      "top": "",
+      "middle": "",
+      "bottom": "<div><span class='emphasis'>End:</span> You may return 1 of your opponent´s cards. If you do, flip this card.</div>",
+      "keywords": [
+        "flip",
+        "return"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "psychic-5",
+      "protocol": "Psychic",
+      "set": "Main 1",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "smoke-0",
+      "protocol": "Smoke",
+      "set": "Main 2",
+      "value": 0,
+      "top": "",
+      "middle": "Play the top card of your deck face-down in each line with a face-down card.",
+      "bottom": "",
+      "keywords": [
+        "face-down",
+        "play"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "smoke-1",
+      "protocol": "Smoke",
+      "set": "Main 2",
+      "value": 1,
+      "top": "",
+      "middle": "Flip 1 of your cards. You may shift that card.",
+      "bottom": "",
+      "keywords": [
+        "flip",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "smoke-2",
+      "protocol": "Smoke",
+      "set": "Main 2",
+      "value": 2,
+      "top": "Your total value in this line is increased by 1 for each face-down card in this line.",
+      "middle": "",
+      "bottom": "",
+      "keywords": [
+        "face-down"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "smoke-3",
+      "protocol": "Smoke",
+      "set": "Main 2",
+      "value": 3,
+      "top": "",
+      "middle": "Play 1 card face-down in a line with a face-down card.",
+      "bottom": "",
+      "keywords": [
+        "face-down",
+        "play"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "smoke-4",
+      "protocol": "Smoke",
+      "set": "Main 2",
+      "value": 4,
+      "top": "",
+      "middle": "Shift 1 covered face-down card.",
+      "bottom": "",
+      "keywords": [
+        "face-down",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "smoke-5",
+      "protocol": "Smoke",
+      "set": "Main 2",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "speed-0",
+      "protocol": "Speed",
+      "set": "Main 1",
+      "value": 0,
+      "top": "",
+      "middle": "Play 1 card.",
+      "bottom": "",
+      "keywords": [
+        "play"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "speed-1",
+      "protocol": "Speed",
+      "set": "Main 1",
+      "value": 1,
+      "top": "<div><span class='emphasis'>After you clear cache:</span> Draw 1 card.</div>",
+      "middle": "Draw 2 cards.",
+      "bottom": "",
+      "keywords": [
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "speed-2",
+      "protocol": "Speed",
+      "set": "Main 1",
+      "value": 2,
+      "top": "<div><span class='emphasis'>When this card would be deleted by compiling:</span> Shift this card, even if this card is covered.</div>",
+      "middle": "",
+      "bottom": "",
+      "keywords": [
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "speed-3",
+      "protocol": "Speed",
+      "set": "Main 1",
+      "value": 3,
+      "top": "",
+      "middle": "Shift 1 of your other cards.",
+      "bottom": "<div><span class='emphasis'>End:</span> You may shift 1 of your cards. If you do, flip this card.</div>",
+      "keywords": [
+        "flip",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "speed-4",
+      "protocol": "Speed",
+      "set": "Main 1",
+      "value": 4,
+      "top": "",
+      "middle": "Shift 1 of your opponent´s face-down cards.",
+      "bottom": "",
+      "keywords": [
+        "face-down",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "speed-5",
+      "protocol": "Speed",
+      "set": "Main 1",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "spirit-0",
+      "protocol": "Spirit",
+      "set": "Main 1",
+      "value": 0,
+      "top": "",
+      "middle": "Refresh. Draw 1 card.",
+      "bottom": "Skip your check cache phase.",
+      "keywords": [
+        "draw",
+        "refresh"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "spirit-1",
+      "protocol": "Spirit",
+      "set": "Main 1",
+      "value": 1,
+      "top": "When you play cards face-up, they may be played without matching protocols.",
+      "middle": "Draw 2 cards.",
+      "bottom": "<div><span class='emphasis'>Start:</span> Either discard 1 card or flip this card.</div>",
+      "keywords": [
+        "discard",
+        "draw",
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "spirit-2",
+      "protocol": "Spirit",
+      "set": "Main 1",
+      "value": 2,
+      "top": "",
+      "middle": "You may flip 1 card.",
+      "bottom": "",
+      "keywords": [
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "spirit-3",
+      "protocol": "Spirit",
+      "set": "Main 1",
+      "value": 3,
+      "top": "<div><span class='emphasis'>After you draw cards:</span> You may shift this card, even if this card is covered.</div>",
+      "middle": "",
+      "bottom": "",
+      "keywords": [
+        "draw",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "spirit-4",
+      "protocol": "Spirit",
+      "set": "Main 1",
+      "value": 4,
+      "top": "",
+      "middle": "Swap the positions of 2 of your protocols",
+      "bottom": "",
+      "keywords": [
+        "swap"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "spirit-5",
+      "protocol": "Spirit",
+      "set": "Main 1",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "time-0",
+      "protocol": "Time",
+      "set": "Main 2",
+      "value": 0,
+      "top": "",
+      "middle": "Play 1 card from your trash. Shuffle your trash into your deck.",
+      "bottom": "",
+      "keywords": [
+        "play"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "time-1",
+      "protocol": "Time",
+      "set": "Main 2",
+      "value": 1,
+      "top": "",
+      "middle": "Flip 1 covered card. Discard your entire deck.",
+      "bottom": "",
+      "keywords": [
+        "discard",
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "time-2",
+      "protocol": "Time",
+      "set": "Main 2",
+      "value": 2,
+      "top": "<div><span class='emphasis'>After you shuffle your deck:</span> Draw 1 card and you may shift this card.</div>",
+      "middle": "If there are any cards in your trash, you may shuffle your trash into your deck.",
+      "bottom": "",
+      "keywords": [
+        "draw",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "time-3",
+      "protocol": "Time",
+      "set": "Main 2",
+      "value": 3,
+      "top": "",
+      "middle": "Reveal 1 card from your trash. Play it face-down in another line.",
+      "bottom": "",
+      "keywords": [
+        "face-down",
+        "reveal"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "time-4",
+      "protocol": "Time",
+      "set": "Main 2",
+      "value": 4,
+      "top": "",
+      "middle": "Draw 2 cards. Discard 2 cards.",
+      "bottom": "",
+      "keywords": [
+        "discard",
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "time-5",
+      "protocol": "Time",
+      "set": "Main 2",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "unity-0",
+      "protocol": "Unity",
+      "set": "Aux 2",
+      "value": 0,
+      "top": "",
+      "middle": "If there is another Unity card in the field, either flip 1 card or draw 1 card.",
+      "bottom": "<div><span class='emphasis'>When this card would be covered by a Unity card:</span> First, either flip 1 card or draw 1 card.</div>",
+      "keywords": [
+        "discard",
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "unity-1",
+      "protocol": "Unity",
+      "set": "Aux 2",
+      "value": 1,
+      "top": "<div><span class='emphasis'>Start:</span> If this card is covered, you may shift this card.</div>",
+      "middle": "If there are 5 or more Unity cards in the field, flip the Unity protocol to the compiled side and delete all cards in that line.",
+      "bottom": "Unity cards may be played face-up in this line.",
+      "keywords": [
+        "compile",
+        "faceup",
+        "shift"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "unity-2",
+      "protocol": "Unity",
+      "set": "Aux 2",
+      "value": 2,
+      "top": "",
+      "middle": "Draw cards equal to the number of Unity cards in the field.",
+      "bottom": "",
+      "keywords": [
+        "draw"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "unity-3",
+      "protocol": "Unity",
+      "set": "Aux 2",
+      "value": 3,
+      "top": "",
+      "middle": "If there is another Unity card in the field, you may flip 1 face-up card.",
+      "bottom": "",
+      "keywords": [
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "unity-4",
+      "protocol": "Unity",
+      "set": "Aux 2",
+      "value": 4,
+      "top": "<div><span class='emphasis'>Start:</span> If you hand is empty, reveal your deck, draw all Unity cards from it, and shuffle your deck.</div>",
+      "middle": "",
+      "bottom": "",
+      "keywords": [
+        "draw",
+        "reveal"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "unity-5",
+      "protocol": "Unity",
+      "set": "Aux 2",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "war-0",
+      "protocol": "War",
+      "set": "Main 2",
+      "value": 0,
+      "top": "<div><span class='emphasis'>After you refresh:</span> You may flip this card.</div>",
+      "middle": "",
+      "bottom": "<div><span class='emphasis'>After your opponent draws cards:</span> You may delete 1 card.</div>",
+      "keywords": [
+        "delete",
+        "draw",
+        "flip",
+        "refresh"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "war-1",
+      "protocol": "War",
+      "set": "Main 2",
+      "value": 1,
+      "top": "",
+      "middle": "",
+      "bottom": "<div><span class='emphasis'>After your opponent refreshes:</span> Discard any number of cards. Refresh.</div>",
+      "keywords": [
+        "discard",
+        "refresh"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "war-2",
+      "protocol": "War",
+      "set": "Main 2",
+      "value": 2,
+      "top": "",
+      "middle": "Flip 1 card.",
+      "bottom": "<div><span class='emphasis'>After your opponent compiles:</span> Your opponent discards their hand.</div>",
+      "keywords": [
+        "compile",
+        "discard",
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "war-3",
+      "protocol": "War",
+      "set": "Main 2",
+      "value": 3,
+      "top": "",
+      "middle": "Draw 1 card.",
+      "bottom": "<div><span class='emphasis'>After your opponent discards cards:</span> You may play 1 card face-down.</div>",
+      "keywords": [
+        "discard",
+        "draw",
+        "face-down"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "war-4",
+      "protocol": "War",
+      "set": "Main 2",
+      "value": 4,
+      "top": "",
+      "middle": "Your opponent discards 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "war-5",
+      "protocol": "War",
+      "set": "Main 2",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "water-0",
+      "protocol": "Water",
+      "set": "Main 1",
+      "value": 0,
+      "top": "",
+      "middle": "Flip 1 other card. Flip this card.",
+      "bottom": "",
+      "keywords": [
+        "flip"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "water-1",
+      "protocol": "Water",
+      "set": "Main 1",
+      "value": 1,
+      "top": "",
+      "middle": "Play the top card of your deck face-down in each other line.",
+      "bottom": "",
+      "keywords": [
+        "face-down",
+        "play"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "water-2",
+      "protocol": "Water",
+      "set": "Main 1",
+      "value": 2,
+      "top": "",
+      "middle": "Draw 2 cards. Rearrange your protocols.",
+      "bottom": "",
+      "keywords": [
+        "draw",
+        "rearrange"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "water-3",
+      "protocol": "Water",
+      "set": "Main 1",
+      "value": 3,
+      "top": "",
+      "middle": "Return all cards with a value of 2 in 1 line.",
+      "bottom": "",
+      "keywords": [
+        "return"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "water-4",
+      "protocol": "Water",
+      "set": "Main 1",
+      "value": 4,
+      "top": "",
+      "middle": "Return 1 of your cards.",
+      "bottom": "",
+      "keywords": [
+        "return"
+      ],
+      "source": "phaufe.github.io/compile"
+    },
+    {
+      "id": "water-5",
+      "protocol": "Water",
+      "set": "Main 1",
+      "value": 5,
+      "top": "",
+      "middle": "You discard 1 card.",
+      "bottom": "",
+      "keywords": [
+        "discard"
+      ],
+      "source": "phaufe.github.io/compile"
+    }
+  ]
+}

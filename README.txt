@@ -150,3 +150,79 @@ VERSION 20.0 — TRAIT SELECTION
 - Respects enabled sets and individual exclusions.
 - Manually assign exactly 3 Protocols to each player.
 - No randomisation is used in this mode.
+
+VERSION 20.1 — MISSING PROTOCOL GRAPHICS
+----------------------------------------
+- Added publisher graphics for Speed.
+- Added publisher graphics for Unity.
+- Added publisher graphics for Diversity.
+- Added publisher graphics for Corruption.
+- Added publisher graphics for Assimilation.
+- These now appear anywhere publisher Protocol artwork is used, including
+  the Protocol Library and Traits selector.
+- Cache bumped so installed versions fetch the new assets.
+
+
+VERSION 20.3 — ARTWORK CONSOLIDATION
+------------------------------------
+- Canonical Protocol artwork structure:
+    protocol-art/compiled/   = 45 compiled sides
+    protocol-art/uncompiled/ = 45 uncompiled/trait sides
+- Recovered Main 3 compiled artwork from existing package folders where available.
+- Library, backgrounds and Traits selector now reference the canonical artwork folders.
+- Removed redundant artwork copies where safe.
+- Compiled assets found: 45/45
+- Uncompiled assets found: 45/45
+- Cache bumped to compile-companion-v20-3.
+
+
+VERSION 21.0 — PLAY VS AI PROTOTYPE
+-----------------------------------
+This is the first playable-game prototype layered on top of the existing companion.
+
+Included:
+- New PLAY VS AI entry point.
+- Main 1 / Aux 1 / Main 2 / Aux 2 card dataset: 180 cards / 30 Protocols.
+- Select three Protocols for the human and three different Protocols for Standard AI.
+- Random legal setup option.
+- Local browser-only rules-engine foundation (GitHub Pages compatible).
+- Human and AI hands / Cache / Trash foundations.
+- Three shared lines with separate human/AI stacks and live line totals.
+- Tap a human card, then tap a highlighted legal line to play it.
+- Face-up / face-down capable card state model.
+- Covered-card state model.
+- Automatic Control state stored in GameState and visually highlighted.
+- Local save/resume through localStorage.
+- Standard AI generates legal card/line moves and scores them tactically.
+- AI does not inspect the human's hidden hand to choose moves.
+- Action log records plays, draws, refreshes and Control transfers.
+
+PROTOTYPE LIMITATION:
+- The full 180-card rules text is loaded into the engine, but complex effects are not
+  guessed. The first prototype auto-resolves only safe/unambiguous operations and logs
+  target-dependent / triggered / conditional effects as pending/manual.
+- This is deliberate: the rules engine foundation is being validated before encoding
+  every timing window and special interaction.
+- Control transfer is isolated behind one engine function so the official transfer rule
+  can be swapped in without changing the rest of the game engine.
+
+Deployment:
+- Full package remains GitHub Pages / PWA compatible.
+- v21 includes a separate UPDATE_ONLY package containing just the files changed from v20.3.
+
+
+V21 CORE-RULE CORRECTION
+------------------------
+Before packaging, the prototype core was checked against the published rulebook:
+- Control starts neutral.
+- At Check Control, the active player gains Control if they lead in at least 2 lines.
+- No automatic start-of-turn draw.
+- Turn order foundation is Start > Check Control > Check Compile > Action > Check Cache > End.
+- Mandatory Compile detection is implemented.
+- Compile condition: at least 10 in a line and greater than the opponent in that line.
+- Face-up plays are restricted to the line matching that card's Protocol.
+- Face-down cards may be played into any line and contribute 0 printed value.
+- Refresh fills hand to 5.
+- Starting hand remains 5 cards.
+- Complex Start/End/card-command timing remains a prototype limitation and is queued for the next engine pass.
+- Optional Control spending to rearrange Protocols before Compile/Refresh is not yet implemented; Control is not silently spent.

@@ -95,6 +95,7 @@
       <button id="libraryButton" class="utility-button cyan">▣ <span>PROTOCOL<br>LIBRARY</span></button>
       <button id="playersButton" class="utility-button pink">♟ <span>PLAYERS</span></button>
       <button id="homeStatsButton" class="utility-button green">▥ <span>STATS</span></button>
+      <button id="playAiButton" class="utility-button play-ai-utility"><span class="utility-icon">◈</span><span><small>PLAY</small><strong>VS AI</strong></span></button>
       <button id="settingsButton" class="utility-button silver">⚙ <span>SETTINGS</span></button>
     </div>
 
@@ -295,6 +296,112 @@
     </div>
   </dialog>
 
+
+  <dialog id="gameDialog" class="game-dialog">
+    <div class="game-shell">
+      <div class="game-topbar">
+        <div>
+          <div class="game-kicker">PLAY VS AI · STANDARD</div>
+          <h2>COMPILE</h2>
+          <div id="gameStatusText" class="game-status-text">Set up a game</div>
+        </div>
+        <div class="game-topbar-actions">
+          <button id="gameSaveButton" class="secondary-button">Save</button>
+          <button id="gameNewButton" class="secondary-button">New</button>
+          <button id="closeGameButton" class="close-button">×</button>
+        </div>
+      </div>
+
+      <section id="gameSetupPanel" class="game-setup-panel">
+        <div class="game-setup-copy">
+          <h3>Play against Standard AI</h3>
+          <p>Main 1, Aux 1, Main 2 and Aux 2 are supported in this prototype. Choose three Protocols for yourself and three for the AI.</p>
+          <p class="game-prototype-note">Prototype scope: core turn flow, Control, hands/cache, line values, face-up/face-down cards, legal play destinations, saving/resume and a tactical AI. Complex card effects are resolved where supported and clearly flagged where a manual confirmation is still required.</p>
+        </div>
+
+        <div class="game-setup-grid">
+          <div class="game-setup-side">
+            <span>YOU</span>
+            <strong id="gameHumanName">Player 1</strong>
+            <div id="gameHumanProtocolChoices" class="game-protocol-choice-grid"></div>
+          </div>
+          <div class="game-setup-side ai">
+            <span>AI</span>
+            <strong>Standard AI</strong>
+            <div id="gameAiProtocolChoices" class="game-protocol-choice-grid"></div>
+          </div>
+        </div>
+
+        <div class="game-setup-footer">
+          <button id="gameRandomSetupButton" class="secondary-button">Random legal setup</button>
+          <button id="gameStartButton" class="primary-button" disabled>Start Game</button>
+        </div>
+      </section>
+
+      <section id="gameBoardPanel" class="game-board-panel" hidden>
+        <div class="game-control-strip">
+          <div id="gameControlHuman" class="game-control-holder"><span>CONTROL</span><strong id="gameControlHumanName">You</strong></div>
+          <div class="game-turn-centre">
+            <span id="gameTurnLabel">YOUR TURN</span>
+            <small id="gameTurnNumber">Turn 1</small>
+          </div>
+          <div id="gameControlAi" class="game-control-holder ai"><span>CONTROL</span><strong>AI</strong></div>
+        </div>
+
+        <div class="game-player-zone game-ai-zone">
+          <div class="game-player-header">
+            <div><span>STANDARD AI</span><strong>AI</strong></div>
+            <div class="game-zone-stats"><span id="gameAiHandCount">Hand 0</span><span id="gameAiCacheCount">Cache 0</span></div>
+          </div>
+          <div id="gameAiLines" class="game-lines"></div>
+        </div>
+
+        <div class="game-centre-lines">
+          <div id="gameLineScores" class="game-line-scores"></div>
+        </div>
+
+        <div class="game-player-zone game-human-zone">
+          <div id="gameHumanLines" class="game-lines"></div>
+          <div class="game-player-header">
+            <div><span>PLAYER</span><strong id="gameBoardHumanName">Player 1</strong></div>
+            <div class="game-zone-stats"><span id="gameHumanHandCount">Hand 0</span><span id="gameHumanCacheCount">Cache 0</span></div>
+          </div>
+        </div>
+
+        <div class="game-hand-panel">
+          <div class="game-hand-heading">
+            <div><span>YOUR HAND</span><small>Tap a card, then tap a highlighted line.</small></div>
+            <div id="gameSelectedCardText" class="game-selected-card-text"></div>
+          </div>
+          <div id="gameHumanHand" class="game-human-hand"></div>
+        </div>
+
+        <div class="game-play-mode-row">
+          <span>PLAY SELECTED CARD</span>
+          <button id="gameFaceUpButton" class="game-face-button active">FACE-UP</button>
+          <button id="gameFaceDownButton" class="game-face-button">FACE-DOWN</button>
+        </div>
+
+        <div id="gameCompilePrompt" class="game-compile-prompt" hidden>
+          <strong>COMPILE REQUIRED</strong>
+          <span id="gameCompilePromptText"></span>
+          <div id="gameCompileChoices" class="game-compile-choices"></div>
+        </div>
+
+        <div class="game-action-row">
+          <button id="gameCancelSelectionButton" class="secondary-button">Cancel selection</button>
+          <button id="gameRefreshButton" class="secondary-button">Refresh hand</button>
+          <button id="gameEndTurnButton" class="primary-button" disabled>End Turn</button>
+        </div>
+
+        <div class="game-log-panel">
+          <div class="game-log-heading">ACTION LOG</div>
+          <div id="gameActionLog" class="game-action-log"></div>
+        </div>
+      </section>
+    </div>
+  </dialog>
+
   <dialog id="settingsDialog">
     <div class="settings-card">
       <div class="settings-header">
@@ -386,6 +493,8 @@
   </dialog>
 
   <canvas id="shareCanvas" width="1200" height="1200" hidden></canvas>
+  <script src="game-engine.js"></script>
+  <script src="game-ui.js"></script>
   <script src="app.js"></script>
 
 </body>
