@@ -620,7 +620,7 @@ const allProtocols = Object.entries(protocolSets).flatMap(([set, names]) =>
 );
 
 
-const APP_VERSION = "21.0";
+const APP_VERSION = "21.2";
 
 const protocolPlaystyles = {
   Darkness: "Manipulates face-down cards and hidden information. Strong when you can build value while denying the opponent certainty.",
@@ -2615,6 +2615,7 @@ if (navStats) navStats.addEventListener("click", () => {
 
 // V21 playable-mode bridge: expose read-only companion data needed by game-ui.js.
 window.protocolArtImages = protocolArtImages;
+window.protocolTraitArtImages = protocolTraitArtImages;
 window.protocolVisuals = protocolVisuals;
 window.getCompilePlayerNames = () => ({...playerNames});
 Object.defineProperty(window,"playerNames",{get:()=>playerNames, configurable:true});

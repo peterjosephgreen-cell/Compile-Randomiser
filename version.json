@@ -1,5 +1,5 @@
 {
-  "version": "21.0",
-  "released": "2026-08-18",
-  "notes": "Playable Play vs AI prototype with local Standard AI, Control state, save/resume and 180-card data model."
+  "version": "21.2",
+  "released": "2026-08-21",
+  "notes": "Adds mouse/touch drag-to-play for hand cards while retaining tap-card then tap-line play."
 }

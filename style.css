@@ -3540,3 +3540,112 @@ dialog,
 
 .game-play-mode-row{display:flex;align-items:center;justify-content:flex-end;gap:6px;margin-top:9px}.game-play-mode-row>span{margin-right:auto;color:#718094;font-size:7px;letter-spacing:.13em}.game-face-button{border:1px solid rgba(255,255,255,.09);border-radius:9px;background:rgba(255,255,255,.025);color:#7d8996;padding:7px 9px;font-size:8px}.game-face-button.active{color:#fff;border-color:rgba(92,226,255,.43);background:rgba(68,198,226,.11)}
 .game-compile-prompt{margin-top:9px;border:1px solid rgba(255,220,80,.36);border-radius:12px;padding:9px;background:rgba(255,220,80,.06)}.game-compile-prompt>strong{display:block;color:#ffe15a;font-size:9px;letter-spacing:.12em}.game-compile-prompt>span{display:block;margin-top:3px;color:#b9ad76;font-size:8px}.game-compile-choices{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+
+
+/* =========================================================
+   V21.1 — PROTOCOL ART ON PLAYABLE LINES
+   ========================================================= */
+.game-line{position:relative;min-height:178px;overflow:hidden;padding:0;border-style:solid;background:#060a11}
+.game-line-protocol{position:absolute;inset:0;z-index:0;pointer-events:none}
+.game-line-protocol-art{position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--protocol-accent) 18%,transparent),transparent 42%),linear-gradient(155deg,var(--protocol-deep),#050810);background-size:cover;background-position:center}
+.game-line-protocol-art.has-art{background-size:cover;background-position:center}
+.game-line-protocol-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,6,12,.18),rgba(3,6,12,.38) 46%,rgba(3,6,12,.90) 100%),linear-gradient(90deg,rgba(2,5,10,.18),transparent 30%,transparent 70%,rgba(2,5,10,.18))}
+.game-line-protocol-name{position:absolute;left:8px;bottom:7px;z-index:3;max-width:calc(100% - 16px);color:#fff;font-size:11px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;text-shadow:0 2px 7px rgba(0,0,0,.95),0 0 10px var(--protocol-accent)}
+.game-line-protocol-state{position:absolute;right:7px;top:7px;z-index:3;padding:4px 6px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(3,7,13,.74);color:#c5d0dc;font-size:6px;font-weight:900;letter-spacing:.12em;backdrop-filter:blur(5px)}
+.game-line.protocol-compiled{border-color:color-mix(in srgb,var(--protocol-accent) 65%,#fff);box-shadow:inset 0 0 18px color-mix(in srgb,var(--protocol-accent) 10%,transparent),0 0 15px color-mix(in srgb,var(--protocol-accent) 13%,transparent)}
+.game-line.protocol-compiled .game-line-protocol-state{color:#fff;border-color:color-mix(in srgb,var(--protocol-accent) 60%,#fff);background:color-mix(in srgb,var(--protocol-deep) 82%,rgba(3,7,13,.78));box-shadow:0 0 12px color-mix(in srgb,var(--protocol-accent) 18%,transparent)}
+.game-line-stack-layer{position:relative;z-index:4;min-height:178px;padding:42px 6px 27px}
+.game-line .game-stack{min-height:108px}
+.game-line .game-empty-stack{min-height:92px;height:92px;border:1px dashed rgba(255,255,255,.09);border-radius:9px;background:rgba(3,7,13,.20);color:rgba(255,255,255,.35);backdrop-filter:blur(2px)}
+.game-line .game-board-card{backdrop-filter:blur(8px);background:linear-gradient(155deg,color-mix(in srgb,var(--card-deep) 88%,rgba(4,7,12,.84)),rgba(5,8,14,.94))}
+.game-line.legal-target{border-color:#8cf4ff;box-shadow:0 0 0 1px rgba(140,244,255,.34),0 0 22px rgba(84,223,245,.16)}
+.game-line.legal-target::after{content:"PLAY HERE";position:absolute;left:50%;top:8px;transform:translateX(-50%);z-index:8;padding:4px 7px;border-radius:999px;background:rgba(85,225,246,.89);color:#061019;font-size:6px;font-weight:900;letter-spacing:.12em;pointer-events:none}
+.game-line-protocol-fallback{position:absolute;inset:0;display:grid;place-items:center;color:color-mix(in srgb,var(--protocol-accent) 55%,#fff);font-size:17px;font-weight:900;letter-spacing:.12em;opacity:.38}
+@media(max-width:700px){.game-line{min-height:155px}.game-line-stack-layer{min-height:155px;padding:38px 4px 24px}.game-line-protocol-name{font-size:9px}}
+
+
+/* =========================================================
+   V21.2 — DRAG-TO-PLAY
+   ========================================================= */
+
+.game-hand-card {
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  cursor: grab;
+}
+
+.game-hand-card:not(:disabled):active {
+  cursor: grabbing;
+}
+
+.game-hand-card.dragging {
+  opacity: .22;
+  transform: scale(.97);
+}
+
+.game-drag-ghost {
+  position: fixed !important;
+  z-index: 99999 !important;
+  margin: 0 !important;
+  pointer-events: none !important;
+  opacity: .92 !important;
+  transform: rotate(-2deg) scale(1.03);
+  box-shadow:
+    0 18px 45px rgba(0,0,0,.60),
+    0 0 0 1px rgba(255,255,255,.22),
+    0 0 25px color-mix(in srgb,var(--card-accent) 28%,transparent) !important;
+  transition: none !important;
+}
+
+.game-line.drag-legal {
+  border-color: rgba(111,235,255,.64);
+  box-shadow:
+    inset 0 0 25px rgba(88,222,244,.07),
+    0 0 18px rgba(88,222,244,.10);
+}
+
+.game-line.drag-legal::before {
+  content: "DROP HERE";
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  transform: translateX(-50%);
+  z-index: 10;
+  padding: 4px 7px;
+  border-radius: 999px;
+  background: rgba(5,16,26,.86);
+  border: 1px solid rgba(111,235,255,.52);
+  color: #8ef1ff;
+  font-size: 6px;
+  font-weight: 900;
+  letter-spacing: .12em;
+  pointer-events: none;
+}
+
+.game-line.drag-hover {
+  border-color: #fff;
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 2px rgba(112,238,255,.55),
+    0 0 28px rgba(82,224,246,.28);
+}
+
+.game-line.drag-hover::before {
+  background: rgba(104,232,250,.94);
+  color: #041018;
+  border-color: #fff;
+}
+
+@media (pointer:coarse) {
+  .game-hand-card {
+    /* Allow normal vertical page movement until an intentional drag passes
+       the movement threshold; pointer code then takes over. */
+    touch-action: pan-y;
+  }
+
+  .game-drag-ghost {
+    transform: translateY(-18px) rotate(-2deg) scale(1.06);
+  }
+}

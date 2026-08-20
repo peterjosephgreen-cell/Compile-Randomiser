@@ -5,11 +5,16 @@
   let setup={human:[],ai:[]};
   let selectedHumanCard=null;
   let selectedFace="up";
+  let dragState=null;
 
   const $=id=>document.getElementById(id);
 
   function safeProtocolArt(name){
     if(window.protocolArtImages && protocolArtImages[name]) return protocolArtImages[name];
+    return "";
+  }
+  function safeProtocolTraitArt(name){
+    if(window.protocolTraitArtImages && protocolTraitArtImages[name]) return protocolTraitArtImages[name];
     return "";
   }
   function visual(name){
@@ -133,10 +138,33 @@
   function renderLines(targetId, player){
     const target=$(targetId); target.innerHTML="";
     engine.state.lines.forEach(line=>{
+      const protocol=engine.protocolAt(player,line.id);
+      const isCompiled=Boolean(protocol?.compiled);
+      const art=isCompiled ? safeProtocolArt(protocol?.name) : safeProtocolTraitArt(protocol?.name);
+      const [accent,deep]=visual(protocol?.name || "");
+
       const lineEl=document.createElement("div");
-      lineEl.className="game-line";
+      lineEl.className=`game-line${isCompiled?" protocol-compiled":""}`;
       lineEl.dataset.line=String(line.id);
-      lineEl.appendChild(renderStack(line[player],player,line.id));
+      lineEl.style.setProperty("--protocol-accent",accent);
+      lineEl.style.setProperty("--protocol-deep",deep);
+
+      const protocolLayer=document.createElement("div");
+      protocolLayer.className="game-line-protocol";
+      protocolLayer.innerHTML=`
+        <div class="game-line-protocol-art ${art?"has-art":""}" ${art?`style="background-image:url('${art}')"`:""}>
+          ${art?"":`<div class="game-line-protocol-fallback">${protocol?.name || "PROTOCOL"}</div>`}
+          <div class="game-line-protocol-shade"></div>
+          <div class="game-line-protocol-state">${isCompiled?"COMPILED":"UNCOMPILED"}</div>
+          <div class="game-line-protocol-name">${protocol?.name || "Protocol"}</div>
+        </div>
+      `;
+      lineEl.appendChild(protocolLayer);
+
+      const stackLayer=document.createElement("div");
+      stackLayer.className="game-line-stack-layer";
+      stackLayer.appendChild(renderStack(line[player],player,line.id));
+      lineEl.appendChild(stackLayer);
 
       if(player==="human" && selectedHumanCard!==null && engine.state.active==="human" && !engine.state.hasTakenAction && !engine.state.pendingCompile.length){
         const legal=engine.legalLinesForCard("human",selectedHumanCard,selectedFace);
@@ -160,6 +188,157 @@
     }
   }
 
+
+  function legalHumanLines(cardId){
+    if(!engine?.state || engine.state.active!=="human" || engine.state.hasTakenAction || engine.state.pendingCompile.length) return [];
+    return engine.legalLinesForCard("human",cardId,selectedFace);
+  }
+
+  function clearDragHighlights(){
+    document.querySelectorAll("#gameHumanLines .game-line").forEach(line=>{
+      line.classList.remove("drag-legal","drag-hover");
+    });
+  }
+
+  function highlightDragTargets(cardId){
+    clearDragHighlights();
+    const legal=new Set(legalHumanLines(cardId));
+    document.querySelectorAll("#gameHumanLines .game-line").forEach(line=>{
+      const id=Number(line.dataset.line);
+      if(legal.has(id)) line.classList.add("drag-legal");
+    });
+  }
+
+  function lineUnderPoint(x,y){
+    const el=document.elementFromPoint(x,y);
+    const line=el?.closest?.("#gameHumanLines .game-line");
+    if(!line) return null;
+    const id=Number(line.dataset.line);
+    return Number.isInteger(id)?id:null;
+  }
+
+  function makeDragGhost(card, sourceEl, x, y){
+    const ghost=sourceEl.cloneNode(true);
+    ghost.classList.add("game-drag-ghost");
+    ghost.classList.remove("selected");
+    ghost.disabled=false;
+    document.body.appendChild(ghost);
+    const rect=sourceEl.getBoundingClientRect();
+    ghost.style.width=`${rect.width}px`;
+    ghost.style.height=`${rect.height}px`;
+    ghost.style.left=`${x-rect.width/2}px`;
+    ghost.style.top=`${y-rect.height/2}px`;
+    return ghost;
+  }
+
+  function moveDragGhost(x,y){
+    if(!dragState?.ghost) return;
+    const w=dragState.ghost.offsetWidth;
+    const h=dragState.ghost.offsetHeight;
+    dragState.ghost.style.left=`${x-w/2}px`;
+    dragState.ghost.style.top=`${y-h/2}px`;
+
+    document.querySelectorAll("#gameHumanLines .game-line.drag-hover").forEach(line=>line.classList.remove("drag-hover"));
+    const lineId=lineUnderPoint(x,y);
+    if(lineId!==null && legalHumanLines(dragState.cardId).includes(lineId)){
+      const line=document.querySelector(`#gameHumanLines .game-line[data-line="${lineId}"]`);
+      line?.classList.add("drag-hover");
+    }
+  }
+
+  function endCardDrag(event, cancelled=false){
+    if(!dragState) return;
+    const state=dragState;
+    dragState=null;
+
+    state.sourceEl?.classList.remove("dragging");
+    state.ghost?.remove();
+
+    const lineId=cancelled?null:lineUnderPoint(event.clientX,event.clientY);
+    const legal=lineId!==null && legalHumanLines(state.cardId).includes(lineId);
+
+    clearDragHighlights();
+
+    if(legal){
+      selectedHumanCard=state.cardId;
+      const result=engine.playCard("human",state.cardId,lineId,selectedFace);
+      if(result.ok){
+        selectedHumanCard=null;
+        engine.save();
+        renderBoard();
+        return;
+      }
+    }
+
+    // If dropped somewhere invalid, keep the ordinary click-selection behaviour available.
+    renderBoard();
+  }
+
+  function attachCardDrag(el,card){
+    let startX=0,startY=0,pointerId=null,dragStarted=false;
+
+    el.addEventListener("pointerdown",event=>{
+      if(el.disabled) return;
+      if(event.pointerType==="mouse" && event.button!==0) return;
+
+      startX=event.clientX;
+      startY=event.clientY;
+      pointerId=event.pointerId;
+      dragStarted=false;
+
+      const onMove=moveEvent=>{
+        if(moveEvent.pointerId!==pointerId) return;
+        const dx=moveEvent.clientX-startX;
+        const dy=moveEvent.clientY-startY;
+
+        if(!dragStarted && Math.hypot(dx,dy)>8){
+          dragStarted=true;
+          selectedHumanCard=card.instanceId;
+          dragState={
+            cardId:card.instanceId,
+            sourceEl:el,
+            ghost:makeDragGhost(card,el,moveEvent.clientX,moveEvent.clientY)
+          };
+          el.classList.add("dragging");
+          highlightDragTargets(card.instanceId);
+          try{el.setPointerCapture(pointerId);}catch(_){}
+        }
+
+        if(dragStarted){
+          moveEvent.preventDefault();
+          moveDragGhost(moveEvent.clientX,moveEvent.clientY);
+        }
+      };
+
+      const onUp=upEvent=>{
+        if(upEvent.pointerId!==pointerId) return;
+        el.removeEventListener("pointermove",onMove);
+        el.removeEventListener("pointerup",onUp);
+        el.removeEventListener("pointercancel",onCancel);
+
+        if(dragStarted){
+          upEvent.preventDefault();
+          endCardDrag(upEvent,false);
+          // Suppress the click that follows a drag.
+          el.dataset.suppressClick="1";
+          setTimeout(()=>delete el.dataset.suppressClick,0);
+        }
+      };
+
+      const onCancel=cancelEvent=>{
+        if(cancelEvent.pointerId!==pointerId) return;
+        el.removeEventListener("pointermove",onMove);
+        el.removeEventListener("pointerup",onUp);
+        el.removeEventListener("pointercancel",onCancel);
+        if(dragStarted) endCardDrag(cancelEvent,true);
+      };
+
+      el.addEventListener("pointermove",onMove,{passive:false});
+      el.addEventListener("pointerup",onUp);
+      el.addEventListener("pointercancel",onCancel);
+    });
+  }
+
   function renderHumanHand(){
     const target=$("gameHumanHand"); target.innerHTML="";
     for(const card of engine.state.players.human.hand){
@@ -172,9 +351,11 @@
       el.innerHTML=`<div class="game-hand-card-head"><span>${card.protocol}</span><b>${card.value}</b></div>
         <div class="game-hand-card-text">${cardEffectText(card)}</div>`;
       el.onclick=()=>{
+        if(el.dataset.suppressClick==="1") return;
         selectedHumanCard=(selectedHumanCard===card.instanceId?null:card.instanceId);
         renderBoard();
       };
+      attachCardDrag(el,card);
       target.appendChild(el);
     }
   }
@@ -271,7 +452,7 @@
     $("gameSaveButton")?.addEventListener("click",()=>{engine?.save(); $("gameStatusText").textContent="Game saved locally";});
     $("gameRandomSetupButton")?.addEventListener("click",randomSetup);
     $("gameStartButton")?.addEventListener("click",startGame);
-    $("gameCancelSelectionButton")?.addEventListener("click",()=>{selectedHumanCard=null;renderBoard();});
+    $("gameCancelSelectionButton")?.addEventListener("click",()=>{selectedHumanCard=null;clearDragHighlights();renderBoard();});
     $("gameEndTurnButton")?.addEventListener("click",endHumanTurn);
     $("gameRefreshButton")?.addEventListener("click",()=>{if(engine.refresh("human")){selectedHumanCard=null;engine.save();renderBoard();}});
     $("gameFaceUpButton")?.addEventListener("click",()=>{selectedFace="up";renderBoard();});

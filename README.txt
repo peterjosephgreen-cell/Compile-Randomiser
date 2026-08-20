@@ -226,3 +226,25 @@ Before packaging, the prototype core was checked against the published rulebook:
 - Starting hand remains 5 cards.
 - Complex Start/End/card-command timing remains a prototype limitation and is queued for the next engine pass.
 - Optional Control spending to rearrange Protocols before Compile/Refresh is not yet implemented; Control is not silently spent.
+
+VERSION 21.1 — PROTOCOL LINE ART
+--------------------------------
+- Each playable line now shows its Protocol artwork.
+- Uncompiled Protocols use the uncompiled/traits-side image.
+- After Compile, the same line automatically switches to the compiled-side image.
+- Works for both human and AI Protocols.
+- Command-card stacks remain layered over the Protocol art.
+- Added clear UNCOMPILED / COMPILED state badges.
+
+VERSION 21.2 — DRAG-TO-PLAY
+---------------------------
+- Human hand cards can now be dragged directly onto a legal line.
+- Works with Pointer Events: mouse on PC and touch/pointer input on iPhone/iPad.
+- Legal destination lines illuminate during a drag.
+- The line under the dragged card receives a stronger hover highlight.
+- Dropping on a legal line plays the card immediately using the currently selected
+  FACE-UP / FACE-DOWN mode.
+- Dropping outside a legal line cancels the drag without playing anything.
+- Existing tap-card then tap-line interaction remains fully available.
+- Board cards themselves are not draggable yet; that will be tied to actual Shift
+  and card-effect resolution rather than allowing illegal free movement.
