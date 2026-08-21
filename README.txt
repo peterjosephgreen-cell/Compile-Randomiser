@@ -270,3 +270,12 @@ VERSION 21.2.4 — THREE-SECTION COMMAND CARDS
 - Cards already played into a line also retain all three sections.
 - Face-down cards hide their rules text as intended.
 - Existing tap and drag-to-play interactions are unchanged.
+
+VERSION 21.2.5 — CARD VISIBILITY + FACE-DOWN VALUE
+--------------------------------------------------
+- Hand cards now have three clearly boxed panels: TOP / COMMAND / BOTTOM.
+- All three panels remain visible simultaneously and expand to fit full rules text.
+- Played face-up cards retain the same three panels.
+- Face-down cards now correctly contribute a value of 2 to their line.
+- Standard AI line evaluation also treats a face-down card as value 2.
+- Face-down board cards visually show the number 2.

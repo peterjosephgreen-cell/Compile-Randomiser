@@ -92,7 +92,7 @@
     }
 
     lineValue(player,lineId){
-      return this.state.lines[lineId][player].reduce((sum,c)=>sum+(c.face==="up"?Number(c.value)||0:0),0);
+      return this.state.lines[lineId][player].reduce((sum,c)=>sum+(c.face==="up"?(Number(c.value)||0):2),0);
     }
 
     protocolAt(player,lineId){return this.state.protocols[player].find(p=>p.position===lineId);}
@@ -227,12 +227,12 @@
 
     scoreAiMove(card,lineId,face){
       const human=this.lineValue("human",lineId), before=this.lineValue("ai",lineId);
-      const added=face==="up"?(Number(card.value)||0):0, after=before+added;
+      const added=face==="up"?(Number(card.value)||0):2, after=before+added;
       let score=0;
       if(before<=human&&after>human)score+=18;
       score+=Math.max(0,9-Math.abs(human-after));
       score+=added*1.25;
-      if(face==="down")score-=2.5;
+      if(face==="down")score-=0.75;
       const kw=new Set((card.keywords||[]).map(x=>String(x).toLowerCase()));
       if(face==="up"){if(kw.has("delete"))score+=5;if(kw.has("draw"))score+=3;if(kw.has("flip"))score+=2.5;if(kw.has("shift"))score+=2;}
       score+=Math.random()*1.2;

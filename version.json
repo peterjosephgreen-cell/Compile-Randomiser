@@ -1,5 +1,5 @@
 {
-  "version": "21.2.4",
+  "version": "21.2.5",
   "released": "2026-08-21",
-  "notes": "Command cards now preserve and display separate top, middle command, and bottom sections."
+  "notes": "Three Command-card sections forced fully visible; face-down cards corrected to value 2."
 }

@@ -133,10 +133,10 @@
     ];
     return `<div class="game-card-sections${compact?" compact":""}">` +
       sections.map(([label,text],index)=>`
-        <div class="game-card-section game-card-section-${index}${text?" populated":" empty"}">
-          <div class="game-card-section-label">${label}</div>
-          <div class="game-card-section-text">${text || '<span class="game-card-empty-mark">—</span>'}</div>
-        </div>`).join("") +
+        <section class="game-card-section game-card-section-${index}${text?" populated":" empty"}" data-section="${label}">
+          <header class="game-card-section-label">${label}</header>
+          <div class="game-card-section-text">${text || '<span class="game-card-empty-mark">NO EFFECT</span>'}</div>
+        </section>`).join("") +
       `</div>`;
   }
 
@@ -155,7 +155,7 @@
       el.style.setProperty("--card-deep",deep);
       el.innerHTML=`<div class="game-board-card-top"><span>${card.protocol}</span><b>${card.value}</b></div>
         ${card.face==="down"
-          ? `<div class="game-card-face-down">FACE-DOWN</div>`
+          ? `<div class="game-card-face-down"><strong>2</strong><span>FACE-DOWN</span></div>`
           : cardSectionsMarkup(card,{compact:true})}`;
       wrap.appendChild(el);
     });
