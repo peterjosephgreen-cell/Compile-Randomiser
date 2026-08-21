@@ -279,3 +279,10 @@ VERSION 21.2.5 — CARD VISIBILITY + FACE-DOWN VALUE
 - Face-down cards now correctly contribute a value of 2 to their line.
 - Standard AI line evaluation also treats a face-down card as value 2.
 - Face-down board cards visually show the number 2.
+
+VERSION 21.2.6 — HEADER / PLAY VS AI UI FIX
+-------------------------------------------
+- PLAY VS AI is now rendered as one explicitly spaced label.
+- Added extra clearance beneath the main Compile logo.
+- 'Compile Protocol Randomiser' subtitle is pushed lower so the logo no longer overlaps it.
+- Includes responsive spacing for iPhone-sized screens.

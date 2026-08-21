@@ -4027,3 +4027,78 @@ dialog,
     min-height:240px !important;
   }
 }
+
+
+/* =========================================================
+   V21.2.6 — HEADER / PLAY VS AI POLISH
+   ========================================================= */
+
+.play-ai-utility .play-ai-label{
+  display:block;
+  white-space:nowrap;
+  word-spacing:.18em;
+  letter-spacing:.055em;
+  font-size:10px;
+  font-weight:900;
+  line-height:1.15;
+}
+
+.hero-brand,
+.app-brand,
+.brand-lockup,
+header .brand{
+  overflow:visible;
+}
+
+.hero-subtitle,
+.app-subtitle,
+.brand-subtitle,
+.logo-subtitle,
+header .subtitle,
+#appSubtitle,
+#brandSubtitle{
+  position:relative;
+  z-index:2;
+  margin-top:18px !important;
+  padding-top:6px !important;
+  clear:both;
+}
+
+.compile-logo,
+.app-logo,
+.brand-logo,
+header img[src*="compile-logo"]{
+  display:block;
+  margin-bottom:14px !important;
+}
+
+.hero-copy,
+.brand-copy,
+.app-title-wrap{
+  padding-top:8px;
+}
+
+@media(max-width:700px){
+  .play-ai-utility .play-ai-label{
+    font-size:9px;
+    word-spacing:.16em;
+  }
+
+  .hero-subtitle,
+  .app-subtitle,
+  .brand-subtitle,
+  .logo-subtitle,
+  header .subtitle,
+  #appSubtitle,
+  #brandSubtitle{
+    margin-top:22px !important;
+    padding-top:7px !important;
+  }
+
+  .compile-logo,
+  .app-logo,
+  .brand-logo,
+  header img[src*="compile-logo"]{
+    margin-bottom:17px !important;
+  }
+}

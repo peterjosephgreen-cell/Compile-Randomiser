@@ -1,5 +1,5 @@
 {
-  "version": "21.2.5",
+  "version": "21.2.6",
   "released": "2026-08-21",
-  "notes": "Three Command-card sections forced fully visible; face-down cards corrected to value 2."
+  "notes": "UI polish: PLAY VS AI spacing corrected and header subtitle moved below Compile logo."
 }
