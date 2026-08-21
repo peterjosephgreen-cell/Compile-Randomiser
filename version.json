@@ -1,5 +1,5 @@
 {
-  "version": "21.2.1",
+  "version": "21.2.2",
   "released": "2026-08-21",
-  "notes": "Repair release: fixes service-worker syntax and restores canonical artwork assets."
+  "notes": "Correct publisher-matching Protocol artwork for Assimilation, Corruption, Diversity and Unity."
 }
