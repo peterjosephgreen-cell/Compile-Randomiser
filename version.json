@@ -1,5 +1,5 @@
 {
-  "version": "21.2.2",
+  "version": "21.2.4",
   "released": "2026-08-21",
-  "notes": "Correct publisher-matching Protocol artwork for Assimilation, Corruption, Diversity and Unity."
+  "notes": "Command cards now preserve and display separate top, middle command, and bottom sections."
 }

@@ -110,9 +110,34 @@
     $("gameBoardPanel").hidden=false;
   }
 
+  function cleanCardSection(raw){
+    return String(raw||"")
+      .replace(/<div>/gi,"")
+      .replace(/<\/div>/gi,"")
+      .replace(/\s+/g," ")
+      .trim();
+  }
+
   function cardEffectText(card){
-    const raw=[card.top,card.middle,card.bottom].filter(Boolean).join(" ");
-    return raw.replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim();
+    return [card.top,card.middle,card.bottom]
+      .map(cleanCardSection)
+      .filter(Boolean)
+      .join(" ");
+  }
+
+  function cardSectionsMarkup(card,{compact=false}={}){
+    const sections=[
+      ["TOP",cleanCardSection(card.top)],
+      ["COMMAND",cleanCardSection(card.middle)],
+      ["BOTTOM",cleanCardSection(card.bottom)]
+    ];
+    return `<div class="game-card-sections${compact?" compact":""}">` +
+      sections.map(([label,text],index)=>`
+        <div class="game-card-section game-card-section-${index}${text?" populated":" empty"}">
+          <div class="game-card-section-label">${label}</div>
+          <div class="game-card-section-text">${text || '<span class="game-card-empty-mark">—</span>'}</div>
+        </div>`).join("") +
+      `</div>`;
   }
 
   function renderStack(cards, player, lineId){
@@ -129,7 +154,9 @@
       el.style.setProperty("--card-accent",accent);
       el.style.setProperty("--card-deep",deep);
       el.innerHTML=`<div class="game-board-card-top"><span>${card.protocol}</span><b>${card.value}</b></div>
-        <div class="game-board-card-effect">${card.face==="down"?"FACE-DOWN":cardEffectText(card)}</div>`;
+        ${card.face==="down"
+          ? `<div class="game-card-face-down">FACE-DOWN</div>`
+          : cardSectionsMarkup(card,{compact:true})}`;
       wrap.appendChild(el);
     });
     return wrap;
@@ -349,7 +376,7 @@
       el.style.setProperty("--card-deep",deep);
       el.disabled=engine.state.active!=="human"||engine.state.hasTakenAction||engine.state.pendingCompile.length;
       el.innerHTML=`<div class="game-hand-card-head"><span>${card.protocol}</span><b>${card.value}</b></div>
-        <div class="game-hand-card-text">${cardEffectText(card)}</div>`;
+        ${cardSectionsMarkup(card)}`;
       el.onclick=()=>{
         if(el.dataset.suppressClick==="1") return;
         selectedHumanCard=(selectedHumanCard===card.instanceId?null:card.instanceId);

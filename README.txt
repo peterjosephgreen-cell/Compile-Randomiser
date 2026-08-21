@@ -259,3 +259,14 @@ VERSION 21.2.1 — ARTWORK / SERVICE-WORKER REPAIR
 - Also includes Main 3 icons, app logos/icons and local Cardot fonts so GitHub is
   restored to a known-good visual asset state.
 - No gameplay changes from v21.2.
+
+VERSION 21.2.4 — THREE-SECTION COMMAND CARDS
+--------------------------------------------
+- Command cards now render the source data's three distinct areas:
+  TOP / COMMAND / BOTTOM.
+- All three areas remain visible, including deliberately blank sections.
+- Timing text such as START, END, WHEN COVERED, AFTER REFRESH, etc. retains emphasis.
+- Hand cards are larger and more readable.
+- Cards already played into a line also retain all three sections.
+- Face-down cards hide their rules text as intended.
+- Existing tap and drag-to-play interactions are unchanged.

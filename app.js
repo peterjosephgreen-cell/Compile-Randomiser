@@ -620,7 +620,7 @@ const allProtocols = Object.entries(protocolSets).flatMap(([set, names]) =>
 );
 
 
-const APP_VERSION = "21.2.2";
+const APP_VERSION = "21.2.4";
 
 const protocolPlaystyles = {
   Darkness: "Manipulates face-down cards and hidden information. Strong when you can build value while denying the opponent certainty.",
@@ -2088,51 +2088,24 @@ function showProtocolReference(protocol) {
 
 
 const publisherBackgrounds = [
-  "../protocol-art/compiled/spirit.webp",
-  "../protocol-art/compiled/death.webp",
-  "../protocol-art/compiled/fire.webp",
-  "../protocol-art/compiled/metal.webp",
-  "../protocol-art/compiled/apathy.webp",
-  "../protocol-art/compiled/gravity.webp",
-  "../protocol-art/compiled/water.webp",
-  "../protocol-art/compiled/light.webp",
-  "../protocol-art/compiled/plague.webp",
-  "../protocol-art/compiled/hate.webp",
-  "../protocol-art/compiled/darkness.webp",
-  "../protocol-art/compiled/life.webp",
-  "../protocol-art/compiled/psychic.webp",
-  "../protocol-art/compiled/speed.webp",
-  "../protocol-art/compiled/love.webp",
-  "../protocol-art/compiled/chaos.webp",
-  "../protocol-art/compiled/clarity.webp",
-  "../protocol-art/compiled/corruption.webp",
-  "../protocol-art/compiled/luck.webp",
-  "../protocol-art/compiled/diversity.webp",
-  "../protocol-art/compiled/courage.webp",
-  "../protocol-art/compiled/fear.webp",
-  "../protocol-art/compiled/ice.webp",
-  "../protocol-art/compiled/mirror.webp",
-  "../protocol-art/compiled/unity.webp",
-  "../protocol-art/compiled/time.webp",
-  "../protocol-art/compiled/war.webp",
-  "../protocol-art/compiled/peace.webp",
-  "../protocol-art/compiled/smoke.webp",
-  "../protocol-art/compiled/assimilation.webp",
-  "../protocol-art/compiled/wrath.webp",
-  "../protocol-art/compiled/envy.webp",
-  "../protocol-art/compiled/ambush.webp",
-  "../protocol-art/compiled/fulcrum.webp",
-  "../protocol-art/compiled/flexible.webp",
-  "../protocol-art/compiled/pride.webp",
-  "../protocol-art/compiled/gluttony.webp",
-  "../protocol-art/compiled/sloth.webp",
-  "../protocol-art/compiled/overwhelm.webp",
-  "../protocol-art/compiled/inert.webp",
-  "../protocol-art/compiled/nova.webp",
-  "../protocol-art/compiled/greed.webp",
-  "../protocol-art/compiled/lust.webp",
-  "../protocol-art/compiled/momentum.webp",
-  "../protocol-art/compiled/rigid.webp"
+  "envy.webp",
+  "pride.webp",
+  "greed.webp",
+  "momentum.webp",
+  "overwhelm.webp",
+  "gluttony.webp",
+  "wrath.webp",
+  "fulcrum.webp",
+  "nova.webp",
+  "assimilation.webp",
+  "apathy.webp",
+  "speed.webp",
+  "sloth.webp",
+  "diversity.webp",
+  "unity.webp",
+  "fire.webp",
+  "ambush.webp",
+  "lust.webp"
 ];
 
 function applyRandomProtocolBackground() {

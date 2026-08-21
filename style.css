@@ -3649,3 +3649,191 @@ dialog,
     transform: translateY(-18px) rotate(-2deg) scale(1.06);
   }
 }
+
+
+/* =========================================================
+   V21.2.4 — THREE-SECTION COMMAND CARDS
+   ========================================================= */
+
+.game-card-sections{
+  display:grid;
+  grid-template-rows:auto auto auto;
+  gap:0;
+  margin-top:7px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:9px;
+  overflow:hidden;
+  background:rgba(2,5,10,.38);
+}
+
+.game-card-section{
+  position:relative;
+  display:grid;
+  grid-template-columns:40px minmax(0,1fr);
+  min-height:40px;
+  border-top:1px solid rgba(255,255,255,.11);
+  background:rgba(255,255,255,.018);
+}
+
+.game-card-section:first-child{
+  border-top:0;
+}
+
+.game-card-section-label{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:5px 4px;
+  border-right:1px solid rgba(255,255,255,.10);
+  background:rgba(0,0,0,.22);
+  color:color-mix(in srgb,var(--card-accent) 72%,#fff);
+  font-size:6px;
+  font-weight:900;
+  letter-spacing:.08em;
+  writing-mode:horizontal-tb;
+}
+
+.game-card-section-text{
+  display:flex;
+  align-items:center;
+  min-width:0;
+  padding:6px 7px;
+  color:#d2dbe3;
+  font-size:7.5px;
+  line-height:1.28;
+  overflow-wrap:anywhere;
+}
+
+.game-card-section-text .emphasis{
+  color:#fff;
+  font-weight:900;
+}
+
+.game-card-section.empty{
+  min-height:25px;
+  opacity:.42;
+}
+
+.game-card-section.empty .game-card-section-text{
+  justify-content:center;
+  padding-top:3px;
+  padding-bottom:3px;
+}
+
+.game-card-empty-mark{
+  color:#607080;
+  font-size:9px;
+}
+
+.game-hand-card{
+  flex:0 0 205px;
+  min-height:246px;
+  padding:9px;
+}
+
+.game-hand-card-head{
+  align-items:center;
+  padding-bottom:2px;
+}
+
+.game-hand-card-head span{
+  font-size:11px;
+  letter-spacing:.06em;
+}
+
+.game-hand-card-head b{
+  min-width:29px;
+  text-align:center;
+  font-size:23px;
+}
+
+.game-hand-card .game-card-section{
+  min-height:48px;
+}
+
+.game-hand-card .game-card-section-text{
+  font-size:8.5px;
+  line-height:1.32;
+}
+
+.game-board-card{
+  min-height:120px;
+  margin-top:-34px;
+}
+
+.game-board-card:first-child{
+  margin-top:0;
+}
+
+.game-board-card .game-card-sections.compact{
+  margin-top:4px;
+  border-radius:7px;
+}
+
+.game-board-card .game-card-sections.compact .game-card-section{
+  grid-template-columns:30px minmax(0,1fr);
+  min-height:29px;
+}
+
+.game-board-card .game-card-sections.compact .game-card-section-label{
+  padding:3px 2px;
+  font-size:5px;
+  letter-spacing:.04em;
+}
+
+.game-board-card .game-card-sections.compact .game-card-section-text{
+  padding:4px 5px;
+  font-size:6.2px;
+  line-height:1.2;
+}
+
+.game-board-card .game-card-sections.compact .game-card-section.empty{
+  min-height:19px;
+}
+
+.game-card-face-down{
+  min-height:90px;
+  display:grid;
+  place-items:center;
+  margin-top:5px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:8px;
+  background:
+    repeating-linear-gradient(135deg,rgba(255,255,255,.028) 0 5px,transparent 5px 10px),
+    rgba(0,0,0,.26);
+  color:#8592a0;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.16em;
+}
+
+.game-line-stack-layer{
+  padding-top:38px;
+}
+
+.game-line .game-stack{
+  min-height:132px;
+}
+
+.game-action-log{
+  font-family:var(--ui-font,inherit);
+}
+
+@media(max-width:700px){
+  .game-hand-card{
+    flex-basis:184px;
+    min-height:232px;
+  }
+
+  .game-hand-card .game-card-section{
+    grid-template-columns:35px minmax(0,1fr);
+  }
+
+  .game-hand-card .game-card-section-text{
+    font-size:8px;
+  }
+
+  .game-board-card .game-card-sections.compact .game-card-section-text{
+    font-size:5.8px;
+  }
+}
