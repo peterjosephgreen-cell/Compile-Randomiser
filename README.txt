@@ -298,3 +298,14 @@ VERSION 21.2.7 — FACE-DOWN SCORE + SIX-CARD HAND
   without horizontal scrolling.
 - Card text remains divided into TOP / COMMAND / BOTTOM sections.
 - Hand and played-card sizing reduced modestly to preserve readability.
+
+VERSION 21.2.8 — UNDO PLAY + HEADER CLEARANCE
+----------------------------------------------
+- Increased the vertical gap beneath the Compile logo again on desktop and mobile.
+- Added UNDO PLAY after a human card is successfully played.
+- Undo remains available only until End Turn.
+- Undo restores the complete pre-play GameState, including:
+  hand, line stacks, card face/covered state, line totals, drawn cards,
+  queued prototype effects, Control state and action log.
+- Both tap-to-play and drag-to-play create an undo snapshot.
+- Ending the turn, Refreshing, Compiling or starting a new game clears the undo window.

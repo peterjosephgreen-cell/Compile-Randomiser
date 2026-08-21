@@ -1,5 +1,5 @@
 {
-  "version": "21.2.7",
+  "version": "21.2.8",
   "released": "2026-08-21",
-  "notes": "Face-down cards universally score 2; six-card hand layout fits without horizontal scrolling."
+  "notes": "More header clearance below Compile logo and pre-End-Turn Undo Play."
 }

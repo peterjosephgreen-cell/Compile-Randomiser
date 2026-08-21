@@ -4258,3 +4258,71 @@ header img[src*="compile-logo"]{
     line-height:1.16 !important;
   }
 }
+
+
+/* =========================================================
+   V21.2.8 — EXTRA HEADER CLEARANCE + UNDO PLAY
+   ========================================================= */
+
+/* Increase the guaranteed gap further than v21.2.6.
+   These !important overrides intentionally sit last in the stylesheet. */
+.compile-logo,
+.app-logo,
+.brand-logo,
+header img[src*="compile-logo"]{
+  margin-bottom:26px !important;
+}
+
+.hero-subtitle,
+.app-subtitle,
+.brand-subtitle,
+.logo-subtitle,
+header .subtitle,
+#appSubtitle,
+#brandSubtitle{
+  margin-top:30px !important;
+  padding-top:8px !important;
+  transform:none !important;
+}
+
+/* If the actual header uses adjacent logo/subtitle nodes, this catches it directly. */
+header img[src*="compile-logo"] + *,
+.brand-logo + *,
+.compile-logo + *{
+  margin-top:22px !important;
+}
+
+.game-undo-button:not(:disabled){
+  color:#f1dcff;
+  border-color:rgba(205,122,255,.46);
+  background:rgba(144,72,194,.10);
+  box-shadow:0 0 14px rgba(188,98,243,.10);
+}
+
+.game-undo-button:disabled{
+  opacity:.28;
+}
+
+@media(max-width:700px){
+  .compile-logo,
+  .app-logo,
+  .brand-logo,
+  header img[src*="compile-logo"]{
+    margin-bottom:30px !important;
+  }
+
+  .hero-subtitle,
+  .app-subtitle,
+  .brand-subtitle,
+  .logo-subtitle,
+  header .subtitle,
+  #appSubtitle,
+  #brandSubtitle{
+    margin-top:34px !important;
+    padding-top:9px !important;
+  }
+
+  .game-action-row{
+    flex-wrap:wrap;
+  }
+}

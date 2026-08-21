@@ -6,6 +6,7 @@
   let selectedHumanCard=null;
   let selectedFace="up";
   let dragState=null;
+  let humanUndoState=null;
 
   const $=id=>document.getElementById(id);
 
@@ -52,6 +53,7 @@
 
   function newGameSetup(){
     if(engine) engine.clearSave();
+    clearHumanUndo();
     setup={human:[],ai:[]};
     selectedHumanCard=null;
     $("gameSetupPanel").hidden=false;
@@ -95,6 +97,7 @@
 
   function startGame(){
     if(setup.human.length!==3||setup.ai.length!==3) return;
+    clearHumanUndo();
     engine.newGame({
       humanName:window.playerNames?.p1 || "Player 1",
       humanProtocols:setup.human,
@@ -288,8 +291,10 @@
 
     if(legal){
       selectedHumanCard=state.cardId;
+      const beforePlay=captureHumanUndoState();
       const result=engine.playCard("human",state.cardId,lineId,selectedFace);
       if(result.ok){
+        humanUndoState=beforePlay;
         selectedHumanCard=null;
         engine.save();
         renderBoard();
@@ -387,10 +392,37 @@
     }
   }
 
+
+  function captureHumanUndoState(){
+    if(!engine?.state) return null;
+    return JSON.parse(JSON.stringify(engine.state));
+  }
+
+  function clearHumanUndo(){
+    humanUndoState=null;
+  }
+
+  function undoHumanPlay(){
+    if(!humanUndoState || !engine?.state) return;
+    // Undo is deliberately only available while it is still the human's turn
+    // and before End Turn has advanced the game.
+    if(engine.state.active!=="human") return;
+
+    engine.state=JSON.parse(JSON.stringify(humanUndoState));
+    humanUndoState=null;
+    selectedHumanCard=null;
+    dragState=null;
+    clearDragHighlights();
+    engine.save();
+    renderBoard();
+  }
+
   function playSelectedHumanCard(lineId){
     if(!selectedHumanCard) return;
+    const beforePlay=captureHumanUndoState();
     const result=engine.playCard("human",selectedHumanCard,lineId,selectedFace);
     if(result.ok){
+      humanUndoState=beforePlay;
       selectedHumanCard=null;
       engine.save();
       renderBoard();
@@ -399,6 +431,7 @@
 
   function endHumanTurn(){
     if(!engine.finishTurn("human")) return;
+    clearHumanUndo();
     engine.save();
     renderBoard();
     setTimeout(()=>{
@@ -445,6 +478,7 @@
     $("gameCancelSelectionButton").disabled=!selectedHumanCard;
     $("gameEndTurnButton").disabled=!(s.active==="human"&&s.hasTakenAction&&!s.pendingCompile.length);
     $("gameRefreshButton").disabled=!(s.active==="human"&&!s.hasTakenAction&&!s.pendingCompile.length);
+    $("gameUndoButton").disabled=!(humanUndoState && s.active==="human" && s.hasTakenAction && !s.pendingCompile.length);
     $("gameFaceUpButton").classList.toggle("active",selectedFace==="up");
     $("gameFaceDownButton").classList.toggle("active",selectedFace==="down");
 
@@ -459,7 +493,7 @@
         const p=engine.protocolAt("human",lineId);
         b.className="primary-button";
         b.textContent=`Compile Line ${lineId+1} · ${p?p.name:"Protocol"}`;
-        b.onclick=()=>{engine.compileLine("human",lineId);engine.save();renderBoard();};
+        b.onclick=()=>{clearHumanUndo();engine.compileLine("human",lineId);engine.save();renderBoard();};
         compileChoices.appendChild(b);
       });
     }else{
@@ -481,7 +515,8 @@
     $("gameStartButton")?.addEventListener("click",startGame);
     $("gameCancelSelectionButton")?.addEventListener("click",()=>{selectedHumanCard=null;clearDragHighlights();renderBoard();});
     $("gameEndTurnButton")?.addEventListener("click",endHumanTurn);
-    $("gameRefreshButton")?.addEventListener("click",()=>{if(engine.refresh("human")){selectedHumanCard=null;engine.save();renderBoard();}});
+    $("gameUndoButton")?.addEventListener("click",undoHumanPlay);
+    $("gameRefreshButton")?.addEventListener("click",()=>{if(engine.refresh("human")){clearHumanUndo();selectedHumanCard=null;engine.save();renderBoard();}});
     $("gameFaceUpButton")?.addEventListener("click",()=>{selectedFace="up";renderBoard();});
     $("gameFaceDownButton")?.addEventListener("click",()=>{selectedFace="down";renderBoard();});
   });
