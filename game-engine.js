@@ -91,8 +91,18 @@
       return true;
     }
 
+    cardBoardValue(card){
+      // Core Compile rule: every face-down card has a board value of 2,
+      // regardless of printed value, Protocol, owner, or which line it occupies.
+      if(card.face==="down") return 2;
+      return Number(card.value)||0;
+    }
+
     lineValue(player,lineId){
-      return this.state.lines[lineId][player].reduce((sum,c)=>sum+(c.face==="up"?(Number(c.value)||0):2),0);
+      return this.state.lines[lineId][player].reduce(
+        (sum,c)=>sum+this.cardBoardValue(c),
+        0
+      );
     }
 
     protocolAt(player,lineId){return this.state.protocols[player].find(p=>p.position===lineId);}
@@ -227,7 +237,7 @@
 
     scoreAiMove(card,lineId,face){
       const human=this.lineValue("human",lineId), before=this.lineValue("ai",lineId);
-      const added=face==="up"?(Number(card.value)||0):2, after=before+added;
+      const added=face==="down"?2:(Number(card.value)||0), after=before+added;
       let score=0;
       if(before<=human&&after>human)score+=18;
       score+=Math.max(0,9-Math.abs(human-after));

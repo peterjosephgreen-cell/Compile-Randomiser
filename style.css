@@ -4102,3 +4102,159 @@ header img[src*="compile-logo"]{
     margin-bottom:17px !important;
   }
 }
+
+
+/* =========================================================
+   V21.2.7 — SIX-CARD HAND FIT + FACE-DOWN SCORE CLARITY
+   ========================================================= */
+
+/* Desktop/tablet: size hand cards so a normal six-card hand fits without horizontal scroll. */
+.game-human-hand{
+  display:grid !important;
+  grid-template-columns:repeat(6,minmax(0,1fr)) !important;
+  gap:6px !important;
+  overflow-x:visible !important;
+  padding-bottom:4px !important;
+}
+
+.game-hand-card{
+  width:100% !important;
+  min-width:0 !important;
+  max-width:none !important;
+  flex:none !important;
+  min-height:300px !important;
+  padding:7px !important;
+}
+
+.game-hand-card-head span{
+  font-size:9px !important;
+}
+
+.game-hand-card-head b{
+  min-width:24px !important;
+  font-size:19px !important;
+}
+
+.game-hand-card .game-card-sections{
+  grid-template-rows:minmax(62px,auto) minmax(62px,auto) minmax(62px,auto) !important;
+  margin-top:6px !important;
+}
+
+.game-hand-card .game-card-section{
+  min-height:62px !important;
+}
+
+.game-hand-card .game-card-section-label{
+  padding:3px 5px !important;
+  font-size:5.5px !important;
+}
+
+.game-hand-card .game-card-section-text{
+  min-height:40px !important;
+  padding:5px 6px !important;
+  font-size:7.3px !important;
+  line-height:1.25 !important;
+}
+
+/* Keep empty sections compact but still visibly present. */
+.game-hand-card .game-card-section.empty{
+  min-height:43px !important;
+}
+
+.game-hand-card .game-card-section.empty .game-card-section-text{
+  min-height:24px !important;
+}
+
+/* Slightly reduce the played-card footprint too, so the board stays balanced. */
+.game-board-card{
+  min-height:185px !important;
+  margin-top:-92px !important;
+}
+
+.game-board-card .game-card-sections.compact{
+  grid-template-rows:minmax(40px,auto) minmax(40px,auto) minmax(40px,auto) !important;
+}
+
+.game-board-card .game-card-sections.compact .game-card-section{
+  min-height:40px !important;
+}
+
+.game-board-card .game-card-sections.compact .game-card-section-text{
+  min-height:25px !important;
+  font-size:6px !important;
+}
+
+.game-line{
+  min-height:270px !important;
+}
+
+.game-line-stack-layer{
+  min-height:225px !important;
+}
+
+/* Compact display for smaller screens while preserving a six-card row.
+   Text remains readable because sections can expand vertically. */
+@media(max-width:900px){
+  .game-human-hand{
+    gap:4px !important;
+  }
+
+  .game-hand-card{
+    min-height:282px !important;
+    padding:5px !important;
+  }
+
+  .game-hand-card-head span{
+    font-size:8px !important;
+  }
+
+  .game-hand-card-head b{
+    font-size:17px !important;
+  }
+
+  .game-hand-card .game-card-section-text{
+    padding:4px !important;
+    font-size:6.6px !important;
+    line-height:1.2 !important;
+  }
+
+  .game-hand-card .game-card-section-label{
+    font-size:5px !important;
+    letter-spacing:.07em !important;
+  }
+}
+
+@media(max-width:700px){
+  .game-human-hand{
+    grid-template-columns:repeat(6,minmax(0,1fr)) !important;
+    overflow-x:visible !important;
+  }
+
+  .game-hand-card{
+    min-height:265px !important;
+    padding:4px !important;
+  }
+
+  .game-hand-card-head span{
+    font-size:7px !important;
+  }
+
+  .game-hand-card-head b{
+    min-width:18px !important;
+    font-size:15px !important;
+  }
+
+  .game-hand-card .game-card-sections{
+    grid-template-rows:minmax(54px,auto) minmax(54px,auto) minmax(54px,auto) !important;
+  }
+
+  .game-hand-card .game-card-section{
+    min-height:54px !important;
+  }
+
+  .game-hand-card .game-card-section-text{
+    min-height:34px !important;
+    font-size:5.9px !important;
+    line-height:1.16 !important;
+  }
+}

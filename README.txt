@@ -286,3 +286,15 @@ VERSION 21.2.6 — HEADER / PLAY VS AI UI FIX
 - Added extra clearance beneath the main Compile logo.
 - 'Compile Protocol Randomiser' subtitle is pushed lower so the logo no longer overlaps it.
 - Includes responsive spacing for iPhone-sized screens.
+
+VERSION 21.2.7 — FACE-DOWN SCORE + SIX-CARD HAND
+------------------------------------------------
+- Every face-down card now contributes exactly 2 to its line, irrespective
+  of printed value, Protocol, owner or line position.
+- Added one shared cardBoardValue() rule so human scoring, Compile checks
+  and future effects read the same board-value logic.
+- Standard AI evaluates face-down plays as value 2.
+- Human hand changed to a six-column grid so a six-card hand fits on screen
+  without horizontal scrolling.
+- Card text remains divided into TOP / COMMAND / BOTTOM sections.
+- Hand and played-card sizing reduced modestly to preserve readability.
