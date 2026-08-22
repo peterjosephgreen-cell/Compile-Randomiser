@@ -319,3 +319,31 @@ VERSION 21.2.9 — LIBRARY ART + DISCARD EFFECT
 - AI: automatically chooses a discard using a basic keep-value heuristic.
 - End Turn is blocked until a required human discard is completed.
 - Undo Play retains the ability to restore the complete pre-play state.
+
+VERSION 21.3.0 — DRAW EFFECT FRAMEWORK
+--------------------------------------
+Implemented Draw behaviour now includes:
+- Immediate DRAW 1 / DRAW 2 / DRAW 3 etc., even when followed by another not-yet-supported effect.
+- Draw the top card of your opponent's deck (ownership transfers to drawer).
+- Opponent draws the top card of your deck.
+- Luck 2: discard top deck card, draw equal to its value.
+- Diversity 1: draw equal to different Protocols in that line.
+- Unity 2: draw equal to Unity cards currently in the field.
+- Life 4 conditional draw when covering another card.
+- Spirit 0 Refresh + Draw 1.
+- Fear 1 opponent-hand discard/redraw effect.
+- Light 1 End draw.
+- Peace 1 End draw when hand is empty.
+- Courage 0 Start draw when hand is empty.
+- Courage 2 conditional End draw.
+- Chaos 4 End discard-hand / draw-that-many.
+- Unity 4 Start draw-all-Unity when hand is empty.
+- Mirror 4 after-opponent-draw trigger.
+- Plague 1 after-opponent-discard trigger.
+- Peace 4 after-discard-during-opponent-turn trigger.
+- Speed 1 after Clear Cache trigger.
+- Time 2 after shuffle trigger.
+- Ice 6 draw prevention.
+
+Draw text whose amount depends on an unresolved targeting/action choice remains queued rather than guessed
+(e.g. draw equal to a card you first need to Flip, or optional either/or Draw choices).

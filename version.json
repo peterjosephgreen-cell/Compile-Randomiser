@@ -1,5 +1,5 @@
 {
-  "version": "21.2.9",
+  "version": "21.3.0",
   "released": "2026-08-22",
-  "notes": "Library compiled-side art; VS AI mandatory Discard 1 Card implemented."
+  "notes": "Draw effect framework: deterministic immediate Draw commands plus several Start/End/event Draw triggers."
 }

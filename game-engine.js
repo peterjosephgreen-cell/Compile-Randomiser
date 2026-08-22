@@ -67,16 +67,90 @@
     clearSave(){localStorage.removeItem(SAVE_KEY);}
     log(message){this.state.log.unshift({t:Date.now(),message});this.state.log=this.state.log.slice(0,100);}
 
-    draw(player,n=1,logIt=true){
-      const p=this.state.players[player];
-      for(let i=0;i<n;i++){
-        if(!p.cache.length&&p.trash.length){
-          p.cache=shuffle(p.trash);p.trash=[];
-          this.log(`${player==="human"?this.state.humanName:"AI"} reshuffles Trash to reform the deck.`);
+    fieldCards(player=null){
+      const out=[];
+      for(const line of this.state.lines){
+        for(const side of ["human","ai"]){
+          if(player && side!==player) continue;
+          out.push(...line[side]);
         }
-        if(p.cache.length)p.hand.push(p.cache.pop());
       }
-      if(logIt&&n)this.log(`${player==="human"?this.state.humanName:"AI"} draws ${n}.`);
+      return out;
+    }
+
+    canDraw(player){
+      // Ice 6: while it is face-up on your side, if you have cards in hand you cannot draw.
+      const hasIceSix=this.fieldCards(player).some(c=>c.cardId==="ice-6" && c.face==="up");
+      if(hasIceSix && this.state.players[player].hand.length>0) return false;
+      return true;
+    }
+
+    draw(player,n=1,logIt=true,{fromPlayer=null,triggerEvents=true}={}){
+      const p=this.state.players[player];
+      let drawn=0;
+
+      for(let i=0;i<n;i++){
+        if(!this.canDraw(player)){
+          if(logIt) this.log(`${player==="human"?this.state.humanName:"AI"} cannot draw because of Ice 6.`);
+          break;
+        }
+
+        const sourcePlayer=fromPlayer || player;
+        const source=this.state.players[sourcePlayer];
+
+        if(!source.cache.length && source.trash.length){
+          source.cache=shuffle(source.trash);
+          source.trash=[];
+          this.log(`${sourcePlayer==="human"?this.state.humanName:"AI"} reshuffles Trash to reform the deck.`);
+          this.resolveAfterShuffle(sourcePlayer);
+        }
+
+        if(source.cache.length){
+          const card=source.cache.pop();
+          if(fromPlayer && fromPlayer!==player){
+            card.owner=player;
+            card.controller=player;
+          }
+          p.hand.push(card);
+          drawn++;
+        }
+      }
+
+      if(logIt && drawn){
+        if(fromPlayer && fromPlayer!==player){
+          this.log(`${player==="human"?this.state.humanName:"AI"} draws ${drawn} from ${fromPlayer==="human"?this.state.humanName:"AI"}'s deck.`);
+        }else{
+          this.log(`${player==="human"?this.state.humanName:"AI"} draws ${drawn}.`);
+        }
+      }
+
+      if(drawn && triggerEvents) this.resolveAfterDraw(player,drawn);
+      return drawn;
+    }
+
+    resolveAfterDraw(player,count){
+      const opponent=player==="human"?"ai":"human";
+
+      // Mirror 4 — After your opponent draws cards: Draw 1 card.
+      for(const owner of [opponent]){
+        const active=this.fieldCards(owner).some(c=>c.cardId==="mirror-4" && c.face==="up");
+        if(active){
+          this.log(`${owner==="human"?this.state.humanName:"AI"} triggers Mirror 4 after the opponent draws.`);
+          this.draw(owner,1,true,{triggerEvents:false});
+        }
+      }
+
+      // Spirit 3 also says "After you draw cards", but its effect is an optional Shift;
+      // keep that non-Draw portion queued until Shift targeting is implemented.
+    }
+
+    resolveAfterShuffle(player){
+      // Time 2 — After you shuffle your deck: Draw 1 card and you may shift this card.
+      const active=this.fieldCards(player).some(c=>c.cardId==="time-2" && c.face==="up");
+      if(active){
+        this.log(`${player==="human"?this.state.humanName:"AI"} triggers Time 2 after shuffling.`);
+        this.draw(player,1,true,{triggerEvents:true});
+      }
     }
 
     refresh(player){
@@ -126,10 +200,80 @@
       return lines;
     }
 
+    resolveStartDrawEffects(player){
+      const cards=this.fieldCards(player).filter(c=>c.face==="up");
+
+      // Courage 0 — Start: If you have no cards in hand, draw 1.
+      if(cards.some(c=>c.cardId==="courage-0") && this.state.players[player].hand.length===0){
+        this.log(`${player==="human"?this.state.humanName:"AI"} triggers Courage 0 at Start.`);
+        this.draw(player,1);
+      }
+
+      // Unity 4 — Start: If hand empty, draw all Unity cards from deck, shuffle deck.
+      if(cards.some(c=>c.cardId==="unity-4") && this.state.players[player].hand.length===0){
+        const p=this.state.players[player];
+        const unity=p.cache.filter(c=>c.protocol==="Unity");
+        if(unity.length){
+          p.cache=p.cache.filter(c=>c.protocol!=="Unity");
+          p.hand.push(...unity);
+          this.log(`${player==="human"?this.state.humanName:"AI"} draws ${unity.length} Unity card${unity.length===1?"":"s"} with Unity 4.`);
+          p.cache=shuffle(p.cache);
+          this.resolveAfterShuffle(player);
+          this.resolveAfterDraw(player,unity.length);
+        }
+      }
+
+      // Chaos 0 / Death 1 have Start Draw text tied to additional exchange/delete choices.
+      // Those remain pending until their linked non-Draw action is implemented.
+    }
+
+    resolveEndDrawEffects(player){
+      const opponent=player==="human"?"ai":"human";
+      const cards=this.fieldCards(player).filter(c=>c.face==="up");
+
+      // Light 1 — End: Draw 1.
+      if(cards.some(c=>c.cardId==="light-1")){
+        this.log(`${player==="human"?this.state.humanName:"AI"} triggers Light 1 at End.`);
+        this.draw(player,1);
+      }
+
+      // Peace 1 — End: If hand is empty, draw 1.
+      if(cards.some(c=>c.cardId==="peace-1") && this.state.players[player].hand.length===0){
+        this.log(`${player==="human"?this.state.humanName:"AI"} triggers Peace 1 at End.`);
+        this.draw(player,1);
+      }
+
+      // Courage 2 — End: if opponent has higher value in this line, draw 1.
+      for(const c of cards.filter(c=>c.cardId==="courage-2")){
+        if(c.line!==null && this.lineValue(opponent,c.line)>this.lineValue(player,c.line)){
+          this.log(`${player==="human"?this.state.humanName:"AI"} triggers Courage 2 at End.`);
+          this.draw(player,1);
+        }
+      }
+
+      // Chaos 4 — End: Discard hand. Draw that many.
+      if(cards.some(c=>c.cardId==="chaos-4")){
+        const p=this.state.players[player];
+        const n=p.hand.length;
+        while(p.hand.length){
+          const discarded=p.hand.pop();
+          p.trash.push(discarded);
+        }
+        if(n){
+          this.log(`${player==="human"?this.state.humanName:"AI"} discards ${n} card${n===1?"":"s"} with Chaos 4.`);
+          this.resolveAfterDiscard(player,n);
+          this.draw(player,n);
+        }
+      }
+    }
+
     startTurn(player,logIt=true){
-      this.state.active=player;this.state.hasTakenAction=false;this.state.pendingCompile=[];
+      this.state.active=player;
+      this.state.hasTakenAction=false;
+      this.state.pendingCompile=[];
       if(logIt)this.log(`${player==="human"?this.state.humanName:"AI"} starts Turn ${this.state.turn}.`);
-      // START effects are represented in the card model, but full trigger resolution is a later v21.x step.
+
+      this.resolveStartDrawEffects(player);
       this.checkControl(player);
       this.state.pendingCompile=this.compilableLines(player);
       if(this.state.pendingCompile.length)this.log(`${player==="human"?this.state.humanName:"AI"} must Compile.`);
@@ -161,39 +305,143 @@
       const text=plain(card.middle);
       if(!text) return;
 
+      // Existing mandatory discard support.
       const discardOne=/^(?:YOU\s+)?DISCARD\s+1\s+CARD\.?$/i.test(text);
-
       if(discardOne){
         const hand=this.state.players[player].hand;
         if(hand.length===0){
           this.log(`${player==="human"?this.state.humanName:"AI"} has no card to discard, so the discard effect does nothing.`);
           return;
         }
-
         if(player==="ai"){
           const discard=this.chooseAiDiscard();
           if(discard) this.discardFromHand("ai",discard.instanceId);
           return;
         }
-
         this.state.pendingEffectChoices.push({
-          type:"discard",
-          player:"human",
-          count:1,
+          type:"discard",player:"human",count:1,
           sourceCardInstanceId:card.instanceId,
-          sourceProtocol:card.protocol,
-          sourceValue:card.value
+          sourceProtocol:card.protocol,sourceValue:card.value
         });
         this.log(`${this.state.humanName} must discard 1 card.`);
         return;
       }
 
-      const ambiguous=/\b(if|may|choose|opponent|shift|flip|delete|discard|return|swap|reveal|refresh|compile|covered|face-down|face down|instead|after |when )\b/i.test(text);
-      const exact=text.match(/^DRAW\s+(\d+)\.?$/i);
-      if(exact&&!ambiguous){this.draw(player,Number(exact[1]));return;}
+      // DRAW FROM OPPONENT'S DECK.
+      if(/DRAW THE TOP CARD OF YOUR OPPONENT[´'’]S DECK/i.test(text)){
+        this.draw(player,1,true,{fromPlayer:player==="human"?"ai":"human"});
+      }
 
-      this.state.pendingManualEffects.push({cardInstanceId:card.instanceId,player,lineId,text,resolved:false});
-      this.log(`Complex effect queued for later engine support: ${card.protocol} ${card.value}.`);
+      // "Your opponent draws the top card of your deck."
+      if(/YOUR OPPONENT DRAWS THE TOP CARD OF YOUR DECK/i.test(text)){
+        const opponent=player==="human"?"ai":"human";
+        this.draw(opponent,1,true,{fromPlayer:player});
+      }
+
+      // Deterministic immediate DRAW N anywhere in the middle command.
+      // This intentionally resolves the Draw portion even when another, unrelated
+      // command on the same card is not implemented yet.
+      const direct=[...text.matchAll(/\bDRAW\s+(\d+)\s+CARDS?\b/gi)];
+      for(const match of direct){
+        this.draw(player,Number(match[1]));
+      }
+
+      // Fear 1: opponent discards entire hand and draws that amount minus 1.
+      if(/^DRAW 2 CARDS\. YOUR OPPONENT DISCARDS THEIR HAND AND DRAWS THE AMOUNT OF CARDS DISCARDED MINUS 1\.?$/i.test(text)){
+        const opponent=player==="human"?"ai":"human";
+        const op=this.state.players[opponent];
+        const amount=op.hand.length;
+        while(op.hand.length){
+          const discarded=op.hand.pop();
+          op.trash.push(discarded);
+        }
+        if(amount) this.log(`${opponent==="human"?this.state.humanName:"AI"} discards their hand (${amount}).`);
+        if(amount>1) this.draw(opponent,amount-1);
+        return;
+      }
+
+      // Luck 2: discard top card of your deck, then draw equal to its value.
+      if(/^DISCARD THE TOP CARD OF YOUR DECK\. DRAW CARDS EQUAL TO THE VALUE OF THE DISCARDED CARD\.?$/i.test(text)){
+        const p=this.state.players[player];
+        if(!p.cache.length && p.trash.length){
+          p.cache=shuffle(p.trash); p.trash=[];
+          this.resolveAfterShuffle(player);
+        }
+        if(p.cache.length){
+          const discarded=p.cache.pop();
+          p.trash.push(discarded);
+          this.log(`${player==="human"?this.state.humanName:"AI"} discards ${discarded.protocol} ${discarded.value} from the top of the deck.`);
+          this.draw(player,Number(discarded.value)||0);
+        }
+        return;
+      }
+
+      // Diversity 1: draw equal to different Protocols in this line.
+      if(/DRAW CARDS EQUAL TO THE NUMBER OF DIFFERENT PROTOCOLS IN THIS LINE/i.test(text)){
+        const names=new Set();
+        for(const side of ["human","ai"]){
+          for(const c of this.state.lines[lineId][side]) names.add(c.protocol);
+        }
+        this.draw(player,names.size);
+      }
+
+      // Unity 2: draw equal to the number of Unity cards in the field.
+      if(/DRAW CARDS EQUAL TO THE NUMBER OF UNITY CARDS IN THE FIELD/i.test(text)){
+        const n=this.fieldCards().filter(c=>c.protocol==="Unity").length;
+        this.draw(player,n);
+      }
+
+      // Life 4: conditional immediate draw.
+      if(/IF THIS CARD IS COVERING A CARD, DRAW 1 CARD/i.test(text)){
+        const stack=this.state.lines[lineId][player];
+        const idx=stack.findIndex(c=>c.instanceId===card.instanceId);
+        if(idx>0) this.draw(player,1);
+      }
+
+      // Spirit 0: Refresh, then Draw 1.
+      if(/^REFRESH\. DRAW 1 CARD\.?$/i.test(text)){
+        const p=this.state.players[player];
+        const need=Math.max(0,5-p.hand.length);
+        if(need) this.draw(player,need);
+        // direct parser above already applied the final Draw 1.
+        return;
+      }
+
+      // If every part of this middle command is one of the Draw patterns above, it is resolved.
+      const drawOnly =
+        /^(?:DRAW \d+ CARDS?\.?\s*)+$/i.test(text) ||
+        /^DRAW THE TOP CARD OF YOUR OPPONENT[´'’]S DECK\.?$/i.test(text);
+
+      // These commands have known Draw portions but other effects remain to implement.
+      const hasOtherEffect=/\b(FLIP|SHIFT|DELETE|REVEAL|PLAY|REARRANGE|PREVENT|CANNOT COMPILE|STATE A NUMBER)\b/i.test(text);
+
+      if(drawOnly) return;
+
+      if(hasOtherEffect){
+        this.state.pendingManualEffects.push({
+          cardInstanceId:card.instanceId,player,lineId,
+          text:`Remaining non-Draw effect: ${text}`,resolved:false
+        });
+        this.log(`Draw resolved; remaining effect queued: ${card.protocol} ${card.value}.`);
+        return;
+      }
+
+      // Draw-dependent effects whose amount requires an unresolved choice/action stay pending.
+      if(/\bDRAW\b/i.test(text)){
+        const unresolvedDynamic =
+          /DRAW THE AMOUNT DISCARDED PLUS 1|DRAW CARDS EQUAL TO THAT CARD[´'’]S VALUE|DRAW CARDS EQUAL TO THE VALUE OF THE DISCARDED CARD|DRAW 1 CARD WITH A VALUE OF|DRAW ALL UNITY CARDS|EITHER FLIP 1 CARD OR DRAW 1 CARD/i.test(text);
+        if(unresolvedDynamic){
+          this.state.pendingManualEffects.push({cardInstanceId:card.instanceId,player,lineId,text,resolved:false});
+          this.log(`Draw effect needs another choice/action first: ${card.protocol} ${card.value}.`);
+          return;
+        }
+      }
+
+      // Preserve existing queue for any remaining unsupported command.
+      if(text){
+        this.state.pendingManualEffects.push({cardInstanceId:card.instanceId,player,lineId,text,resolved:false});
+        this.log(`Complex effect queued for later engine support: ${card.protocol} ${card.value}.`);
+      }
     }
 
     discardFromHand(player,cardId){
@@ -203,12 +451,30 @@
       const [card]=p.hand.splice(idx,1);
       p.trash.push(card);
       this.log(`${player==="human"?this.state.humanName:"AI"} discards ${card.protocol} ${card.value}.`);
+      this.resolveAfterDiscard(player,1);
 
       if(player==="human"){
         const pending=this.state.pendingEffectChoices.findIndex(x=>x.type==="discard"&&x.player==="human");
         if(pending>=0) this.state.pendingEffectChoices.splice(pending,1);
       }
       return true;
+    }
+
+    resolveAfterDiscard(player,count){
+      const opponent=player==="human"?"ai":"human";
+
+      // Plague 1 — After your opponent discards cards: Draw 1 card.
+      if(this.fieldCards(opponent).some(c=>c.cardId==="plague-1" && c.face==="up")){
+        this.log(`${opponent==="human"?this.state.humanName:"AI"} triggers Plague 1.`);
+        this.draw(opponent,1);
+      }
+
+      // Peace 4 — After you discard cards during your opponent's turn: Draw 1 card.
+      if(this.state.active!==player &&
+         this.fieldCards(player).some(c=>c.cardId==="peace-4" && c.face==="up")){
+        this.log(`${player==="human"?this.state.humanName:"AI"} triggers Peace 4.`);
+        this.draw(player,1);
+      }
     }
 
     chooseAiDiscard(){
@@ -235,10 +501,18 @@
 
     clearCache(player){
       const p=this.state.players[player];
+      let cleared=0;
       while(p.hand.length>5){
-        // Prototype deterministic clear-cache for AI; human choice UI comes with effect-choice layer.
-        const card=p.hand.pop();p.trash.push(card);
+        const card=p.hand.pop();
+        p.trash.push(card);
+        cleared++;
         this.log(`${player==="human"?this.state.humanName:"AI"} clears ${card.protocol} ${card.value} from hand.`);
+      }
+
+      // Speed 1 — After you clear cache: Draw 1 card.
+      if(cleared>0 && this.fieldCards(player).some(c=>c.cardId==="speed-1" && c.face==="up")){
+        this.log(`${player==="human"?this.state.humanName:"AI"} triggers Speed 1 after clearing Cache.`);
+        this.draw(player,1);
       }
     }
 
@@ -281,6 +555,7 @@
 
     finishTurn(player){
       if(this.state.active!==player||!this.state.hasTakenAction||this.state.pendingCompile.length||this.hasPendingChoice(player)||this.state.status!=="playing")return false;
+      this.resolveEndDrawEffects(player);
       this.clearCache(player);
       const next=player==="human"?"ai":"human";
       if(next==="human")this.state.turn++;
