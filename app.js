@@ -621,7 +621,7 @@ const allProtocols = Object.entries(protocolSets).flatMap(([set, names]) =>
 );
 
 
-const APP_VERSION = "21.4.0";
+const APP_VERSION = "21.4.1";
 
 const protocolPlaystyles = {
   Darkness: "Manipulates face-down cards and hidden information. Strong when you can build value while denying the opponent certainty.",
@@ -1284,9 +1284,20 @@ function protocolMatchesTraits(p){
 }
 function traitPackEnabled(p){
  const setName=p.set||"";
- return traitsState.packs?.[setName]!==false;
+ return Boolean(traitsState.packs?.[setName]);
 }
-function filteredTraitProtocols(){return getAvailableProtocols().filter(traitPackEnabled).filter(protocolMatchesTraits).sort((a,b)=>a.name.localeCompare(b.name));}
+
+function traitProtocolPool(){
+ // Traits mode has its own pack switches. Do not inherit the main randomiser's
+ // enabled-set state, otherwise switching a pack here can appear to do nothing.
+ return protocolList.filter(traitPackEnabled);
+}
+
+function filteredTraitProtocols(){
+ return traitProtocolPool()
+   .filter(protocolMatchesTraits)
+   .sort((a,b)=>a.name.localeCompare(b.name));
+}
 function toggleTrait(t){traitsState.selectedTraits.has(t)?traitsState.selectedTraits.delete(t):traitsState.selectedTraits.add(t);renderTraitsSelector();}
 function assignTraitProtocol(id,pn){
  traitsState.p1=traitsState.p1.filter(x=>x!==id); traitsState.p2=traitsState.p2.filter(x=>x!==id);
@@ -1312,7 +1323,17 @@ function renderTraitsSelector(){
      const input=document.createElement("input");
      input.type="checkbox";
      input.checked=Boolean(traitsState.packs[pack]);
-     input.onchange=()=>{traitsState.packs[pack]=input.checked;renderTraitsSelector();};
+     input.onchange=()=>{
+       traitsState.packs[pack]=input.checked;
+
+       // Remove any currently assigned Protocols that just became unavailable.
+       const allowed=new Set(traitProtocolPool().map(p=>p.id));
+       traitsState.p1=traitsState.p1.filter(id=>allowed.has(id));
+       traitsState.p2=traitsState.p2.filter(id=>allowed.has(id));
+
+       // Full re-render updates pack buttons, trait counts and Protocol results immediately.
+       renderTraitsSelector();
+     };
      const span=document.createElement("span");
      span.textContent=pack;
      label.append(input,span);
@@ -1320,7 +1341,7 @@ function renderTraitsSelector(){
    });
  }
  const chips=document.getElementById("traitsChipGrid");chips.innerHTML="";
- allTraitLabels().forEach(tr=>{const c=getAvailableProtocols().filter(traitPackEnabled).filter(p=>(protocolTraits[p.name]||[]).includes(tr)).length;const b=document.createElement("button");b.className=`trait-chip${traitsState.selectedTraits.has(tr)?" active":""}`;b.innerHTML=`<span>${tr}</span><small>${c}</small>`;b.onclick=()=>toggleTrait(tr);chips.appendChild(b);});
+ allTraitLabels().forEach(tr=>{const c=traitProtocolPool().filter(p=>(protocolTraits[p.name]||[]).includes(tr)).length;const b=document.createElement("button");b.className=`trait-chip${traitsState.selectedTraits.has(tr)?" active":""}`;b.innerHTML=`<span>${tr}</span><small>${c}</small>`;b.onclick=()=>toggleTrait(tr);chips.appendChild(b);});
  const matches=filteredTraitProtocols();document.getElementById("traitsResultCount").textContent=`${matches.length} Protocol${matches.length===1?"":"s"}`;
  const grid=document.getElementById("traitsProtocolGrid");grid.innerHTML="";
  matches.forEach(p=>{const art=protocolTraitArtImages[p.name]||protocolArtImages[p.name];const owner=traitsState.p1.includes(p.id)?"p1":traitsState.p2.includes(p.id)?"p2":"";const card=document.createElement("div");card.className=`traits-protocol-card ${owner}`;card.innerHTML=`<div class="traits-card-art" ${art?`style="background-image:url('${art}')"`:""}>${art?"":`<div class="traits-card-symbol">${protocolSymbolMarkup(p.name)}</div>`}${owner?`<div class="traits-owner-badge ${owner}">${owner==="p1"?playerNames.p1:playerNames.p2}</div>`:""}</div><div class="traits-card-info"><strong>${p.name}</strong><small>${p.set}</small><div class="traits-card-traits">${(protocolTraits[p.name]||[]).map(x=>`<span>${x}</span>`).join("")}</div></div><div class="traits-card-actions"><button class="traits-assign-p1">${playerNames.p1}</button><button class="traits-assign-p2">${playerNames.p2}</button></div>`;

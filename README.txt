@@ -379,3 +379,14 @@ TRAITS
 CLEANUP
 - Removed Table View button/dialog from the UI.
 - Direct Table View event hooks removed; playable VS AI board is now the active table experience.
+
+VERSION 21.4.1 — LIVE TRAITS PACK FILTER
+----------------------------------------
+- Traits mode pack toggles now own their own Protocol pool.
+- Turning a pack ON/OFF immediately updates:
+  * visible Protocol cards
+  * trait counts
+  * current matching results
+  * selected P1/P2 Protocols if a disabled pack removes them
+- Traits mode no longer inherits the main randomiser's enabled-set state, which was
+  preventing some pack toggles from visibly changing the page.
