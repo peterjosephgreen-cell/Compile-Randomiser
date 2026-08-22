@@ -53,7 +53,7 @@
         lines:[{id:0,human:[],ai:[]},{id:1,human:[],ai:[]},{id:2,human:[],ai:[]}],
         hasTakenAction:false,
         pendingCompile:[],
-        pendingManualEffects:[],
+        pendingManualEffects:[],pendingEffectChoices:[],
         log:[]
       };
       this.draw("human",5,false); this.draw("ai",5,false);
@@ -80,7 +80,7 @@
     }
 
     refresh(player){
-      if(this.state.active!==player||this.state.hasTakenAction||this.state.pendingCompile.length)return false;
+      if(this.state.active!==player||this.state.hasTakenAction||this.state.pendingCompile.length||this.hasPendingChoice(player))return false;
       const p=this.state.players[player];
       const need=Math.max(0,5-p.hand.length);
       if(need)this.draw(player,need,false);
@@ -145,7 +145,7 @@
     }
 
     playCard(player,cardId,lineId,face="up"){
-      if(this.state.active!==player||this.state.hasTakenAction||this.state.pendingCompile.length)return{ok:false,error:"Action not currently legal"};
+      if(this.state.active!==player||this.state.hasTakenAction||this.state.pendingCompile.length||this.hasPendingChoice(player))return{ok:false,error:"Action not currently legal"};
       const p=this.state.players[player],idx=p.hand.findIndex(c=>c.instanceId===cardId);
       if(idx<0||!this.legalLinesForCard(player,cardId,face).includes(lineId))return{ok:false,error:"Illegal play"};
       const [card]=p.hand.splice(idx,1);card.line=lineId;card.face=face;
@@ -159,12 +159,78 @@
 
     resolvePrototypeImmediate(player,card,lineId){
       const text=plain(card.middle);
-      if(!text)return;
+      if(!text) return;
+
+      const discardOne=/^(?:YOU\s+)?DISCARD\s+1\s+CARD\.?$/i.test(text);
+
+      if(discardOne){
+        const hand=this.state.players[player].hand;
+        if(hand.length===0){
+          this.log(`${player==="human"?this.state.humanName:"AI"} has no card to discard, so the discard effect does nothing.`);
+          return;
+        }
+
+        if(player==="ai"){
+          const discard=this.chooseAiDiscard();
+          if(discard) this.discardFromHand("ai",discard.instanceId);
+          return;
+        }
+
+        this.state.pendingEffectChoices.push({
+          type:"discard",
+          player:"human",
+          count:1,
+          sourceCardInstanceId:card.instanceId,
+          sourceProtocol:card.protocol,
+          sourceValue:card.value
+        });
+        this.log(`${this.state.humanName} must discard 1 card.`);
+        return;
+      }
+
       const ambiguous=/\b(if|may|choose|opponent|shift|flip|delete|discard|return|swap|reveal|refresh|compile|covered|face-down|face down|instead|after |when )\b/i.test(text);
       const exact=text.match(/^DRAW\s+(\d+)\.?$/i);
       if(exact&&!ambiguous){this.draw(player,Number(exact[1]));return;}
+
       this.state.pendingManualEffects.push({cardInstanceId:card.instanceId,player,lineId,text,resolved:false});
       this.log(`Complex effect queued for later engine support: ${card.protocol} ${card.value}.`);
+    }
+
+    discardFromHand(player,cardId){
+      const p=this.state.players[player];
+      const idx=p.hand.findIndex(c=>c.instanceId===cardId);
+      if(idx<0) return false;
+      const [card]=p.hand.splice(idx,1);
+      p.trash.push(card);
+      this.log(`${player==="human"?this.state.humanName:"AI"} discards ${card.protocol} ${card.value}.`);
+
+      if(player==="human"){
+        const pending=this.state.pendingEffectChoices.findIndex(x=>x.type==="discard"&&x.player==="human");
+        if(pending>=0) this.state.pendingEffectChoices.splice(pending,1);
+      }
+      return true;
+    }
+
+    chooseAiDiscard(){
+      const hand=this.state.players.ai.hand;
+      if(!hand.length) return null;
+
+      const scored=hand.map(card=>{
+        let keep=(Number(card.value)||0)*1.4;
+        const kw=new Set((card.keywords||[]).map(x=>String(x).toLowerCase()));
+        if(kw.has("draw")) keep+=3;
+        if(kw.has("delete")) keep+=3;
+        if(kw.has("flip")) keep+=2;
+        if(kw.has("shift")) keep+=1.5;
+        if(kw.has("compile")) keep+=4;
+        return {card,keep};
+      }).sort((a,b)=>a.keep-b.keep);
+
+      return scored[0]?.card||null;
+    }
+
+    hasPendingChoice(player){
+      return this.state.pendingEffectChoices.some(x=>x.player===player);
     }
 
     clearCache(player){
@@ -214,7 +280,7 @@
     }
 
     finishTurn(player){
-      if(this.state.active!==player||!this.state.hasTakenAction||this.state.pendingCompile.length||this.state.status!=="playing")return false;
+      if(this.state.active!==player||!this.state.hasTakenAction||this.state.pendingCompile.length||this.hasPendingChoice(player)||this.state.status!=="playing")return false;
       this.clearCache(player);
       const next=player==="human"?"ai":"human";
       if(next==="human")this.state.turn++;

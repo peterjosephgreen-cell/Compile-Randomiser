@@ -1,5 +1,5 @@
 {
-  "version": "21.2.8",
-  "released": "2026-08-21",
-  "notes": "More header clearance below Compile logo and pre-End-Turn Undo Play."
+  "version": "21.2.9",
+  "released": "2026-08-22",
+  "notes": "Library compiled-side art; VS AI mandatory Discard 1 Card implemented."
 }

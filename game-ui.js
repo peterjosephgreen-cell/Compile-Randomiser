@@ -379,7 +379,7 @@
       el.className=`game-hand-card${selectedHumanCard===card.instanceId?" selected":""}`;
       el.style.setProperty("--card-accent",accent);
       el.style.setProperty("--card-deep",deep);
-      el.disabled=engine.state.active!=="human"||engine.state.hasTakenAction||engine.state.pendingCompile.length;
+      el.disabled=engine.state.active!=="human"||engine.state.hasTakenAction||engine.state.pendingCompile.length||Boolean(engine.state.pendingEffectChoices?.length);
       el.innerHTML=`<div class="game-hand-card-head"><span>${card.protocol}</span><b>${card.value}</b></div>
         ${cardSectionsMarkup(card)}`;
       el.onclick=()=>{
@@ -447,6 +447,61 @@
     $("gameActionLog").innerHTML=engine.state.log.map(x=>`<div>${x.message}</div>`).join("");
   }
 
+
+  function renderDiscardPrompt(){
+    const prompt=$("gameDiscardPrompt");
+    const choices=$("gameDiscardChoices");
+    if(!engine?.state){prompt.hidden=true;choices.innerHTML="";return;}
+
+    const pending=engine.state.pendingEffectChoices?.find(x=>x.type==="discard"&&x.player==="human");
+    if(!pending){
+      prompt.hidden=true;
+      choices.innerHTML="";
+      return;
+    }
+
+    prompt.hidden=false;
+    $("gameDiscardPromptText").textContent =
+      `Choose 1 card to discard for ${pending.sourceProtocol} ${pending.sourceValue}.`;
+
+    choices.innerHTML="";
+    const hand=engine.state.players.human.hand;
+
+    if(!hand.length){
+      const b=document.createElement("button");
+      b.className="secondary-button";
+      b.textContent="No cards to discard · Continue";
+      b.onclick=()=>{
+        engine.state.pendingEffectChoices =
+          engine.state.pendingEffectChoices.filter(x=>x!==pending);
+        engine.save();
+        renderBoard();
+      };
+      choices.appendChild(b);
+      return;
+    }
+
+    hand.forEach(card=>{
+      const [accent,deep]=visual(card.protocol);
+      const b=document.createElement("button");
+      b.className="game-effect-choice-card";
+      b.style.setProperty("--card-accent",accent);
+      b.style.setProperty("--card-deep",deep);
+      b.innerHTML=`
+        <div class="game-effect-choice-head"><strong>${card.protocol}</strong><b>${card.value}</b></div>
+        ${cardSectionsMarkup(card,{compact:true})}
+        <span class="game-effect-choice-action">DISCARD</span>
+      `;
+      b.onclick=()=>{
+        if(engine.discardFromHand("human",card.instanceId)){
+          engine.save();
+          renderBoard();
+        }
+      };
+      choices.appendChild(b);
+    });
+  }
+
   function renderBoard(){
     const s=engine.state;
     if(!s) return;
@@ -472,12 +527,14 @@
     renderScores();
     renderHumanHand();
     renderLog();
+    renderDiscardPrompt();
 
     const selected=s.players.human.hand.find(c=>c.instanceId===selectedHumanCard);
     $("gameSelectedCardText").textContent=selected?`${selected.protocol} ${selected.value} selected`:"";
     $("gameCancelSelectionButton").disabled=!selectedHumanCard;
-    $("gameEndTurnButton").disabled=!(s.active==="human"&&s.hasTakenAction&&!s.pendingCompile.length);
-    $("gameRefreshButton").disabled=!(s.active==="human"&&!s.hasTakenAction&&!s.pendingCompile.length);
+    const hasPendingChoice=Boolean(s.pendingEffectChoices?.some(x=>x.player==="human"));
+    $("gameEndTurnButton").disabled=!(s.active==="human"&&s.hasTakenAction&&!s.pendingCompile.length&&!hasPendingChoice);
+    $("gameRefreshButton").disabled=!(s.active==="human"&&!s.hasTakenAction&&!s.pendingCompile.length&&!hasPendingChoice);
     $("gameUndoButton").disabled=!(humanUndoState && s.active==="human" && s.hasTakenAction && !s.pendingCompile.length);
     $("gameFaceUpButton").classList.toggle("active",selectedFace==="up");
     $("gameFaceDownButton").classList.toggle("active",selectedFace==="down");

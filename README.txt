@@ -309,3 +309,13 @@ VERSION 21.2.8 — UNDO PLAY + HEADER CLEARANCE
   queued prototype effects, Control state and action log.
 - Both tap-to-play and drag-to-play create an undo snapshot.
 - Ending the turn, Refreshing, Compiling or starting a new game clears the undo window.
+
+VERSION 21.2.9 — LIBRARY ART + DISCARD EFFECT
+---------------------------------------------
+- Protocol Library/detail artwork prioritises the compiled-side Protocol image.
+- Exact middle commands 'Discard 1 card.' and 'You discard 1 card.' now resolve.
+- Human: choose one remaining hand card to discard.
+- Empty hand: discard effect does nothing; the played Command remains legal.
+- AI: automatically chooses a discard using a basic keep-value heuristic.
+- End Turn is blocked until a required human discard is completed.
+- Undo Play retains the ability to restore the complete pre-play state.
