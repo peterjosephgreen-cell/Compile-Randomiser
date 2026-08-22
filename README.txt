@@ -399,3 +399,19 @@ VERSION 21.4.2 — TRAITS LIVE FILTER CORRECTION
 - Added a sanity check confirming all six expected pack labels exist in the data.
 - Main 1 + Aux 1 + Main 2 + Aux 2 default ON.
 - Main 3 + Aux 3 default OFF.
+
+VERSION 21.4.3 — STARTUP / TABLE VIEW REPAIR
+--------------------------------------------
+Root cause of v21.4.2 breakage:
+- Table View dialog/button had been removed from HTML.
+- app.js still attached unconditional listeners to tableButton / closeTableButton.
+- getElementById() returned null and startup stopped with a runtime exception.
+- Code below that point therefore never attached bottom navigation or exposed Protocol art to VS AI.
+
+Fix:
+- Removed legacy hidden tableButton.
+- Removed visible TABLE MODE hero button.
+- Removed remaining Table View listener block and hero wiring.
+- Removed unnecessary renderTableMode calls from player-selector changes.
+- Bottom navigation and VS AI art initialization can now run normally.
+- Traits live pack filtering from v21.4.2 is retained.

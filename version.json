@@ -1,5 +1,5 @@
 {
-  "version": "21.4.2",
+  "version": "21.4.3",
   "released": "2026-08-22",
-  "notes": "Fixes Traits live pack filtering runtime bug: uses allProtocols rather than nonexistent protocolList."
+  "notes": "Startup repair: removes lingering Table View event hooks that crashed app initialization."
 }

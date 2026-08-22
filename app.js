@@ -633,7 +633,7 @@ function validateTraitPackFilterData(){
 validateTraitPackFilterData();
 
 
-const APP_VERSION = "21.4.2";
+const APP_VERSION = "21.4.3";
 
 const protocolPlaystyles = {
   Darkness: "Manipulates face-down cards and hidden information. Strong when you can build value while denying the opponent certainty.",
@@ -1090,7 +1090,6 @@ function saveEditedPlayerName() {
 
   savePlayerNames();
   updatePlayerLabels();
-  renderTableMode();
   renderPlayersDialog();
   document.getElementById("nameDialog").close();
 }
@@ -2263,7 +2262,6 @@ function render() {
   }
 
   updatePlayerLabels();
-  renderTableMode();
   renderRecentHomeMatches();
   const balancedButton = document.getElementById("mainBalancedButton");
   if (balancedButton) balancedButton.classList.toggle("active", Boolean(settings.balancedRandom));
@@ -2507,7 +2505,6 @@ document.getElementById("player1Select").addEventListener("change", event => {
   syncNamesFromSeatAssignments();
   updatePlayerLabels();
   renderPlayersDialog();
-  renderTableMode();
 });
 
 document.getElementById("player2Select").addEventListener("change", event => {
@@ -2517,7 +2514,6 @@ document.getElementById("player2Select").addEventListener("change", event => {
   syncNamesFromSeatAssignments();
   updatePlayerLabels();
   renderPlayersDialog();
-  renderTableMode();
 });
 
 const libraryDialog = document.getElementById("libraryDialog");
@@ -2528,13 +2524,6 @@ document.getElementById("libraryButton").addEventListener("click", () => {
 });
 document.getElementById("closeLibraryButton").addEventListener("click", () => libraryDialog.close());
 document.getElementById("librarySearch").addEventListener("input", event => renderLibrary(event.target.value));
-
-const tableDialog = document.getElementById("tableDialog");
-document.getElementById("tableButton").addEventListener("click", () => {
-  renderTableMode();
-  tableDialog.showModal();
-});
-document.getElementById("closeTableButton").addEventListener("click", () => tableDialog.close());
 
 document.getElementById("balancedRandomToggle").addEventListener("change", event => {
   settings.balancedRandom = event.target.checked;
@@ -2599,9 +2588,6 @@ updatePlayerLabels();
 // V11 mockup-inspired home controls
 const menuSettingsButton = document.getElementById("menuSettingsButton");
 if (menuSettingsButton) menuSettingsButton.addEventListener("click", () => document.getElementById("settingsButton").click());
-
-const heroTableButton = document.getElementById("heroTableButton");
-if (heroTableButton) heroTableButton.addEventListener("click", () => document.getElementById("tableButton").click());
 
 const mainBalancedButton = document.getElementById("mainBalancedButton");
 if (mainBalancedButton) mainBalancedButton.addEventListener("click", () => {
