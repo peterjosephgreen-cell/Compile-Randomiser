@@ -347,3 +347,35 @@ Implemented Draw behaviour now includes:
 
 Draw text whose amount depends on an unresolved targeting/action choice remains queued rather than guessed
 (e.g. draw equal to a card you first need to Flip, or optional either/or Draw choices).
+
+VERSION 21.3.1 — AI HAND DEBUG VIEW
+-----------------------------------
+- VS AI now shows the AI's current hand in full.
+- AI cards use the same TOP / COMMAND / BOTTOM three-section rendering as the human hand.
+- Clearly labelled TEST VIEW so this can be removed or hidden later.
+- No AI information rules changed internally; this is presentation/debug visibility only.
+
+VERSION 21.4.0 — FLIP + TRAIT PACK FILTERS + TABLE VIEW CLEANUP
+---------------------------------------------------------------
+FLIP
+- Added reusable legal Flip target generation and resolution.
+- Simple 'Flip 1 card' effects pause the human game and require a legal target.
+- Board cards that are legal Flip targets highlight and can be tapped directly.
+- A separate Flip prompt also lists legal targets.
+- AI selects from the same legal target list using a tactical value/line heuristic.
+- Common constraints supported in the simple Flip parser:
+  your card, opponent's card, face-up, face-down, covered, and 'flip this card'.
+- If there is no legal target, the Flip effect does nothing and play remains legal.
+- Complex conditional/multi-step Flip instructions remain queued until their dependencies
+  are implemented rather than being guessed.
+- Line values immediately recalculate after a Flip; face-down cards remain worth 2.
+- Undo Play restores pre-Flip state as part of the existing whole-state snapshot.
+
+TRAITS
+- Added six pack toggles directly to Choose by Traits:
+  Main 1, Aux 1, Main 2, Aux 2 default ON; Main 3 and Aux 3 default OFF.
+- Trait result counts and matching Protocols update instantly with pack choices.
+
+CLEANUP
+- Removed Table View button/dialog from the UI.
+- Direct Table View event hooks removed; playable VS AI board is now the active table experience.

@@ -153,6 +153,16 @@
     cards.forEach((card,idx)=>{
       const el=document.createElement("div");
       el.className=`game-board-card ${card.face==="down"?"face-down":""}${idx===cards.length-1?" top-card":""}`;
+      const flipPending=engine.state.pendingEffectChoices?.find(x=>x.type==="flip"&&x.player==="human");
+      if(flipPending?.targets.includes(card.instanceId)){
+        el.classList.add("flip-target");
+        el.onclick=()=>{
+          if(engine.resolveFlipChoice("human",card.instanceId)){
+            engine.save();
+            renderBoard();
+          }
+        };
+      }
       const [accent,deep]=visual(card.protocol);
       el.style.setProperty("--card-accent",accent);
       el.style.setProperty("--card-deep",deep);
@@ -371,6 +381,34 @@
     });
   }
 
+
+  function renderAiHandDebug(){
+    const target=$("gameAiHandDebug");
+    if(!target || !engine?.state) return;
+    target.innerHTML="";
+
+    const hand=engine.state.players.ai.hand;
+    $("gameAiHandDebugCount").textContent=`${hand.length} card${hand.length===1?"":"s"}`;
+
+    hand.forEach(card=>{
+      const [accent,deep]=visual(card.protocol);
+      const el=document.createElement("div");
+      el.className="game-ai-debug-card";
+      el.style.setProperty("--card-accent",accent);
+      el.style.setProperty("--card-deep",deep);
+
+      el.innerHTML=`
+        <div class="game-hand-card-head">
+          <span>${card.protocol}</span>
+          <b>${card.value}</b>
+        </div>
+        ${cardSectionsMarkup(card)}
+      `;
+
+      target.appendChild(el);
+    });
+  }
+
   function renderHumanHand(){
     const target=$("gameHumanHand"); target.innerHTML="";
     for(const card of engine.state.players.human.hand){
@@ -448,6 +486,54 @@
   }
 
 
+  function renderFlipPrompt(){
+    const prompt=$("gameFlipPrompt");
+    const choices=$("gameFlipChoices");
+    if(!engine?.state){prompt.hidden=true;choices.innerHTML="";return;}
+
+    const pending=engine.state.pendingEffectChoices?.find(x=>x.type==="flip"&&x.player==="human");
+    if(!pending){
+      prompt.hidden=true;
+      choices.innerHTML="";
+      document.querySelectorAll(".game-board-card.flip-target").forEach(x=>x.classList.remove("flip-target"));
+      return;
+    }
+
+    prompt.hidden=false;
+    $("gameFlipPromptText").textContent =
+      `Choose a legal card to flip for ${pending.sourceProtocol} ${pending.sourceValue}.`;
+
+    choices.innerHTML="";
+    pending.targets.forEach(cardId=>{
+      const loc=engine.cardLocation(cardId);
+      if(!loc) return;
+      const card=loc.card;
+      const [accent,deep]=visual(card.protocol);
+
+      const b=document.createElement("button");
+      b.className="game-effect-choice-card game-flip-choice-card";
+      b.style.setProperty("--card-accent",accent);
+      b.style.setProperty("--card-deep",deep);
+      b.innerHTML=`
+        <div class="game-effect-choice-head">
+          <strong>${card.protocol}</strong><b>${card.face==="down"?"2":card.value}</b>
+        </div>
+        <div class="game-flip-target-meta">${loc.side==="human"?engine.state.humanName:"AI"} · Line ${loc.lineId+1} · ${card.face==="up"?"FACE-UP":"FACE-DOWN"}</div>
+        ${card.face==="down"
+          ? `<div class="game-card-face-down compact-flip"><strong>2</strong><span>FACE-DOWN</span></div>`
+          : cardSectionsMarkup(card,{compact:true})}
+        <span class="game-effect-choice-action">FLIP</span>
+      `;
+      b.onclick=()=>{
+        if(engine.resolveFlipChoice("human",cardId)){
+          engine.save();
+          renderBoard();
+        }
+      };
+      choices.appendChild(b);
+    });
+  }
+
   function renderDiscardPrompt(){
     const prompt=$("gameDiscardPrompt");
     const choices=$("gameDiscardChoices");
@@ -524,9 +610,11 @@
 
     renderLines("gameHumanLines","human");
     renderLines("gameAiLines","ai");
+    renderAiHandDebug();
     renderScores();
     renderHumanHand();
     renderLog();
+    renderFlipPrompt();
     renderDiscardPrompt();
 
     const selected=s.players.human.hand.find(c=>c.instanceId===selectedHumanCard);

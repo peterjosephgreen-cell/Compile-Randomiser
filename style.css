@@ -4413,3 +4413,182 @@ header img[src*="compile-logo"] + *,
   letter-spacing:.12em;
   text-align:center;
 }
+
+
+/* =========================================================
+   V21.3.1 — AI HAND TEST / DEBUG VIEW
+   ========================================================= */
+
+.game-ai-hand-panel{
+  margin-top:10px;
+  border-color:rgba(255,119,69,.18);
+  background:
+    radial-gradient(circle at 90% 0%,rgba(255,104,64,.07),transparent 35%),
+    rgba(255,255,255,.018);
+}
+
+.game-ai-hand-panel .game-hand-heading span{
+  color:#ff9e72;
+}
+
+.game-ai-hand-panel .game-hand-heading small{
+  color:#9b786d;
+  letter-spacing:.05em;
+}
+
+.game-ai-hand-debug{
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:6px;
+}
+
+.game-ai-debug-card{
+  --card-accent:#ff8c62;
+  --card-deep:#38160c;
+  min-width:0;
+  min-height:280px;
+  padding:7px;
+  border:1px solid color-mix(in srgb,var(--card-accent) 30%,rgba(255,255,255,.08));
+  border-radius:11px;
+  background:linear-gradient(155deg,var(--card-deep),#070a11);
+  color:#fff;
+  box-shadow:0 8px 18px rgba(0,0,0,.22);
+}
+
+.game-ai-debug-card .game-card-sections{
+  grid-template-rows:minmax(56px,auto) minmax(56px,auto) minmax(56px,auto);
+  margin-top:6px;
+}
+
+.game-ai-debug-card .game-card-section{
+  min-height:56px;
+}
+
+.game-ai-debug-card .game-card-section-label{
+  padding:3px 5px;
+  font-size:5px;
+}
+
+.game-ai-debug-card .game-card-section-text{
+  min-height:35px;
+  padding:4px 5px;
+  font-size:6.4px;
+  line-height:1.2;
+}
+
+@media(max-width:900px){
+  .game-ai-hand-debug{
+    grid-template-columns:repeat(6,minmax(0,1fr));
+    gap:4px;
+  }
+
+  .game-ai-debug-card{
+    min-height:260px;
+    padding:5px;
+  }
+
+  .game-ai-debug-card .game-card-section-text{
+    font-size:5.9px;
+  }
+}
+
+
+/* =========================================================
+   V21.4.0 — FLIP EFFECT + TRAIT PACKS + TABLE VIEW REMOVAL
+   ========================================================= */
+
+.traits-pack-section{
+  margin-top:13px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  padding:12px;
+  background:rgba(255,255,255,.018);
+}
+
+.traits-pack-toggles{
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:6px;
+}
+
+.traits-pack-toggle{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:34px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:10px;
+  background:rgba(255,255,255,.025);
+  color:#7f8d9b;
+  cursor:pointer;
+}
+
+.traits-pack-toggle input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+
+.traits-pack-toggle span{
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.07em;
+}
+
+.traits-pack-toggle.active{
+  color:#fff;
+  border-color:rgba(92,224,255,.46);
+  background:rgba(62,190,220,.10);
+  box-shadow:0 0 13px rgba(69,211,236,.08);
+}
+
+.game-flip-prompt{
+  border-color:rgba(91,215,255,.42);
+  background:radial-gradient(circle at 8% 0%,rgba(67,205,255,.11),transparent 35%),rgba(5,16,25,.72);
+}
+
+.game-flip-prompt .game-effect-prompt-copy strong{
+  color:#8feaff;
+}
+
+.game-flip-target-meta{
+  margin:5px 0;
+  color:#8594a4;
+  font-size:6px;
+  letter-spacing:.06em;
+}
+
+.game-board-card.flip-target{
+  cursor:pointer;
+  border-color:#8defff !important;
+  box-shadow:
+    0 0 0 2px rgba(106,229,255,.40),
+    0 0 24px rgba(70,217,247,.25) !important;
+  z-index:30 !important;
+}
+
+.game-board-card.flip-target::after{
+  content:"FLIP";
+  position:absolute;
+  right:6px;
+  top:6px;
+  z-index:20;
+  padding:3px 6px;
+  border-radius:999px;
+  background:#86ecff;
+  color:#041019;
+  font-size:6px;
+  font-weight:900;
+  letter-spacing:.12em;
+}
+
+.compact-flip{
+  min-height:82px !important;
+}
+
+@media(max-width:700px){
+  .traits-pack-toggles{
+    grid-template-columns:repeat(3,1fr);
+  }
+}

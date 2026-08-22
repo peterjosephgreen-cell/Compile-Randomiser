@@ -290,6 +290,14 @@
         <div class="traits-mode-panel"><div class="traits-mode-title">FILTER MODE</div><div class="traits-mode-toggle"><button id="traitsAnyButton" class="traits-mode-button active">MATCH ANY</button><button id="traitsAllButton" class="traits-mode-button">MATCH ALL</button></div><button id="traitsClearButton" class="secondary-button traits-clear-button">Clear traits</button></div>
         <div class="traits-player-card traits-p2-card"><span>PLAYER 2</span><strong id="traitsP2Name">Player 2</strong><div id="traitsP2Count" class="traits-count">0 / 3</div><div id="traitsP2Selected" class="traits-selected-list"></div></div>
       </div>
+      
+      <section class="traits-pack-section">
+        <div class="traits-section-heading">
+          <div><h3>Packs</h3><p>Choose which Protocol packs are included.</p></div>
+        </div>
+        <div id="traitsPackToggles" class="traits-pack-toggles"></div>
+      </section>
+
       <section class="traits-filter-section"><div class="traits-section-heading"><div><h3>Traits</h3><p>Tap one or more traits to filter.</p></div><div id="traitsResultCount" class="traits-result-count"></div></div><div id="traitsChipGrid" class="traits-chip-grid"></div></section>
       <section class="traits-results-section"><div class="traits-section-heading"><div><h3>Matching Protocols</h3><p>Assign each Protocol to a player.</p></div></div><div id="traitsProtocolGrid" class="traits-protocol-grid"></div></section>
       <div class="traits-footer"><button id="traitsResetAssignmentsButton" class="secondary-button">Clear selections</button><button id="traitsCancelButton" class="secondary-button">Cancel</button><button id="traitsApplyButton" class="primary-button traits-apply-button" disabled>Apply 6 Protocols</button></div>
@@ -356,6 +364,18 @@
           <div id="gameAiLines" class="game-lines"></div>
         </div>
 
+
+        <div class="game-hand-panel game-ai-hand-panel">
+          <div class="game-hand-heading">
+            <div>
+              <span>AI HAND</span>
+              <small>TEST VIEW · visible for AI behaviour checking</small>
+            </div>
+            <div id="gameAiHandDebugCount" class="game-selected-card-text"></div>
+          </div>
+          <div id="gameAiHandDebug" class="game-ai-hand-debug"></div>
+        </div>
+
         <div class="game-centre-lines">
           <div id="gameLineScores" class="game-line-scores"></div>
         </div>
@@ -382,6 +402,15 @@
           <button id="gameFaceDownButton" class="game-face-button">FACE-DOWN</button>
         </div>
 
+
+
+        <div id="gameFlipPrompt" class="game-effect-prompt game-flip-prompt" hidden>
+          <div class="game-effect-prompt-copy">
+            <strong>FLIP A CARD</strong>
+            <span id="gameFlipPromptText">Choose a legal card to flip.</span>
+          </div>
+          <div id="gameFlipChoices" class="game-effect-choice-grid game-flip-choice-grid"></div>
+        </div>
 
         <div id="gameDiscardPrompt" class="game-effect-prompt" hidden>
           <div class="game-effect-prompt-copy">
@@ -456,53 +485,7 @@
       <div class="version-panel"><span id="versionLabel">Version 13.0</span></div>
     </div>
   </dialog>
-
-  <dialog id="tableDialog" class="table-dialog">
-    <div class="table-mode-v13">
-      <div id="tableArtBackground" class="table-art-background" aria-hidden="true"></div>
-      <div class="table-art-shade" aria-hidden="true"></div>
-
-      <section class="table-side table-side-one">
-        <div class="table-player-shell">
-          <div class="table-player-header">
-            <div class="table-avatar table-avatar-one">1</div>
-            <div>
-              <div class="table-seat-label">PLAYER 1</div>
-              <div id="tableP1Name" class="table-player-name">Player 1</div>
-            </div>
-          </div>
-          <div id="tableP1Protocols" class="table-protocols-v13"></div>
-        </div>
-      </section>
-
-      <div class="table-centre-console">
-        <button id="closeTableButton" class="table-exit-v13" aria-label="Exit table mode">×</button>
-        <img src="compile-mark.png" class="table-compile-mark" alt="">
-        <div class="table-centre-copy">
-          <strong>COMPILE</strong>
-          <span>TABLE MODE</span>
-        </div>
-        <div id="tableMatchStatus" class="table-match-status">READY</div>
-      </div>
-
-      <section class="table-side table-side-two">
-        <div class="table-player-shell">
-          <div class="table-player-header">
-            <div class="table-avatar table-avatar-two">2</div>
-            <div>
-              <div class="table-seat-label">PLAYER 2</div>
-              <div id="tableP2Name" class="table-player-name">Player 2</div>
-            </div>
-          </div>
-          <div id="tableP2Protocols" class="table-protocols-v13"></div>
-        </div>
-      </section>
-
-      <div class="table-landscape-hint">Rotate sideways for the full tabletop layout</div>
-    </div>
-  </dialog>
-
-  <canvas id="shareCanvas" width="1200" height="1200" hidden></canvas>
+<canvas id="shareCanvas" width="1200" height="1200" hidden></canvas>
   <script src="game-engine.js"></script>
   <script src="game-ui.js"></script>
   <script src="app.js"></script>

@@ -1,4 +1,4 @@
-const CACHE = "compile-companion-v21-3-0";
+const CACHE = "compile-companion-v21-4-0";
 const ASSETS = [
   "./",
   "./index.html",

@@ -613,14 +613,15 @@ const protocolTraits = {
  Greed:["Discard","Repeating Effects"], Lust:["Forced Play","Control"], Momentum:["After Compile","Draw"],
  Rigid:["Play Face-Down","Prevent"]
 };
-let traitsState={selectedTraits:new Set(),mode:"any",p1:[],p2:[]};
+const traitPackDefaults={"Main 1":true,"Aux 1":true,"Main 2":true,"Aux 2":true,"Main 3":false,"Aux 3":false};
+let traitsState={selectedTraits:new Set(),mode:"any",p1:[],p2:[],packs:{...traitPackDefaults}};
 
 const allProtocols = Object.entries(protocolSets).flatMap(([set, names]) =>
   names.map(name => ({ name, set, id: `${set}|${name}` }))
 );
 
 
-const APP_VERSION = "21.3.0";
+const APP_VERSION = "21.4.0";
 
 const protocolPlaystyles = {
   Darkness: "Manipulates face-down cards and hidden information. Strong when you can build value while denying the opponent certainty.",
@@ -1271,7 +1272,7 @@ function renderPerformanceStats() {
 function allTraitLabels(){return [...new Set(Object.values(protocolTraits).flat())].sort((a,b)=>a.localeCompare(b));}
 function openTraitsSelector(){
  if(currentMatch||isAnimating)return;
- traitsState={selectedTraits:new Set(),mode:"any",p1:[],p2:[]};
+ traitsState={selectedTraits:new Set(),mode:"any",p1:[],p2:[],packs:{...traitPackDefaults}};
  document.getElementById("traitsP1Name").textContent=playerNames.p1;
  document.getElementById("traitsP2Name").textContent=playerNames.p2;
  renderTraitsSelector();document.getElementById("traitsDialog").showModal();
@@ -1281,7 +1282,11 @@ function protocolMatchesTraits(p){
  const s=[...traitsState.selectedTraits]; if(!s.length)return true;
  const t=protocolTraits[p.name]||[]; return traitsState.mode==="all"?s.every(x=>t.includes(x)):s.some(x=>t.includes(x));
 }
-function filteredTraitProtocols(){return getAvailableProtocols().filter(protocolMatchesTraits).sort((a,b)=>a.name.localeCompare(b.name));}
+function traitPackEnabled(p){
+ const setName=p.set||"";
+ return traitsState.packs?.[setName]!==false;
+}
+function filteredTraitProtocols(){return getAvailableProtocols().filter(traitPackEnabled).filter(protocolMatchesTraits).sort((a,b)=>a.name.localeCompare(b.name));}
 function toggleTrait(t){traitsState.selectedTraits.has(t)?traitsState.selectedTraits.delete(t):traitsState.selectedTraits.add(t);renderTraitsSelector();}
 function assignTraitProtocol(id,pn){
  traitsState.p1=traitsState.p1.filter(x=>x!==id); traitsState.p2=traitsState.p2.filter(x=>x!==id);
@@ -1298,8 +1303,24 @@ function renderTraitsSelector(){
  document.getElementById("traitsAnyButton").classList.toggle("active",traitsState.mode==="any");
  document.getElementById("traitsAllButton").classList.toggle("active",traitsState.mode==="all");
  renderAssigned("traitsP1Selected",traitsState.p1,"p1");renderAssigned("traitsP2Selected",traitsState.p2,"p2");
+ const packWrap=document.getElementById("traitsPackToggles");
+ if(packWrap){
+   packWrap.innerHTML="";
+   ["Main 1","Aux 1","Main 2","Aux 2","Main 3","Aux 3"].forEach(pack=>{
+     const label=document.createElement("label");
+     label.className=`traits-pack-toggle${traitsState.packs[pack]?" active":""}`;
+     const input=document.createElement("input");
+     input.type="checkbox";
+     input.checked=Boolean(traitsState.packs[pack]);
+     input.onchange=()=>{traitsState.packs[pack]=input.checked;renderTraitsSelector();};
+     const span=document.createElement("span");
+     span.textContent=pack;
+     label.append(input,span);
+     packWrap.appendChild(label);
+   });
+ }
  const chips=document.getElementById("traitsChipGrid");chips.innerHTML="";
- allTraitLabels().forEach(tr=>{const c=getAvailableProtocols().filter(p=>(protocolTraits[p.name]||[]).includes(tr)).length;const b=document.createElement("button");b.className=`trait-chip${traitsState.selectedTraits.has(tr)?" active":""}`;b.innerHTML=`<span>${tr}</span><small>${c}</small>`;b.onclick=()=>toggleTrait(tr);chips.appendChild(b);});
+ allTraitLabels().forEach(tr=>{const c=getAvailableProtocols().filter(traitPackEnabled).filter(p=>(protocolTraits[p.name]||[]).includes(tr)).length;const b=document.createElement("button");b.className=`trait-chip${traitsState.selectedTraits.has(tr)?" active":""}`;b.innerHTML=`<span>${tr}</span><small>${c}</small>`;b.onclick=()=>toggleTrait(tr);chips.appendChild(b);});
  const matches=filteredTraitProtocols();document.getElementById("traitsResultCount").textContent=`${matches.length} Protocol${matches.length===1?"":"s"}`;
  const grid=document.getElementById("traitsProtocolGrid");grid.innerHTML="";
  matches.forEach(p=>{const art=protocolTraitArtImages[p.name]||protocolArtImages[p.name];const owner=traitsState.p1.includes(p.id)?"p1":traitsState.p2.includes(p.id)?"p2":"";const card=document.createElement("div");card.className=`traits-protocol-card ${owner}`;card.innerHTML=`<div class="traits-card-art" ${art?`style="background-image:url('${art}')"`:""}>${art?"":`<div class="traits-card-symbol">${protocolSymbolMarkup(p.name)}</div>`}${owner?`<div class="traits-owner-badge ${owner}">${owner==="p1"?playerNames.p1:playerNames.p2}</div>`:""}</div><div class="traits-card-info"><strong>${p.name}</strong><small>${p.set}</small><div class="traits-card-traits">${(protocolTraits[p.name]||[]).map(x=>`<span>${x}</span>`).join("")}</div></div><div class="traits-card-actions"><button class="traits-assign-p1">${playerNames.p1}</button><button class="traits-assign-p2">${playerNames.p2}</button></div>`;

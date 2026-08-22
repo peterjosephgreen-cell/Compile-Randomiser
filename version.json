@@ -1,5 +1,5 @@
 {
-  "version": "21.3.0",
+  "version": "21.4.0",
   "released": "2026-08-22",
-  "notes": "Draw effect framework: deterministic immediate Draw commands plus several Start/End/event Draw triggers."
+  "notes": "Adds first Flip targeting/resolution, pack toggles in Traits, and removes Table View UI."
 }

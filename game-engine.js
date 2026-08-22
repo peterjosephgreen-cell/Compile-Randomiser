@@ -301,6 +301,152 @@
       return{ok:true,card};
     }
 
+    cardLocation(cardId){
+      for(let lineId=0; lineId<3; lineId++){
+        for(const side of ["human","ai"]){
+          const stack=this.state.lines[lineId][side];
+          const index=stack.findIndex(c=>c.instanceId===cardId);
+          if(index>=0) return {lineId,side,index,card:stack[index],stack};
+        }
+      }
+      return null;
+    }
+
+    flipCard(cardId){
+      const loc=this.cardLocation(cardId);
+      if(!loc) return false;
+      const card=loc.card;
+      card.face=card.face==="up"?"down":"up";
+      this.log(`${card.protocol} ${card.value} flips ${card.face==="up"?"face-up":"face-down"}.`);
+
+      // Resolve After Flip draw triggers if/when those are added.
+      this.checkControl("human");
+      this.checkControl("ai");
+      return true;
+    }
+
+    legalFlipTargets(player,rule={}){
+      const out=[];
+      for(let lineId=0; lineId<3; lineId++){
+        for(const side of ["human","ai"]){
+          const stack=this.state.lines[lineId][side];
+          stack.forEach((card,index)=>{
+            if(rule.owner==="self" && side!==player) return;
+            if(rule.owner==="opponent" && side===player) return;
+            if(rule.face==="up" && card.face!=="up") return;
+            if(rule.face==="down" && card.face!=="down") return;
+            if(rule.covered===true && !card.covered) return;
+            if(rule.covered===false && card.covered) return;
+            if(rule.otherThan && card.instanceId===rule.otherThan) return;
+            if(rule.protocol && card.protocol!==rule.protocol) return;
+            if(rule.valueMax!==undefined && Number(card.value)>rule.valueMax) return;
+            if(rule.valueMin!==undefined && Number(card.value)<rule.valueMin) return;
+            if(rule.sameLine!==undefined && lineId!==rule.sameLine) return;
+            out.push(card.instanceId);
+          });
+        }
+      }
+      return out;
+    }
+
+    parseSimpleFlipEffect(player,card,lineId,text){
+      const upper=text.toUpperCase();
+
+      // Don't claim support for complex multi-step/conditional flip clauses here.
+      if(/\b(IF|EITHER|FOR EACH|EQUAL TO|LESS THAN|MORE THAN|OTHER THAN THIS CARD|ALL OTHER|THEN|FIRST)\b/i.test(text)){
+        return null;
+      }
+
+      // Common simple target constraints.
+      const rule={};
+      if(/YOUR OPPONENT[´'’]S/i.test(text)) rule.owner="opponent";
+      else if(/\bYOUR\b/i.test(text)) rule.owner="self";
+
+      if(/FACE-UP/i.test(text)) rule.face="up";
+      if(/FACE-DOWN/i.test(text)) rule.face="down";
+      if(/COVERED/i.test(text) && !/UNCOVERED/i.test(text)) rule.covered=true;
+
+      // "flip this card"
+      if(/\bFLIP THIS CARD\b/i.test(text)){
+        return {count:1,targets:[card.instanceId],rule:{},automatic:true};
+      }
+
+      // "flip 1 card" / "flip 1 of your ..."
+      if(/\bFLIP\s+1\b/i.test(text) || /\bFLIP\s+A\s+CARD\b/i.test(text)){
+        const targets=this.legalFlipTargets(player,rule);
+        return {count:1,targets,rule,automatic:false};
+      }
+
+      return null;
+    }
+
+    queueFlipChoice(player,sourceCard,lineId,flipSpec){
+      if(!flipSpec || flipSpec.count!==1) return false;
+
+      if(!flipSpec.targets.length){
+        this.log(`${player==="human"?this.state.humanName:"AI"} has no legal card to flip, so the Flip effect does nothing.`);
+        return true;
+      }
+
+      if(flipSpec.automatic && flipSpec.targets.length===1){
+        this.flipCard(flipSpec.targets[0]);
+        return true;
+      }
+
+      if(player==="ai"){
+        const target=this.chooseAiFlipTarget(flipSpec.targets);
+        if(target) this.flipCard(target);
+        return true;
+      }
+
+      this.state.pendingEffectChoices.push({
+        type:"flip",
+        player:"human",
+        count:1,
+        targets:[...flipSpec.targets],
+        sourceCardInstanceId:sourceCard.instanceId,
+        sourceProtocol:sourceCard.protocol,
+        sourceValue:sourceCard.value,
+        lineId
+      });
+      this.log(`${this.state.humanName} must choose a card to flip.`);
+      return true;
+    }
+
+    resolveFlipChoice(player,targetId){
+      const pendingIndex=this.state.pendingEffectChoices.findIndex(x=>x.type==="flip"&&x.player===player);
+      if(pendingIndex<0) return false;
+      const pending=this.state.pendingEffectChoices[pendingIndex];
+      if(!pending.targets.includes(targetId)) return false;
+      if(!this.flipCard(targetId)) return false;
+      this.state.pendingEffectChoices.splice(pendingIndex,1);
+      return true;
+    }
+
+    chooseAiFlipTarget(targetIds){
+      if(!targetIds.length) return null;
+      const options=targetIds.map(id=>{
+        const loc=this.cardLocation(id);
+        if(!loc) return {id,score:-999};
+        const card=loc.card;
+        let score=0;
+
+        // Flipping opponent face-up to down usually reduces their line by printed-2.
+        // Flipping own face-down to up usually gains printed-2.
+        if(loc.side==="human"){
+          score += card.face==="up" ? Math.max(0,(Number(card.value)||0)-2) : -Math.max(0,(Number(card.value)||0)-2);
+        }else{
+          score += card.face==="down" ? Math.max(0,(Number(card.value)||0)-2) : -Math.max(0,(Number(card.value)||0)-2);
+        }
+
+        // Prefer affecting close/important lines.
+        const margin=Math.abs(this.lineValue("ai",loc.lineId)-this.lineValue("human",loc.lineId));
+        score += Math.max(0,5-margin);
+        return {id,score};
+      }).sort((a,b)=>b.score-a.score);
+      return options[0]?.id||null;
+    }
+
     resolvePrototypeImmediate(player,card,lineId){
       const text=plain(card.middle);
       if(!text) return;
@@ -433,6 +579,29 @@
         if(unresolvedDynamic){
           this.state.pendingManualEffects.push({cardInstanceId:card.instanceId,player,lineId,text,resolved:false});
           this.log(`Draw effect needs another choice/action first: ${card.protocol} ${card.value}.`);
+          return;
+        }
+      }
+
+      // Simple FLIP effects with directly resolvable target constraints.
+      if(/\bFLIP\b/i.test(text)){
+        const flipSpec=this.parseSimpleFlipEffect(player,card,lineId,text);
+        if(flipSpec){
+          this.queueFlipChoice(player,card,lineId,flipSpec);
+
+          // If the text contains only the supported Flip instruction, stop here.
+          const stripped=text
+            .replace(/YOU MAY /ig,"")
+            .replace(/FLIP\s+1\s+(?:OF\s+)?(?:YOUR\s+OPPONENT[´'’]S\s+|YOUR\s+)?(?:FACE-UP\s+|FACE-DOWN\s+)?(?:COVERED\s+)?CARDS?\.?/ig,"")
+            .replace(/FLIP THIS CARD\.?/ig,"")
+            .trim();
+          if(!stripped) return;
+
+          this.state.pendingManualEffects.push({
+            cardInstanceId:card.instanceId,player,lineId,
+            text:`Remaining non-Flip effect: ${text}`,resolved:false
+          });
+          this.log(`Flip resolved; remaining effect queued: ${card.protocol} ${card.value}.`);
           return;
         }
       }
