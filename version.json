@@ -1,5 +1,5 @@
 {
-  "version": "21.4.1",
+  "version": "21.4.2",
   "released": "2026-08-22",
-  "notes": "Choose by Traits pack toggles now live-filter Protocols and trait counts immediately."
+  "notes": "Fixes Traits live pack filtering runtime bug: uses allProtocols rather than nonexistent protocolList."
 }

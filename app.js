@@ -620,8 +620,20 @@ const allProtocols = Object.entries(protocolSets).flatMap(([set, names]) =>
   names.map(name => ({ name, set, id: `${set}|${name}` }))
 );
 
+function validateTraitPackFilterData(){
+  const expectedSets=["Main 1","Aux 1","Main 2","Aux 2","Main 3","Aux 3"];
+  const actual=new Set(allProtocols.map(p=>p.set));
+  const missing=expectedSets.filter(set=>!actual.has(set));
+  if(missing.length){
+    console.error("Traits pack filter data mismatch:",missing);
+    return false;
+  }
+  return true;
+}
+validateTraitPackFilterData();
 
-const APP_VERSION = "21.4.1";
+
+const APP_VERSION = "21.4.2";
 
 const protocolPlaystyles = {
   Darkness: "Manipulates face-down cards and hidden information. Strong when you can build value while denying the opponent certainty.",
@@ -1290,7 +1302,7 @@ function traitPackEnabled(p){
 function traitProtocolPool(){
  // Traits mode has its own pack switches. Do not inherit the main randomiser's
  // enabled-set state, otherwise switching a pack here can appear to do nothing.
- return protocolList.filter(traitPackEnabled);
+ return allProtocols.filter(traitPackEnabled);
 }
 
 function filteredTraitProtocols(){

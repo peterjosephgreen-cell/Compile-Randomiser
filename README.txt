@@ -390,3 +390,12 @@ VERSION 21.4.1 — LIVE TRAITS PACK FILTER
   * selected P1/P2 Protocols if a disabled pack removes them
 - Traits mode no longer inherits the main randomiser's enabled-set state, which was
   preventing some pack toggles from visibly changing the page.
+
+VERSION 21.4.2 — TRAITS LIVE FILTER CORRECTION
+----------------------------------------------
+- Fixed runtime bug in v21.4.1: traitProtocolPool() referenced `protocolList`,
+  but the app's actual master collection is `allProtocols`.
+- Pack toggles now filter directly against all 45 Protocol records.
+- Added a sanity check confirming all six expected pack labels exist in the data.
+- Main 1 + Aux 1 + Main 2 + Aux 2 default ON.
+- Main 3 + Aux 3 default OFF.
