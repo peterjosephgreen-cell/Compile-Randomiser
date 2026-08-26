@@ -405,7 +405,18 @@
 
       if(player==="ai"){
         const target=this.chooseAiFlipTarget(flipSpec.targets);
-        if(target) this.flipCard(target);
+        if(target){
+          this.flipCard(target);
+          const text=plain(sourceCard.middle);
+          if(/SHIFT THAT CARD/i.test(text)){
+            const shiftSpec={
+              count:1,targets:[target],rule:{},
+              optional:/MAY SHIFT THAT CARD/i.test(text)
+            };
+            if(/TO THIS LINE/i.test(text)) shiftSpec.rule.toLine=lineId;
+            this.queueShiftChoice("ai",sourceCard,lineId,shiftSpec,target);
+          }
+        }
         return true;
       }
 
@@ -430,6 +441,24 @@
       if(!pending.targets.includes(targetId)) return false;
       if(!this.flipCard(targetId)) return false;
       this.state.pendingEffectChoices.splice(pendingIndex,1);
+
+      // Several cards say "Flip ... You may shift that card" or
+      // "Flip ... Shift that card to this line."
+      const sourceLoc=this.cardLocation(pending.sourceCardInstanceId);
+      if(sourceLoc){
+        const source=sourceLoc.card;
+        const text=plain(source.middle);
+        if(/SHIFT THAT CARD/i.test(text)){
+          const spec={
+            count:1,
+            targets:[targetId],
+            rule:{},
+            optional:/MAY SHIFT THAT CARD/i.test(text)
+          };
+          if(/TO THIS LINE/i.test(text)) spec.rule.toLine=pending.lineId;
+          this.queueShiftChoice(player,source,pending.lineId,spec,targetId);
+        }
+      }
       return true;
     }
 
@@ -455,6 +484,224 @@
         return {id,score};
       }).sort((a,b)=>b.score-a.score);
       return options[0]?.id||null;
+    }
+
+    uncoveredCardIds(side,lineId){
+      const stack=this.state.lines[lineId][side];
+      return stack.length ? [stack[stack.length-1].instanceId] : [];
+    }
+
+    legalShiftTargets(player,rule={}){
+      const out=[];
+      for(let lineId=0;lineId<3;lineId++){
+        for(const side of ["human","ai"]){
+          const stack=this.state.lines[lineId][side];
+          stack.forEach((card,index)=>{
+            const uncovered=index===stack.length-1;
+
+            // Core rule: only uncovered cards can normally be manipulated.
+            // A command that explicitly names covered cards overrides this.
+            if(rule.allowCoveredAndUncovered!==true){
+              if(rule.covered===true){
+                if(!card.covered) return;
+              }else if(!uncovered){
+                return;
+              }
+            }
+
+            if(rule.owner==="self" && side!==player) return;
+            if(rule.owner==="opponent" && side===player) return;
+            if(rule.face==="up" && card.face!=="up") return;
+            if(rule.face==="down" && card.face!=="down") return;
+            if(rule.otherThan && card.instanceId===rule.otherThan) return;
+            if(rule.sameLine!==undefined && lineId!==rule.sameLine) return;
+            out.push(card.instanceId);
+          });
+        }
+      }
+      return out;
+    }
+
+    legalShiftDestinations(cardId,rule={}){
+      const loc=this.cardLocation(cardId);
+      if(!loc) return [];
+      let dest=[0,1,2].filter(lineId=>lineId!==loc.lineId);
+      if(rule.toLine!==undefined) dest=dest.filter(x=>x===rule.toLine);
+      if(rule.fromOrToLine!==undefined){
+        if(loc.lineId===rule.fromOrToLine){
+          // "from this line": either other line.
+        }else{
+          // "to this line"
+          dest=dest.filter(x=>x===rule.fromOrToLine);
+        }
+      }
+      return dest;
+    }
+
+    shiftCard(cardId,toLineId){
+      const loc=this.cardLocation(cardId);
+      if(!loc || toLineId===loc.lineId || toLineId<0 || toLineId>2) return false;
+
+      const sourceStack=loc.stack;
+      const [card]=sourceStack.splice(loc.index,1);
+
+      // Recompute source covered state.
+      sourceStack.forEach((c,i)=>c.covered=i<sourceStack.length-1);
+
+      const destStack=this.state.lines[toLineId][loc.side];
+      if(destStack.length) destStack[destStack.length-1].covered=true;
+      card.line=toLineId;
+      card.covered=false;
+      destStack.push(card);
+
+      this.log(`${card.protocol} ${card.value} shifts from Line ${loc.lineId+1} to Line ${toLineId+1}.`);
+
+      // Active middle text on a face-up card becomes live when moved.
+      // We resolve it through the same immediate engine. This also means chains
+      // can occur; unsupported pieces remain queued rather than guessed.
+      if(card.face==="up"){
+        this.resolvePrototypeImmediate(loc.side,card,toLineId);
+      }
+
+      this.checkControl("human");
+      this.checkControl("ai");
+      return true;
+    }
+
+    parseSimpleShiftEffect(player,sourceCard,lineId,text){
+      if(!/\bSHIFT\b/i.test(text)) return null;
+
+      // Complex multi-card / alternative-action forms wait for later passes.
+      if(/\bSHIFT ALL\b/i.test(text) || /\bSHIFT OR FLIP\b/i.test(text)) return null;
+
+      const rule={};
+      if(/YOUR OPPONENT[´'’]S/i.test(text) || /\bTHEIR CARDS?\b/i.test(text)) rule.owner="opponent";
+      else if(/\bYOUR\s+(?!OPPONENT)/i.test(text)) rule.owner="self";
+
+      if(/FACE-DOWN/i.test(text)) rule.face="down";
+      if(/FACE-UP/i.test(text)) rule.face="up";
+      if(/\bCOVERED OR UNCOVERED\b/i.test(text)) rule.allowCoveredAndUncovered=true;
+      else if(/\bCOVERED\b/i.test(text)) rule.covered=true;
+
+      if(/\bIN THIS LINE\b/i.test(text)) rule.sameLine=lineId;
+      if(/\bOTHER CARD\b|\bOTHER CARDS\b/i.test(text)) rule.otherThan=sourceCard.instanceId;
+      if(/\bTO THIS LINE\b/i.test(text)) rule.toLine=lineId;
+      if(/\bEITHER TO OR FROM THIS LINE\b/i.test(text)) rule.fromOrToLine=lineId;
+
+      const optional=/\bMAY SHIFT\b/i.test(text);
+
+      if(/\bSHIFT THIS CARD\b/i.test(text)){
+        return {
+          count:1,
+          targets:[sourceCard.instanceId],
+          rule,
+          optional,
+          automaticTarget:true
+        };
+      }
+
+      if(/\bSHIFT\s+1\b/i.test(text)){
+        return {
+          count:1,
+          targets:this.legalShiftTargets(player,rule),
+          rule,
+          optional,
+          automaticTarget:false
+        };
+      }
+
+      return null;
+    }
+
+    chooseAiShift(spec){
+      const options=[];
+      for(const cardId of spec.targets){
+        const loc=this.cardLocation(cardId);
+        if(!loc) continue;
+        for(const dest of this.legalShiftDestinations(cardId,spec.rule)){
+          const card=loc.card;
+          const value=this.cardBoardValue(card);
+          let score=0;
+
+          // Prefer moving own value into close/losing lines and opponent value
+          // out of lines the AI wants to win.
+          if(loc.side==="ai"){
+            const before=this.lineValue("ai",dest)-this.lineValue("human",dest);
+            score += value + Math.max(0,5-Math.abs(before));
+          }else{
+            const sourceMargin=this.lineValue("ai",loc.lineId)-this.lineValue("human",loc.lineId);
+            const destMargin=this.lineValue("ai",dest)-this.lineValue("human",dest);
+            score += value + Math.max(0,5-Math.abs(sourceMargin)) - Math.max(0,3-Math.abs(destMargin));
+          }
+          options.push({cardId,dest,score});
+        }
+      }
+      options.sort((a,b)=>b.score-a.score);
+      return options[0]||null;
+    }
+
+    queueShiftChoice(player,sourceCard,lineId,spec,linkedCardId=null){
+      if(!spec) return false;
+
+      if(linkedCardId){
+        spec.targets=[linkedCardId];
+      }
+
+      const viable=spec.targets.filter(id=>this.legalShiftDestinations(id,spec.rule).length);
+      if(!viable.length){
+        this.log(`${player==="human"?this.state.humanName:"AI"} has no legal Shift, so the Shift effect does nothing.`);
+        return true;
+      }
+      spec.targets=viable;
+
+      if(player==="ai"){
+        const choice=this.chooseAiShift(spec);
+        if(choice) this.shiftCard(choice.cardId,choice.dest);
+        return true;
+      }
+
+      this.state.pendingEffectChoices.push({
+        type:"shift",
+        player:"human",
+        sourceCardInstanceId:sourceCard.instanceId,
+        sourceProtocol:sourceCard.protocol,
+        sourceValue:sourceCard.value,
+        lineId,
+        targets:[...spec.targets],
+        rule:{...spec.rule},
+        optional:Boolean(spec.optional),
+        selectedCardId:null
+      });
+      this.log(`${this.state.humanName} ${spec.optional?"may":"must"} choose a card to Shift.`);
+      return true;
+    }
+
+    selectShiftTarget(player,cardId){
+      const pending=this.state.pendingEffectChoices.find(x=>x.type==="shift"&&x.player===player);
+      if(!pending || !pending.targets.includes(cardId)) return false;
+      pending.selectedCardId=cardId;
+      return true;
+    }
+
+    resolveShiftChoice(player,toLineId){
+      const idx=this.state.pendingEffectChoices.findIndex(x=>x.type==="shift"&&x.player===player);
+      if(idx<0) return false;
+      const pending=this.state.pendingEffectChoices[idx];
+      const cardId=pending.selectedCardId || (pending.targets.length===1?pending.targets[0]:null);
+      if(!cardId) return false;
+      if(!this.legalShiftDestinations(cardId,pending.rule).includes(toLineId)) return false;
+
+      // Remove the choice before shifting, because moved card text can create a new choice.
+      this.state.pendingEffectChoices.splice(idx,1);
+      return this.shiftCard(cardId,toLineId);
+    }
+
+    skipShiftChoice(player){
+      const idx=this.state.pendingEffectChoices.findIndex(x=>x.type==="shift"&&x.player===player&&x.optional);
+      if(idx<0) return false;
+      this.state.pendingEffectChoices.splice(idx,1);
+      this.log(`${player==="human"?this.state.humanName:"AI"} declines the optional Shift.`);
+      return true;
     }
 
     resolvePrototypeImmediate(player,card,lineId){
@@ -569,7 +816,7 @@
         /^DRAW THE TOP CARD OF YOUR OPPONENT[´'’]S DECK\.?$/i.test(text);
 
       // These commands have known Draw portions but other effects remain to implement.
-      const hasOtherEffect=/\b(FLIP|SHIFT|DELETE|REVEAL|PLAY|REARRANGE|PREVENT|CANNOT COMPILE|STATE A NUMBER)\b/i.test(text);
+      const hasOtherEffect=/\b(FLIP|DELETE|REVEAL|PLAY|REARRANGE|PREVENT|CANNOT COMPILE|STATE A NUMBER)\b/i.test(text);
 
       if(drawOnly) return;
 
@@ -650,6 +897,29 @@
           });
           this.log(`Flip resolved; remaining effect queued: ${card.protocol} ${card.value}.`);
           return;
+        }
+      }
+
+      // Basic SHIFT effects. We isolate a Shift clause so "Draw N. Shift..."
+      // can resolve in text order where Draw appears first.
+      if(/\bSHIFT\b/i.test(text)){
+        const clauses=text.split(/\.\s*/).filter(Boolean);
+        const shiftClause=clauses.find(x=>/\bSHIFT\b/i.test(x) && !/SHIFT THAT CARD/i.test(x));
+        if(shiftClause){
+          const spec=this.parseSimpleShiftEffect(player,card,lineId,shiftClause);
+          if(spec){
+            this.queueShiftChoice(player,card,lineId,spec);
+
+            const otherClauses=clauses.filter(x=>x!==shiftClause && !/^DRAW\s+\d+\s+CARDS?/i.test(x));
+            if(!otherClauses.length) return;
+
+            this.state.pendingManualEffects.push({
+              cardInstanceId:card.instanceId,player,lineId,
+              text:`Remaining non-Shift effect: ${otherClauses.join(". ")}`,resolved:false
+            });
+            this.log(`Shift resolved/queued; remaining effect queued: ${card.protocol} ${card.value}.`);
+            return;
+          }
         }
       }
 

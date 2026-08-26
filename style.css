@@ -4592,3 +4592,98 @@ header img[src*="compile-logo"] + *,
     grid-template-columns:repeat(3,1fr);
   }
 }
+
+
+/* =========================================================
+   V21.5.0 — SHIFT + AI TABLE ORDER
+   ========================================================= */
+
+.game-ai-hand-panel{
+  margin-top:0;
+  margin-bottom:10px;
+}
+
+.game-ai-zone{
+  margin-bottom:0;
+}
+
+.game-shift-prompt{
+  border-color:rgba(181,120,255,.42);
+  background:radial-gradient(circle at 8% 0%,rgba(161,91,255,.12),transparent 35%),rgba(14,7,26,.74);
+}
+
+.game-shift-prompt .game-effect-prompt-copy strong{
+  color:#d8b1ff;
+}
+
+.game-shift-target-button{
+  min-width:0;
+  padding:8px;
+  border:1px solid rgba(190,128,255,.24);
+  border-radius:10px;
+  background:rgba(118,66,170,.08);
+  color:#c8b8d7;
+  text-align:left;
+  cursor:pointer;
+}
+
+.game-shift-target-button strong,
+.game-shift-target-button span{
+  display:block;
+}
+
+.game-shift-target-button strong{
+  color:#fff;
+  font-size:8px;
+}
+
+.game-shift-target-button span{
+  margin-top:3px;
+  font-size:6px;
+  color:#8d7c9c;
+}
+
+.game-shift-target-button.selected{
+  border-color:#e4c4ff;
+  background:rgba(152,87,211,.18);
+  box-shadow:0 0 15px rgba(179,102,241,.14);
+}
+
+.game-shift-destinations{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:8px;
+}
+
+.game-shift-destination-label{
+  margin-right:4px;
+  color:#aa99b8;
+  font-size:7px;
+  letter-spacing:.08em;
+}
+
+.game-board-card.shift-target{
+  cursor:pointer;
+  border-color:#d6a5ff !important;
+  box-shadow:
+    0 0 0 2px rgba(197,131,255,.40),
+    0 0 24px rgba(163,83,233,.25) !important;
+  z-index:31 !important;
+}
+
+.game-board-card.shift-target::after{
+  content:"SHIFT";
+  position:absolute;
+  right:6px;
+  top:6px;
+  z-index:21;
+  padding:3px 6px;
+  border-radius:999px;
+  background:#d5a7ff;
+  color:#13051e;
+  font-size:6px;
+  font-weight:900;
+  letter-spacing:.12em;
+}

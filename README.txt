@@ -441,3 +441,33 @@ Fix:
   other card (exclude source), and flip this card.
 - Plague 3 ('Flip each other face-up card.') added as an automatic multi-target effect.
 - Shift portions of mixed Flip+Shift cards remain queued until Shift is implemented.
+
+VERSION 21.5.0 — SHIFT + AI TABLE ORDER
+---------------------------------------
+TABLE
+- AI hand is now above the AI Protocol/field area.
+- Board order reads: AI hand > AI field > line scores > human field > human hand.
+
+SHIFT
+- Implements the core Shift rule: move a card to another line on the same side of the field.
+- Default manipulation respects the rule that only the uncovered card in a stack can be manipulated.
+- Commands explicitly allowing covered cards override that restriction.
+- Supports common simple wording:
+  * Shift 1 card.
+  * Shift 1 other card.
+  * Shift 1 of your cards / your other cards.
+  * Shift 1 of your opponent's cards.
+  * Shift 1 face-down card.
+  * Shift 1 covered face-down card.
+  * Shift 1 of your covered cards.
+  * Shift 1 of your opponent's covered cards.
+  * covered or uncovered cards in this line.
+  * You may shift this card.
+  * to this line.
+  * either to or from this line.
+- Human: select a highlighted legal card, then choose its destination line.
+- Optional Shift provides a Do not Shift button.
+- AI uses the same legal target/destination rules and chooses tactically.
+- Linked Flip -> Shift text is supported for cards such as Darkness 1, Gravity 2 and Smoke 1.
+- Shift all / Shift-or-Flip and more complex triggered Shift sequences remain for later passes.
+- Moving a face-up card re-resolves its active middle text; unsupported cascades are queued.

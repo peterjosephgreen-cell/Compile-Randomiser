@@ -353,15 +353,6 @@
           <div id="gameControlAi" class="game-control-holder ai"><span>CONTROL</span><strong>AI</strong></div>
         </div>
 
-        <div class="game-player-zone game-ai-zone">
-          <div class="game-player-header">
-            <div><span>STANDARD AI</span><strong>AI</strong></div>
-            <div class="game-zone-stats"><span id="gameAiHandCount">Hand 0</span><span id="gameAiCacheCount">Cache 0</span></div>
-          </div>
-          <div id="gameAiLines" class="game-lines"></div>
-        </div>
-
-
         <div class="game-hand-panel game-ai-hand-panel">
           <div class="game-hand-heading">
             <div>
@@ -371,6 +362,14 @@
             <div id="gameAiHandDebugCount" class="game-selected-card-text"></div>
           </div>
           <div id="gameAiHandDebug" class="game-ai-hand-debug"></div>
+        </div>
+
+        <div class="game-player-zone game-ai-zone">
+          <div class="game-player-header">
+            <div><span>STANDARD AI</span><strong>AI</strong></div>
+            <div class="game-zone-stats"><span id="gameAiHandCount">Hand 0</span><span id="gameAiCacheCount">Cache 0</span></div>
+          </div>
+          <div id="gameAiLines" class="game-lines"></div>
         </div>
 
         <div class="game-centre-lines">
@@ -400,6 +399,16 @@
         </div>
 
 
+
+
+        <div id="gameShiftPrompt" class="game-effect-prompt game-shift-prompt" hidden>
+          <div class="game-effect-prompt-copy">
+            <strong>SHIFT A CARD</strong>
+            <span id="gameShiftPromptText">Choose a legal card to shift.</span>
+          </div>
+          <div id="gameShiftChoices" class="game-effect-choice-grid"></div>
+          <div id="gameShiftDestinations" class="game-shift-destinations"></div>
+        </div>
 
         <div id="gameFlipPrompt" class="game-effect-prompt game-flip-prompt" hidden>
           <div class="game-effect-prompt-copy">

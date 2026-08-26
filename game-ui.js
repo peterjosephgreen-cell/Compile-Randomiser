@@ -163,6 +163,14 @@
           }
         };
       }
+      const shiftPending=engine.state.pendingEffectChoices?.find(x=>x.type==="shift"&&x.player==="human");
+      if(shiftPending?.targets.includes(card.instanceId)){
+        el.classList.add("shift-target");
+        el.onclick=()=>{
+          engine.selectShiftTarget("human",card.instanceId);
+          renderBoard();
+        };
+      }
       const [accent,deep]=visual(card.protocol);
       el.style.setProperty("--card-accent",accent);
       el.style.setProperty("--card-deep",deep);
@@ -486,6 +494,80 @@
   }
 
 
+  function renderShiftPrompt(){
+    const prompt=$("gameShiftPrompt");
+    const choices=$("gameShiftChoices");
+    const destinations=$("gameShiftDestinations");
+    if(!engine?.state){prompt.hidden=true;choices.innerHTML="";destinations.innerHTML="";return;}
+
+    const pending=engine.state.pendingEffectChoices?.find(x=>x.type==="shift"&&x.player==="human");
+    if(!pending){
+      prompt.hidden=true;
+      choices.innerHTML="";
+      destinations.innerHTML="";
+      document.querySelectorAll(".game-board-card.shift-target").forEach(x=>x.classList.remove("shift-target"));
+      return;
+    }
+
+    prompt.hidden=false;
+    $("gameShiftPromptText").textContent =
+      `${pending.optional?"You may shift":"Choose"} a legal card for ${pending.sourceProtocol} ${pending.sourceValue}.`;
+
+    choices.innerHTML="";
+    destinations.innerHTML="";
+
+    pending.targets.forEach(cardId=>{
+      const loc=engine.cardLocation(cardId);
+      if(!loc) return;
+      const card=loc.card;
+      const [accent,deep]=visual(card.protocol);
+      const b=document.createElement("button");
+      b.className=`game-shift-target-button${pending.selectedCardId===cardId?" selected":""}`;
+      b.style.setProperty("--card-accent",accent);
+      b.style.setProperty("--card-deep",deep);
+      b.innerHTML=`<strong>${card.protocol} ${card.face==="down"?"(2)":card.value}</strong>
+        <span>${loc.side==="human"?engine.state.humanName:"AI"} · Line ${loc.lineId+1} · ${card.face==="up"?"face-up":"face-down"}</span>`;
+      b.onclick=()=>{engine.selectShiftTarget("human",cardId);renderShiftPrompt();};
+      choices.appendChild(b);
+    });
+
+    const selected=pending.selectedCardId || (pending.targets.length===1?pending.targets[0]:null);
+    if(selected){
+      if(!pending.selectedCardId) pending.selectedCardId=selected;
+      const loc=engine.cardLocation(selected);
+      const dests=engine.legalShiftDestinations(selected,pending.rule);
+      const label=document.createElement("div");
+      label.className="game-shift-destination-label";
+      label.textContent=`Move ${loc?.card.protocol||"card"} to:`;
+      destinations.appendChild(label);
+      dests.forEach(lineId=>{
+        const b=document.createElement("button");
+        b.className="primary-button";
+        b.textContent=`Line ${lineId+1}`;
+        b.onclick=()=>{
+          if(engine.resolveShiftChoice("human",lineId)){
+            engine.save();
+            renderBoard();
+          }
+        };
+        destinations.appendChild(b);
+      });
+    }
+
+    if(pending.optional){
+      const skip=document.createElement("button");
+      skip.className="secondary-button";
+      skip.textContent="Do not Shift";
+      skip.onclick=()=>{
+        if(engine.skipShiftChoice("human")){
+          engine.save();
+          renderBoard();
+        }
+      };
+      destinations.appendChild(skip);
+    }
+  }
+
   function renderFlipPrompt(){
     const prompt=$("gameFlipPrompt");
     const choices=$("gameFlipChoices");
@@ -614,6 +696,7 @@
     renderScores();
     renderHumanHand();
     renderLog();
+    renderShiftPrompt();
     renderFlipPrompt();
     renderDiscardPrompt();
 

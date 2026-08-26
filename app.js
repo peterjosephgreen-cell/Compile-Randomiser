@@ -633,7 +633,7 @@ function validateTraitPackFilterData(){
 validateTraitPackFilterData();
 
 
-const APP_VERSION = "21.4.5";
+const APP_VERSION = "21.5.0";
 
 const protocolPlaystyles = {
   Darkness: "Manipulates face-down cards and hidden information. Strong when you can build value while denying the opponent certainty.",
