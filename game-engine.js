@@ -360,18 +360,20 @@
       // Common simple target constraints.
       const rule={};
       if(/YOUR OPPONENT[´'’]S/i.test(text)) rule.owner="opponent";
-      else if(/\bYOUR\b/i.test(text)) rule.owner="self";
+      else if(/\bYOUR\s+(?!OPPONENT)/i.test(text)) rule.owner="self";
 
       if(/FACE-UP/i.test(text)) rule.face="up";
       if(/FACE-DOWN/i.test(text)) rule.face="down";
       if(/COVERED/i.test(text) && !/UNCOVERED/i.test(text)) rule.covered=true;
+      if(/\bIN THIS LINE\b/i.test(text)) rule.sameLine=lineId;
+      if(/\bOTHER CARD\b|\bOTHER FACE-UP CARD\b|\bOTHER FACE-DOWN CARD\b/i.test(text)) rule.otherThan=card.instanceId;
 
       // "flip this card"
       if(/\bFLIP THIS CARD\b/i.test(text)){
         return {count:1,targets:[card.instanceId],rule:{},automatic:true};
       }
 
-      // "flip 1 card" / "flip 1 of your ..."
+      // "flip 1 card" / "flip 1 of your ..." / "flip 1 other card"
       if(/\bFLIP\s+1\b/i.test(text) || /\bFLIP\s+A\s+CARD\b/i.test(text)){
         const targets=this.legalFlipTargets(player,rule);
         return {count:1,targets,rule,automatic:false};
@@ -571,7 +573,7 @@
 
       if(drawOnly) return;
 
-      if(hasOtherEffect){
+      if(/\bDRAW\b/i.test(text) && hasOtherEffect){
         this.state.pendingManualEffects.push({
           cardInstanceId:card.instanceId,player,lineId,
           text:`Remaining non-Draw effect: ${text}`,resolved:false
@@ -589,6 +591,21 @@
           this.log(`Draw effect needs another choice/action first: ${card.protocol} ${card.value}.`);
           return;
         }
+      }
+
+      // Automatic multi-target Flip:
+      // "Flip each other face-up card." — all other face-up field cards.
+      if(/^FLIP EACH OTHER FACE-UP CARD\.?$/i.test(text)){
+        const targets=this.fieldCards()
+          .filter(target=>target.instanceId!==card.instanceId && target.face==="up")
+          .map(target=>target.instanceId);
+        if(targets.length){
+          const flipped=this.flipMany(targets);
+          this.log(`${card.protocol} ${card.value} flips ${flipped} other face-up card${flipped===1?"":"s"}.`);
+        }else{
+          this.log(`${card.protocol} ${card.value} has no other face-up cards to flip.`);
+        }
+        return;
       }
 
       // Automatic multi-target Flip:

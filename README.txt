@@ -425,3 +425,19 @@ VERSION 21.4.4 — APATHY 1 MULTI-FLIP FIX
 - Already face-down cards are unaffected.
 - Line values recalculate immediately.
 - Undo restores the full pre-play state, including every flipped card.
+
+VERSION 21.4.5 — FLIP ENGINE ROUTING FIX
+----------------------------------------
+Root cause:
+- v21.3 Draw support had an early 'hasOtherEffect' return for FLIP/SHIFT/etc.
+- It ran even on cards with no Draw text, so most Flip commands never reached the Flip resolver.
+
+Fix:
+- That early return now applies only when a Draw effect is actually present.
+- Darkness 1 ('Flip 1 of your opponent's cards. You may shift that card.') now opens a legal opponent-card Flip choice.
+- Apathy 1 multi-flip now reaches its automatic resolver.
+- Improved simple Flip targeting for:
+  your cards, opponent's cards, face-up, face-down, covered, in this line,
+  other card (exclude source), and flip this card.
+- Plague 3 ('Flip each other face-up card.') added as an automatic multi-target effect.
+- Shift portions of mixed Flip+Shift cards remain queued until Shift is implemented.
