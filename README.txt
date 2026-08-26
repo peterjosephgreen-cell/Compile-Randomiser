@@ -415,3 +415,13 @@ Fix:
 - Removed unnecessary renderTableMode calls from player-selector changes.
 - Bottom navigation and VS AI art initialization can now run normally.
 - Traits live pack filtering from v21.4.2 is retained.
+
+VERSION 21.4.4 — APATHY 1 MULTI-FLIP FIX
+----------------------------------------
+- Implements automatic multi-target Flip for:
+  "Flip all other face-up cards in this line."
+- Apathy 1 itself is excluded.
+- All other face-up cards in that line flip, including either player's cards.
+- Already face-down cards are unaffected.
+- Line values recalculate immediately.
+- Undo restores the full pre-play state, including every flipped card.

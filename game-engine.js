@@ -380,6 +380,14 @@
       return null;
     }
 
+    flipMany(cardIds){
+      let count=0;
+      for(const id of cardIds){
+        if(this.flipCard(id)) count++;
+      }
+      return count;
+    }
+
     queueFlipChoice(player,sourceCard,lineId,flipSpec){
       if(!flipSpec || flipSpec.count!==1) return false;
 
@@ -581,6 +589,28 @@
           this.log(`Draw effect needs another choice/action first: ${card.protocol} ${card.value}.`);
           return;
         }
+      }
+
+      // Automatic multi-target Flip:
+      // "Flip all other face-up cards in this line."
+      // This includes both players' cards in the line and excludes the source card itself.
+      if(/^FLIP ALL OTHER FACE-UP CARDS IN THIS LINE\.?$/i.test(text)){
+        const targets=[];
+        for(const side of ["human","ai"]){
+          for(const target of this.state.lines[lineId][side]){
+            if(target.instanceId===card.instanceId) continue;
+            if(target.face!=="up") continue;
+            targets.push(target.instanceId);
+          }
+        }
+
+        if(targets.length){
+          const flipped=this.flipMany(targets);
+          this.log(`${card.protocol} ${card.value} flips ${flipped} other face-up card${flipped===1?"":"s"} in Line ${lineId+1}.`);
+        }else{
+          this.log(`${card.protocol} ${card.value} has no other face-up cards to flip in Line ${lineId+1}.`);
+        }
+        return;
       }
 
       // Simple FLIP effects with directly resolvable target constraints.
