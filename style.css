@@ -4724,3 +4724,25 @@ header img[src*="compile-logo"] + *,
  .traits-dialog.manual-selection-mode .traits-card-art{aspect-ratio:2.15/1}
  .traits-dialog.manual-selection-mode .traits-shell{padding:14px}
 }
+
+/* v21.6.2 — four visually consistent home actions, distinct colours */
+.deal-row-v18{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;align-items:stretch!important}
+.deal-row-v18>button{box-sizing:border-box!important;width:100%!important;min-width:0!important;min-height:112px!important;height:auto!important;margin:0!important;padding:12px 9px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:6px!important;text-align:center!important;line-height:1.1!important}
+.deal-row-v18 .randomise-hero .dice-mark,
+.deal-row-v18 .balance-icon,
+.deal-row-v18 .rematch-icon{display:block!important;flex:none!important;font-size:28px!important;line-height:1.1!important;margin:0!important}
+.deal-row-v18 .balanced-copy,.deal-row-v18 .rematch-copy{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;min-width:0!important}
+.deal-row-v18 .randomise-hero strong,
+.deal-row-v18 .balanced-copy strong,
+.deal-row-v18 .rematch-copy strong{display:block!important;align-self:center!important;margin:0!important;font-size:clamp(15px,3.7vw,21px)!important;font-weight:800!important;line-height:1.1!important;letter-spacing:.035em!important;white-space:normal!important}
+.deal-row-v18 .randomise-hero small,
+.deal-row-v18 .balanced-copy small,
+.deal-row-v18 .rematch-copy small{display:block!important;align-self:center!important;margin:0!important;font-size:clamp(9px,2.15vw,11px)!important;line-height:1.25!important;white-space:normal!important;letter-spacing:.015em!important}
+.deal-row-v18 #mainBalancedButton,.deal-row-v18 #rematchButton{flex-direction:column!important;gap:6px!important}
+.deal-row-v18 #mainBalancedButton{border-color:rgba(255,147,66,.85)!important;background:linear-gradient(145deg,rgba(66,30,22,.96),rgba(27,18,39,.98))!important}
+.deal-row-v18 #rematchButton{border-color:rgba(119,166,255,.8)!important;background:linear-gradient(145deg,rgba(29,43,89,.96),rgba(22,19,48,.98))!important}
+.deal-row-v18 #mainBalancedButton .balance-icon,.deal-row-v18 #mainBalancedButton strong{color:#ff9b54!important}
+.deal-row-v18 #rematchButton .rematch-icon,.deal-row-v18 #rematchButton strong{color:#9bbcff!important}
+.deal-row-v18 #mainBalancedButton small{color:#f5c7a6!important}
+.deal-row-v18 #rematchButton small{color:#c5d4fa!important}
+@media(max-width:380px){.deal-row-v18{gap:9px!important}.deal-row-v18>button{min-height:106px!important;padding:10px 6px!important}}

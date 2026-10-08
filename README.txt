@@ -487,3 +487,5 @@ VERSION 21.6.1
 - Manual Choose Protocols uses one larger card per row on phones.
 - Hide Traits filters in manual mode; keep all six pack toggles.
 - The dedicated Traits mode retains its existing filters.
+
+VERSION 21.6.2 — Home button alignment polish; matching Balanced and Rematch visual hierarchy while preserving distinct colours.

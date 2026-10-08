@@ -1,4 +1,4 @@
 {
-  "version": "21.6.1",
-  "notes": "Larger single-column manual Protocol assignment on phones; hide trait controls while retaining pack selection."
+  "version": "21.6.2",
+  "notes": "Align Randomise, Draft, Balanced and Rematch buttons with consistent vertical icon/title/subtitle layout."
 }
