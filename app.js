@@ -22,6 +22,38 @@ const setShortNames = {
 
 
 const protocolIconImages = {
+  Death: "card-icons/death.webp",
+  Darkness: "card-icons/darkness.webp",
+  Courage: "card-icons/courage.webp",
+  Corruption: "card-icons/corruption.webp",
+  Clarity: "card-icons/clarity.webp",
+  Chaos: "card-icons/chaos.webp",
+  Assimilation: "card-icons/assimilation.webp",
+  Apathy: "card-icons/apathy.webp",
+  Death: "card-icons/death.webp",
+  Darkness: "card-icons/darkness.webp",
+  Courage: "card-icons/courage.webp",
+  Corruption: "card-icons/corruption.webp",
+  Clarity: "card-icons/clarity.webp",
+  Chaos: "card-icons/chaos.webp",
+  Assimilation: "card-icons/assimilation.webp",
+  Apathy: "card-icons/apathy.webp",
+  Death: "card-icons/death.webp",
+  Darkness: "card-icons/darkness.webp",
+  Courage: "card-icons/courage.webp",
+  Corruption: "card-icons/corruption.webp",
+  Clarity: "card-icons/clarity.webp",
+  Chaos: "card-icons/chaos.webp",
+  Assimilation: "card-icons/assimilation.webp",
+  Apathy: "card-icons/apathy.webp",
+  Death: "card-icons/death.webp",
+  Darkness: "card-icons/darkness.webp",
+  Courage: "card-icons/courage.webp",
+  Corruption: "card-icons/corruption.webp",
+  Clarity: "card-icons/clarity.webp",
+  Chaos: "card-icons/chaos.webp",
+  Assimilation: "card-icons/assimilation.webp",
+  Apathy: "card-icons/apathy.webp",
   Ambush: "main3/icons/ambush.webp",
   Envy: "main3/icons/envy.webp",
   Fulcrum: "main3/icons/fulcrum.webp",
@@ -633,7 +665,7 @@ function validateTraitPackFilterData(){
 validateTraitPackFilterData();
 
 
-const APP_VERSION = "21.6.2";
+const APP_VERSION = "21.7.0";
 
 const protocolPlaystyles = {
   Darkness: "Manipulates face-down cards and hidden information. Strong when you can build value while denying the opponent certainty.",

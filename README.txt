@@ -488,4 +488,12 @@ VERSION 21.6.1
 - Hide Traits filters in manual mode; keep all six pack toggles.
 - The dedicated Traits mode retains its existing filters.
 
-VERSION 21.6.2 — Home button alignment polish; matching Balanced and Rematch visual hierarchy while preserving distinct colours.
+VERSION 21.7.0 — Home button alignment polish; matching Balanced and Rematch visual hierarchy while preserving distinct colours.
+
+21.7.0: Added 8 card-photo-derived Protocol badge icons (Apathy, Assimilation, Chaos, Clarity, Corruption, Courage, Darkness, Death), used throughout Protocol selection, library and game views. Other icons retained until verified.
+
+21.7.0: Added 8 card-photo-derived Protocol badge icons (Apathy, Assimilation, Chaos, Clarity, Corruption, Courage, Darkness, Death), used throughout Protocol selection, library and game views. Other icons retained until verified.
+
+21.7.0: Added 8 card-photo-derived Protocol badge icons (Apathy, Assimilation, Chaos, Clarity, Corruption, Courage, Darkness, Death), used throughout Protocol selection, library and game views. Other icons retained until verified.
+
+21.7.0: Added 8 card-photo-derived Protocol badge icons (Apathy, Assimilation, Chaos, Clarity, Corruption, Courage, Darkness, Death), used throughout Protocol selection, library and game views. Other icons retained until verified.

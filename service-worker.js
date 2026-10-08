@@ -1,5 +1,41 @@
-const CACHE = "compile-companion-v21-6-2";
+const CACHE = "compile-companion-v21-7-0";
 const ASSETS = [
+  "./card-icons/apathy.webp",
+  "./card-icons/assimilation.webp",
+  "./card-icons/chaos.webp",
+  "./card-icons/clarity.webp",
+  "./card-icons/corruption.webp",
+  "./card-icons/courage.webp",
+  "./card-icons/darkness.webp",
+  "./card-icons/death.webp",
+
+  "./card-icons/apathy.webp",
+  "./card-icons/assimilation.webp",
+  "./card-icons/chaos.webp",
+  "./card-icons/clarity.webp",
+  "./card-icons/corruption.webp",
+  "./card-icons/courage.webp",
+  "./card-icons/darkness.webp",
+  "./card-icons/death.webp",
+
+  "./card-icons/apathy.webp",
+  "./card-icons/assimilation.webp",
+  "./card-icons/chaos.webp",
+  "./card-icons/clarity.webp",
+  "./card-icons/corruption.webp",
+  "./card-icons/courage.webp",
+  "./card-icons/darkness.webp",
+  "./card-icons/death.webp",
+
+  "./card-icons/apathy.webp",
+  "./card-icons/assimilation.webp",
+  "./card-icons/chaos.webp",
+  "./card-icons/clarity.webp",
+  "./card-icons/corruption.webp",
+  "./card-icons/courage.webp",
+  "./card-icons/darkness.webp",
+  "./card-icons/death.webp",
+
   "./",
   "./index.html",
   "./style.css",
