@@ -1,5 +1,4 @@
 {
-  "version": "21.5.0",
-  "released": "2026-08-26",
-  "notes": "Adds basic Shift targeting/movement for VS AI and swaps AI hand above AI field."
+  "version": "21.6.0",
+  "notes": "All six packs default on; manual Protocol selection; cumulative named-player head-to-head scores; v21.5.1 home layout."
 }

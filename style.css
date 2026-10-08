@@ -4687,3 +4687,21 @@ header img[src*="compile-logo"] + *,
   font-weight:900;
   letter-spacing:.12em;
 }
+
+/* v21.5.1: compact, non-overlapping home action grid */
+.deal-row-v18 {display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;align-items:stretch!important;}
+.deal-row-v18 > button {position:relative!important;inset:auto!important;transform:none!important;width:100%!important;min-width:0!important;min-height:92px!important;max-width:100%!important;margin:0!important;box-sizing:border-box!important;overflow:hidden!important;}
+.deal-row-v18 .randomise-hero {display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;padding:12px 8px!important;text-align:center!important;}
+.deal-row-v18 .randomise-hero .dice-mark {font-size:23px!important;line-height:1!important;}
+.deal-row-v18 .randomise-hero strong,.deal-row-v18 .balanced-copy strong {font-size:clamp(13px,3.5vw,19px)!important;line-height:1.1!important;white-space:normal!important;}
+.deal-row-v18 .randomise-hero small,.deal-row-v18 .balanced-copy small {font-size:clamp(8px,2vw,10px)!important;line-height:1.2!important;display:block!important;white-space:normal!important;}
+.deal-row-v18 .balanced-action {display:flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;padding:10px!important;}
+.deal-row-v18 .balanced-copy {min-width:0!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:3px!important;}
+.deal-row-v18 #rematchButton {display:flex!important;align-items:center!important;justify-content:center!important;gap:10px!important;font-size:20px!important;}
+.deal-row-v18 #rematchButton span {font-size:clamp(12px,3vw,17px)!important;}
+.utility-grid > button[hidden] {display:none!important;}
+.utility-grid {grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+@media(max-width:420px){.deal-row-v18{gap:8px!important}.deal-row-v18>button{min-height:82px!important}}
+
+.choose-protocols-button{width:100%;margin-top:10px;border-color:rgba(113,231,211,.55);background:linear-gradient(115deg,rgba(12,75,82,.92),rgba(14,31,65,.95));color:#c7fff5}
+.choose-protocols-button strong{color:#c7fff5}

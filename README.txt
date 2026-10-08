@@ -471,3 +471,14 @@ SHIFT
 - Linked Flip -> Shift text is supported for cards such as Darkness 1, Gravity 2 and Smoke 1.
 - Shift all / Shift-or-Flip and more complex triggered Shift sequences remain for later passes.
 - Moving a face-up card re-resolves its active middle text; unsupported cascades are queued.
+
+21.5.1: Home action layout changed to 2x2 grid. Duplicate home Library/Stats/Settings buttons hidden; navigation retained.
+
+VERSION 21.6.0
+- Main 3 and Aux 3 enabled by default; explicit saved pack preferences respected.
+- Choose Protocols opens manual six-Protocol selector without trait filtering.
+- Randomise overwrites current selection without confirmation.
+- Home and history match scores show cumulative head-to-head wins as of each match.
+- Includes v21.5.1 home layout and prior Shift changes.
+- Existing saved matches remain in their original storage key.
+- Comprehensive Main 3 card-effect support is not yet implemented.

@@ -613,7 +613,7 @@ const protocolTraits = {
  Greed:["Discard","Repeating Effects"], Lust:["Forced Play","Control"], Momentum:["After Compile","Draw"],
  Rigid:["Play Face-Down","Prevent"]
 };
-const traitPackDefaults={"Main 1":true,"Aux 1":true,"Main 2":true,"Aux 2":true,"Main 3":false,"Aux 3":false};
+const traitPackDefaults={"Main 1":true,"Aux 1":true,"Main 2":true,"Aux 2":true,"Main 3":true,"Aux 3":true};
 let traitsState={selectedTraits:new Set(),mode:"any",p1:[],p2:[],packs:{...traitPackDefaults}};
 
 const allProtocols = Object.entries(protocolSets).flatMap(([set, names]) =>
@@ -633,7 +633,7 @@ function validateTraitPackFilterData(){
 validateTraitPackFilterData();
 
 
-const APP_VERSION = "21.5.0";
+const APP_VERSION = "21.6.0";
 
 const protocolPlaystyles = {
   Darkness: "Manipulates face-down cards and hidden information. Strong when you can build value while denying the opponent certainty.",
@@ -710,7 +710,7 @@ const settings = loadSettings();
 
 function defaultSettings() {
   return {
-    enabledSets: Object.fromEntries(Object.keys(protocolSets).map(set => [set, set !== "Main 3" && set !== "Aux 3"])),
+    enabledSets: Object.fromEntries(Object.keys(protocolSets).map(set => [set, true])),
     excluded: [],
     favourites: [],
     avoidRepeats: false,
@@ -732,10 +732,10 @@ function loadSettings() {
         ...(parsed.enabledSets || {}),
         "Main 3": Object.prototype.hasOwnProperty.call(parsed.enabledSets || {}, "Main 3")
           ? Boolean(parsed.enabledSets["Main 3"])
-          : false,
+          : true,
         "Aux 3": Object.prototype.hasOwnProperty.call(parsed.enabledSets || {}, "Aux 3")
           ? Boolean(parsed.enabledSets["Aux 3"])
-          : false
+          : true
       },
       excluded: Array.isArray(parsed.excluded) ? parsed.excluded : [],
       favourites: Array.isArray(parsed.favourites) ? parsed.favourites : [],
@@ -1198,6 +1198,7 @@ function renderMatchHistory() {
   const list = document.createElement("div");
   list.className = "history-list";
 
+  const cumulativeScores = cumulativeMatchScores();
   matchHistory.forEach((match, index) => {
     const p1 = match.player1.map(getProtocolById).filter(Boolean);
     const p2 = match.player2.map(getProtocolById).filter(Boolean);
@@ -1208,7 +1209,7 @@ function renderMatchHistory() {
     const item = document.createElement("div");
     item.className = "history-item";
     item.innerHTML = `
-      <div class="history-meta">${formatHistoryDate(match.finishedAt || match.startedAt)} · <strong>${winnerText}</strong></div>
+      <div class="history-meta">${formatHistoryDate(match.finishedAt || match.startedAt)} · <strong>${winnerText}</strong> · Head-to-head ${cumulativeScores.get(match) || "—"}</div>
       <div class="history-players">
         <div class="history-player"><strong class="player-one">${match.player1Name}</strong>${p1.map(p => `<span>${p.name}</span>`).join("")}</div>
         <div class="history-player"><strong class="player-two">${match.player2Name}</strong>${p2.map(p => `<span>${p.name}</span>`).join("")}</div>
@@ -1287,6 +1288,13 @@ function openTraitsSelector(){
  document.getElementById("traitsP1Name").textContent=playerNames.p1;
  document.getElementById("traitsP2Name").textContent=playerNames.p2;
  renderTraitsSelector();document.getElementById("traitsDialog").showModal();
+}
+function openManualProtocolSelector(){
+  openTraitsSelector();
+  const dialog=document.getElementById("traitsDialog");
+  if(!dialog.open)return;
+  dialog.querySelector(".traits-kicker").textContent="MANUAL PROTOCOL SELECTION";
+  dialog.querySelector("h2").textContent="Choose Protocols";
 }
 function closeTraitsSelector(){const d=document.getElementById("traitsDialog");if(d.open)d.close();}
 function protocolMatchesTraits(p){
@@ -2183,6 +2191,28 @@ function applyRandomProtocolBackground() {
 }
 
 
+function matchPlayerKey(match, seat) {
+  const id = match[seat === "p1" ? "player1Id" : "player2Id"];
+  const name = match[seat === "p1" ? "player1Name" : "player2Name"] || (seat === "p1" ? "Player 1" : "Player 2");
+  return id ? `id:${id}` : `name:${name.trim().toLocaleLowerCase()}`;
+}
+function cumulativeMatchScores() {
+  const totals = new Map();
+  const result = new Map();
+  [...matchHistory].reverse().forEach(match => {
+    const a = matchPlayerKey(match,"p1"), b = matchPlayerKey(match,"p2");
+    const pair = [a,b].sort().join("||");
+    const current = totals.get(pair) || new Map([[a,0],[b,0]]);
+    if (!current.has(a)) current.set(a,0);
+    if (!current.has(b)) current.set(b,0);
+    if (match.winner === "p1") current.set(a,current.get(a)+1);
+    if (match.winner === "p2") current.set(b,current.get(b)+1);
+    totals.set(pair,current);
+    result.set(match,`${current.get(a)} - ${current.get(b)}`);
+  });
+  return result;
+}
+
 function renderRecentHomeMatches() {
   const target = document.getElementById("recentMatchesHome");
   if (!target) return;
@@ -2194,16 +2224,17 @@ function renderRecentHomeMatches() {
     return;
   }
 
+  const cumulativeScores = cumulativeMatchScores();
   recent.forEach(match => {
     const p1 = (match.player1Name || "Player 1");
     const p2 = (match.player2Name || "Player 2");
     const p1Initial = p1.trim().charAt(0).toUpperCase() || "1";
     const p2Initial = p2.trim().charAt(0).toUpperCase() || "2";
-    let score = "—";
+    let score = cumulativeScores.get(match) || "—";
     let resultClass = "draw";
-    if (match.winner === "p1") { score = "1 - 0"; resultClass = ""; }
-    else if (match.winner === "p2") { score = "0 - 1"; resultClass = "loss"; }
-    else if (match.winner === "draw") { score = "½ - ½"; resultClass = "draw"; }
+    if (match.winner === "p1") { resultClass = ""; }
+    else if (match.winner === "p2") { resultClass = "loss"; }
+    else if (match.winner === "draw") { resultClass = "draw"; }
 
     const item = document.createElement("div");
     item.className = "home-match-card";
@@ -2469,7 +2500,12 @@ document.getElementById("cancelMatchButton").addEventListener("click", cancelMat
 document.getElementById("rematchButton").addEventListener("click", rematch);
 document.getElementById("draftButton").addEventListener("click", startDraft);
 
-document.getElementById("traitsButton").addEventListener("click",openTraitsSelector);
+document.getElementById("traitsButton").addEventListener("click",()=>{
+  const dialog=document.getElementById("traitsDialog");
+  dialog.querySelector("h2").textContent="Choose by Traits";
+  openTraitsSelector();
+});
+document.getElementById("chooseProtocolsButton").addEventListener("click",openManualProtocolSelector);
 document.getElementById("closeTraitsButton").addEventListener("click",closeTraitsSelector);
 document.getElementById("traitsCancelButton").addEventListener("click",closeTraitsSelector);
 document.getElementById("traitsAnyButton").addEventListener("click",()=>{traitsState.mode="any";renderTraitsSelector();});

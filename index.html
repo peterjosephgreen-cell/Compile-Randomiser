@@ -51,31 +51,20 @@
     </section>
 
     <div class="deal-row deal-row-v18">
-      <button id="rematchButton" class="neon-action blue deal-control side-deal-action">↻ <span>REMATCH</span></button>
-
-      <div class="deal-centre-stack">
-        <button id="randomiseButton" class="randomise-hero deal-control">
-          <span class="dice-mark">⚄⚂</span>
-          <strong>RANDOMISE</strong>
-          <small>Roll 6 Random Protocols</small>
-        </button>
-
-        <button id="draftButton" class="randomise-hero draft-hero">
-          <span class="dice-mark draft-dice-mark">◆</span>
-          <strong>DRAFT</strong>
-          <small>Official 1–2–2–1 Protocol draft</small>
-        </button>
-      </div>
-
-      <button id="mainBalancedButton" class="neon-action orange balanced-action side-deal-action">
-        <span class="balance-icon">⚖</span>
-        <span class="balanced-copy"><strong>BALANCED</strong><small>Prioritise less-played</small></span>
-      </button>
+      <button id="randomiseButton" class="randomise-hero deal-control"><span class="dice-mark">⚄⚂</span><strong>RANDOMISE</strong><small>Roll 6 Random Protocols</small></button>
+      <button id="draftButton" class="randomise-hero draft-hero"><span class="dice-mark draft-dice-mark">◆</span><strong>DRAFT</strong><small>Official 1–2–2–1 Protocol draft</small></button>
+      <button id="mainBalancedButton" class="neon-action orange balanced-action"><span class="balance-icon">⚖</span><span class="balanced-copy"><strong>BALANCED</strong><small>Prioritise less-played</small></span></button>
+      <button id="rematchButton" class="neon-action blue deal-control">↻ <span>REMATCH</span></button>
     </div>
       <button id="traitsButton" class="traits-hero-button">
         <span class="traits-icon">◇</span>
         <span><strong>TRAITS</strong><small>Filter & choose manually</small></span>
       </button>
+
+    <button id="chooseProtocolsButton" class="traits-hero-button choose-protocols-button deal-control">
+      <span class="traits-icon">▦</span>
+      <span><strong>CHOOSE PROTOCOLS</strong><small>Select three Protocols for each player</small></span>
+    </button>
 
     <div class="match-row match-row-v18">
       <button id="shareButton" class="share-hero-button">
@@ -89,11 +78,11 @@
     </div>
 
     <div class="utility-grid">
-      <button id="libraryButton" class="utility-button cyan">▣ <span>PROTOCOL<br>LIBRARY</span></button>
+      <button id="libraryButton" hidden type="button"></button>
+      <button id="homeStatsButton" hidden type="button"></button>
+      <button id="settingsButton" hidden type="button"></button>
       <button id="playersButton" class="utility-button pink">♟ <span>PLAYERS</span></button>
-      <button id="homeStatsButton" class="utility-button green">▥ <span>STATS</span></button>
       <button id="playAiButton" class="utility-button play-ai-utility"><span class="utility-icon">◈</span><span class="play-ai-label">PLAY VS AI</span></button>
-      <button id="settingsButton" class="utility-button silver">⚙ <span>SETTINGS</span></button>
     </div>
 
     <div class="secondary-controls">
