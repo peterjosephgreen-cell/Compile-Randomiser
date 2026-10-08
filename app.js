@@ -633,7 +633,7 @@ function validateTraitPackFilterData(){
 validateTraitPackFilterData();
 
 
-const APP_VERSION = "21.6.0";
+const APP_VERSION = "21.6.1";
 
 const protocolPlaystyles = {
   Darkness: "Manipulates face-down cards and hidden information. Strong when you can build value while denying the opponent certainty.",
@@ -1282,6 +1282,7 @@ function renderPerformanceStats() {
 
 
 function allTraitLabels(){return [...new Set(Object.values(protocolTraits).flat())].sort((a,b)=>a.localeCompare(b));}
+let manualSelectionMode=false;
 function openTraitsSelector(){
  if(currentMatch||isAnimating)return;
  traitsState={selectedTraits:new Set(),mode:"any",p1:[],p2:[],packs:{...traitPackDefaults}};
@@ -1290,13 +1291,15 @@ function openTraitsSelector(){
  renderTraitsSelector();document.getElementById("traitsDialog").showModal();
 }
 function openManualProtocolSelector(){
+  manualSelectionMode=true;
   openTraitsSelector();
   const dialog=document.getElementById("traitsDialog");
   if(!dialog.open)return;
   dialog.querySelector(".traits-kicker").textContent="MANUAL PROTOCOL SELECTION";
   dialog.querySelector("h2").textContent="Choose Protocols";
+  dialog.classList.add("manual-selection-mode");
 }
-function closeTraitsSelector(){const d=document.getElementById("traitsDialog");if(d.open)d.close();}
+function closeTraitsSelector(){const d=document.getElementById("traitsDialog");if(d.open)d.close();d.classList.remove("manual-selection-mode");manualSelectionMode=false;}
 function protocolMatchesTraits(p){
  const s=[...traitsState.selectedTraits]; if(!s.length)return true;
  const t=protocolTraits[p.name]||[]; return traitsState.mode==="all"?s.every(x=>t.includes(x)):s.some(x=>t.includes(x));
@@ -1361,7 +1364,7 @@ function renderTraitsSelector(){
  }
  const chips=document.getElementById("traitsChipGrid");chips.innerHTML="";
  allTraitLabels().forEach(tr=>{const c=traitProtocolPool().filter(p=>(protocolTraits[p.name]||[]).includes(tr)).length;const b=document.createElement("button");b.className=`trait-chip${traitsState.selectedTraits.has(tr)?" active":""}`;b.innerHTML=`<span>${tr}</span><small>${c}</small>`;b.onclick=()=>toggleTrait(tr);chips.appendChild(b);});
- const matches=filteredTraitProtocols();document.getElementById("traitsResultCount").textContent=`${matches.length} Protocol${matches.length===1?"":"s"}`;
+ const matches=manualSelectionMode?traitProtocolPool().sort((a,b)=>a.name.localeCompare(b.name)):filteredTraitProtocols();document.getElementById("traitsResultCount").textContent=`${matches.length} Protocol${matches.length===1?"":"s"}`;
  const grid=document.getElementById("traitsProtocolGrid");grid.innerHTML="";
  matches.forEach(p=>{const art=protocolTraitArtImages[p.name]||protocolArtImages[p.name];const owner=traitsState.p1.includes(p.id)?"p1":traitsState.p2.includes(p.id)?"p2":"";const card=document.createElement("div");card.className=`traits-protocol-card ${owner}`;card.innerHTML=`<div class="traits-card-art" ${art?`style="background-image:url('${art}')"`:""}>${art?"":`<div class="traits-card-symbol">${protocolSymbolMarkup(p.name)}</div>`}${owner?`<div class="traits-owner-badge ${owner}">${owner==="p1"?playerNames.p1:playerNames.p2}</div>`:""}</div><div class="traits-card-info"><strong>${p.name}</strong><small>${p.set}</small><div class="traits-card-traits">${(protocolTraits[p.name]||[]).map(x=>`<span>${x}</span>`).join("")}</div></div><div class="traits-card-actions"><button class="traits-assign-p1">${playerNames.p1}</button><button class="traits-assign-p2">${playerNames.p2}</button></div>`;
  card.querySelector(".traits-assign-p1").onclick=()=>assignTraitProtocol(p.id,1);card.querySelector(".traits-assign-p2").onclick=()=>assignTraitProtocol(p.id,2);grid.appendChild(card);});
@@ -2502,6 +2505,8 @@ document.getElementById("draftButton").addEventListener("click", startDraft);
 
 document.getElementById("traitsButton").addEventListener("click",()=>{
   const dialog=document.getElementById("traitsDialog");
+  manualSelectionMode=false;
+  dialog.classList.remove("manual-selection-mode");
   dialog.querySelector("h2").textContent="Choose by Traits";
   openTraitsSelector();
 });

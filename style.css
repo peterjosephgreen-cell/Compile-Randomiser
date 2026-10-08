@@ -4705,3 +4705,22 @@ header img[src*="compile-logo"] + *,
 
 .choose-protocols-button{width:100%;margin-top:10px;border-color:rgba(113,231,211,.55);background:linear-gradient(115deg,rgba(12,75,82,.92),rgba(14,31,65,.95));color:#c7fff5}
 .choose-protocols-button strong{color:#c7fff5}
+
+/* v21.6.1: larger manual assign screen, one protocol per row on phones */
+.traits-dialog.manual-selection-mode .traits-mode-panel,
+.traits-dialog.manual-selection-mode .traits-filter-section,
+.traits-dialog.manual-selection-mode .traits-card-traits{display:none!important}
+.traits-dialog.manual-selection-mode .traits-protocol-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.traits-dialog.manual-selection-mode .traits-protocol-card{border-radius:17px}
+.traits-dialog.manual-selection-mode .traits-card-art{aspect-ratio:1.7/1}
+.traits-dialog.manual-selection-mode .traits-card-info{padding:13px}
+.traits-dialog.manual-selection-mode .traits-card-info strong{font-size:19px}
+.traits-dialog.manual-selection-mode .traits-card-info>small{font-size:12px}
+.traits-dialog.manual-selection-mode .traits-card-actions{gap:10px;padding:0 13px 13px}
+.traits-dialog.manual-selection-mode .traits-card-actions button{font-size:14px;padding:13px 6px}
+.traits-dialog.manual-selection-mode .traits-topbar p{font-size:13px}
+@media(max-width:700px){
+ .traits-dialog.manual-selection-mode .traits-protocol-grid{grid-template-columns:minmax(0,1fr)}
+ .traits-dialog.manual-selection-mode .traits-card-art{aspect-ratio:2.15/1}
+ .traits-dialog.manual-selection-mode .traits-shell{padding:14px}
+}

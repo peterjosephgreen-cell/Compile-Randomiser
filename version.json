@@ -1,4 +1,4 @@
 {
-  "version": "21.6.0",
-  "notes": "All six packs default on; manual Protocol selection; cumulative named-player head-to-head scores; v21.5.1 home layout."
+  "version": "21.6.1",
+  "notes": "Larger single-column manual Protocol assignment on phones; hide trait controls while retaining pack selection."
 }

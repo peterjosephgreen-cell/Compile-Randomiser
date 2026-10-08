@@ -482,3 +482,8 @@ VERSION 21.6.0
 - Includes v21.5.1 home layout and prior Shift changes.
 - Existing saved matches remain in their original storage key.
 - Comprehensive Main 3 card-effect support is not yet implemented.
+
+VERSION 21.6.1
+- Manual Choose Protocols uses one larger card per row on phones.
+- Hide Traits filters in manual mode; keep all six pack toggles.
+- The dedicated Traits mode retains its existing filters.
